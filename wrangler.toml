@@ -1,0 +1,16 @@
+name = "huagou-decoder"
+type = "javascript"
+
+compatibility_date = "2024-12-21"
+
+[env.production]
+name = "huagou-decoder-prod"
+route = "huagou-decoder.pages.dev"
+
+[build]
+command = "npm run build"
+cwd = "./"
+watch_paths = ["src/**/*.{ts,tsx,css}"]
+
+[[migrations]]
+tag = "v1"

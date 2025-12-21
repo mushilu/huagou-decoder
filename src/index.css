@@ -1,0 +1,74 @@
+@import "tailwindcss";
+@import "./styles/fonts.css";
+@import "./styles/tokens.css";
+@import "./styles/ink-effects.css";
+
+/* 华构解码 - 水墨风格全局样式 */
+
+@layer base {
+  :root {
+    /* 水墨配色 CSS 变量 */
+    --ink-black: 26 26 46;
+    --ink-gray: 126 126 126;
+    --paper-white: 245 240 232;
+    --vermilion: 199 62 62;
+    --glaze-blue: 45 90 123;
+    --gold: 212 168 75;
+
+    font-family: 'Source Han Sans SC', 'Noto Sans SC', system-ui, sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #f5f0e8;
+    color: #1a1a2e;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Source Han Serif SC', 'Noto Serif SC', serif;
+  }
+
+  a {
+    color: #c73e3e;
+    transition: color 0.3s;
+  }
+
+  a:hover {
+    color: #a82e2e;
+  }
+}
+
+/* Custom utility classes */
+.text-ink-shadow {
+  text-shadow: 2px 2px 4px rgba(26, 26, 46, 0.3);
+}
+
+.fade-ink {
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
+.scroll-container {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #7e7e7e #f5f0e8;
+}
+
+.scroll-container::-webkit-scrollbar {
+  height: 0.5rem;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background-color: #f5f0e8;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: #7e7e7e;
+  border-radius: 9999px;
+}

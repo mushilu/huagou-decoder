@@ -1,0 +1,278 @@
+/* 华构解码 - 水墨特效样式 */
+
+/* 宣纸纹理 */
+.paper-texture {
+  position: relative;
+}
+
+.paper-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* 层叠卡片效果 */
+.paper-layered {
+  box-shadow:
+    0 1px 3px rgba(26, 26, 46, 0.08),
+    0 4px 6px rgba(26, 26, 46, 0.06),
+    4px 4px 0 -1px #faf7f2,
+    4px 4px 0 0 rgba(26, 26, 46, 0.1),
+    8px 8px 0 -1px #f5f0e8,
+    8px 8px 0 0 rgba(26, 26, 46, 0.08);
+}
+
+/* 卷轴效果 */
+.paper-scroll {
+  background: linear-gradient(
+    90deg,
+    rgba(26, 26, 46, 0.05) 0%,
+    transparent 5%,
+    transparent 95%,
+    rgba(26, 26, 46, 0.05) 100%
+  );
+  border-left: 3px solid rgba(120, 80, 40, 0.3);
+  border-right: 3px solid rgba(120, 80, 40, 0.3);
+}
+
+/* 水墨阴影 */
+.shadow-ink {
+  box-shadow:
+    0 4px 20px -2px rgba(26, 26, 46, 0.15),
+    0 2px 8px -2px rgba(26, 26, 46, 0.1);
+}
+
+.shadow-ink-lg {
+  box-shadow:
+    0 10px 40px -4px rgba(26, 26, 46, 0.2),
+    0 4px 16px -4px rgba(26, 26, 46, 0.15);
+}
+
+/* 墨痕边框 */
+.border-ink {
+  border: 1px solid rgba(26, 26, 46, 0.15);
+  position: relative;
+}
+
+.border-ink::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border: 1px solid transparent;
+  border-image: linear-gradient(
+    135deg,
+    rgba(26, 26, 46, 0.2) 0%,
+    transparent 50%,
+    rgba(26, 26, 46, 0.1) 100%
+  ) 1;
+  pointer-events: none;
+}
+
+/* 水墨渐变文字 */
+.text-ink-gradient {
+  background: linear-gradient(
+    135deg,
+    #1a1a2e 0%,
+    #2d2d44 50%,
+    #1a1a2e 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 朱砂渐变文字 */
+.text-vermilion-gradient {
+  background: linear-gradient(
+    135deg,
+    #c73e3e 0%,
+    #a82e2e 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 鎏金渐变文字 */
+.text-gold-gradient {
+  background: linear-gradient(
+    135deg,
+    #e8c36d 0%,
+    #d4a84b 50%,
+    #b8923d 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 墨滴动画 */
+@keyframes ink-drop {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-ink-drop {
+  animation: ink-drop 0.8s ease-out forwards;
+}
+
+/* 毛笔书写动画 */
+@keyframes brush-write {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-brush-write {
+  stroke-dasharray: 1000;
+  animation: brush-write 2s ease-in-out forwards;
+}
+
+/* 水墨晕开动画 */
+@keyframes ink-spread {
+  0% {
+    filter: blur(0px);
+    opacity: 1;
+  }
+  100% {
+    filter: blur(20px);
+    opacity: 0;
+  }
+}
+
+.animate-ink-spread {
+  animation: ink-spread 1s ease-out forwards;
+}
+
+/* 墨点浮动 */
+@keyframes ink-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+  75% {
+    transform: translateY(10px) rotate(-5deg);
+  }
+}
+
+.animate-ink-float {
+  animation: ink-float 6s ease-in-out infinite;
+}
+
+/* 宣纸呼吸效果 */
+@keyframes paper-breathe {
+  0%, 100% {
+    box-shadow: 0 4px 20px -2px rgba(26, 26, 46, 0.1);
+  }
+  50% {
+    box-shadow: 0 8px 30px -4px rgba(26, 26, 46, 0.15);
+  }
+}
+
+.animate-paper-breathe {
+  animation: paper-breathe 4s ease-in-out infinite;
+}
+
+/* 印章盖章动画 */
+@keyframes seal-stamp {
+  0% {
+    transform: scale(1.5) rotate(-15deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(0.95) rotate(-5deg);
+  }
+  100% {
+    transform: scale(1) rotate(-5deg);
+    opacity: 0.8;
+  }
+}
+
+.animate-seal-stamp {
+  animation: seal-stamp 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* 卷轴展开动画 */
+@keyframes scroll-unfold {
+  0% {
+    max-height: 0;
+    opacity: 0;
+  }
+  100% {
+    max-height: 1000px;
+    opacity: 1;
+  }
+}
+
+.animate-scroll-unfold {
+  animation: scroll-unfold 0.8s ease-out forwards;
+  overflow: hidden;
+}
+
+/* 横向卷轴滚动 */
+.scroll-horizontal {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #7e7e7e #f5f0e8;
+}
+
+.scroll-horizontal::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scroll-horizontal::-webkit-scrollbar-track {
+  background: #f5f0e8;
+  border-radius: 3px;
+}
+
+.scroll-horizontal::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #b8b2a7, #7e7e7e, #b8b2a7);
+  border-radius: 3px;
+}
+
+/* 竹简样式 */
+.bamboo-strip {
+  background: linear-gradient(
+    90deg,
+    #d4c5a9 0%,
+    #e8dcc4 5%,
+    #f0e6d2 50%,
+    #e8dcc4 95%,
+    #d4c5a9 100%
+  );
+  border-radius: 2px;
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.1),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* 阻尼回弹滚动 */
+.scroll-damping {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scroll-damping > * {
+  scroll-snap-align: start;
+}

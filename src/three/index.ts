@@ -1,0 +1,5 @@
+export { SceneCamera } from './components/SceneCamera'
+export { InkShaderMaterial } from './materials/InkShaderMaterial'
+export { InkParticleSystem } from './systems/InkParticleSystem'
+export { useGLTFModelLoader, GLTFModelLoaderComponent } from './loaders/GLTFModelLoader'
+export type { LoadedModel, ModelLoadingState, ModelLoaderOptions } from './types'
