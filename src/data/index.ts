@@ -4,8 +4,7 @@
  */
 
 // 建筑数据
-export { buildings, buildingsExpanded } from './buildings'
-export { buildingsOld } from './buildings'
+export { buildings } from './buildings'
 
 // 解码器数据
 export {
