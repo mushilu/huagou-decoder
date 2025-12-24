@@ -3,16 +3,16 @@ import { cn } from '@/lib/utils'
 import type { BuildingType } from '@/types/building'
 
 const ICON_MAP: Record<BuildingType, string> = {
-  '民居': '/assets/moyu-guji/building-types/residence.svg',
-  '宫府': '/assets/moyu-guji/building-types/mansion.svg',
-  '皇宫': '/assets/moyu-guji/building-types/palace.svg',
-  '桥梁': '/assets/moyu-guji/building-types/bridge.svg',
-  '防御': '/assets/moyu-guji/building-types/defense.svg',
-  '园林': '/assets/moyu-guji/building-types/garden.svg',
-  '寺庙': '/assets/moyu-guji/building-types/temple.svg',
-  '陵墓': '/assets/moyu-guji/building-types/tomb.svg',
-  '城镇': '/assets/moyu-guji/building-types/town.svg',
-  '要塞': '/assets/moyu-guji/building-types/fortress.svg',
+  '民居': '/moyu-guji/building-types/residence.svg',
+  '宫府': '/moyu-guji/building-types/mansion.svg',
+  '皇宫': '/moyu-guji/building-types/palace.svg',
+  '桥梁': '/moyu-guji/building-types/bridge.svg',
+  '防御': '/moyu-guji/building-types/defense.svg',
+  '园林': '/moyu-guji/building-types/garden.svg',
+  '寺庙': '/moyu-guji/building-types/temple.svg',
+  '陵墓': '/moyu-guji/building-types/tomb.svg',
+  '城镇': '/moyu-guji/building-types/town.svg',
+  '要塞': '/moyu-guji/building-types/fortress.svg',
 }
 
 interface BuildingTypeIconProps extends Omit<HTMLMotionProps<'div'>, 'children'> {

@@ -3,14 +3,14 @@ import { cn } from '@/lib/utils'
 import type { Dynasty } from '@/types/building'
 
 const SEAL_MAP: Record<Dynasty, string> = {
-  '先秦': '/assets/moyu-guji/seals/seal-pre-qin.svg',
-  '秦汉': '/assets/moyu-guji/seals/seal-qin-han.svg',
-  '魏晋南北朝': '/assets/moyu-guji/seals/seal-wei-jin.svg',
-  '隋唐': '/assets/moyu-guji/seals/seal-sui-tang.svg',
-  '宋': '/assets/moyu-guji/seals/seal-song.svg',
-  '元': '/assets/moyu-guji/seals/seal-yuan.svg',
-  '明': '/assets/moyu-guji/seals/seal-ming.svg',
-  '清': '/assets/moyu-guji/seals/seal-qing.svg',
+  '先秦': '/moyu-guji/seals/seal-pre-qin.svg',
+  '秦汉': '/moyu-guji/seals/seal-qin-han.svg',
+  '魏晋南北朝': '/moyu-guji/seals/seal-wei-jin.svg',
+  '隋唐': '/moyu-guji/seals/seal-sui-tang.svg',
+  '宋': '/moyu-guji/seals/seal-song.svg',
+  '元': '/moyu-guji/seals/seal-yuan.svg',
+  '明': '/moyu-guji/seals/seal-ming.svg',
+  '清': '/moyu-guji/seals/seal-qing.svg',
 }
 
 interface DynastySealProps extends Omit<HTMLMotionProps<'div'>, 'children'> {

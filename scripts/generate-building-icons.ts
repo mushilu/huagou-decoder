@@ -163,7 +163,7 @@ ${pathElements}
 }
 
 // 生成所有建筑类型图标
-const outputDir = path.join(__dirname, '../public/assets/moyu-guji/building-types')
+const outputDir = path.join(__dirname, '../public/moyu-guji/building-types')
 fs.mkdirSync(outputDir, { recursive: true })
 
 buildingIcons.forEach((icon) => {

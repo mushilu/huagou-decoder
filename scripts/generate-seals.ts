@@ -47,7 +47,7 @@ function generateSealSVG(dynasty: typeof dynasties[0]): string {
 }
 
 // 生成所有印章
-const outputDir = path.join(__dirname, '../public/assets/moyu-guji/seals')
+const outputDir = path.join(__dirname, '../public/moyu-guji/seals')
 fs.mkdirSync(outputDir, { recursive: true })
 
 dynasties.forEach((dynasty) => {
