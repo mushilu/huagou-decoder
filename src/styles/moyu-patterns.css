@@ -1,0 +1,54 @@
+/* 墨韵古建装饰纹样系统 */
+
+/* 祥云纹渐变 - 用于页面顶部装饰 */
+.pattern-cloud {
+  background: linear-gradient(
+    180deg,
+    rgba(26, 26, 46, 0.4) 0%,
+    rgba(26, 26, 46, 0) 100%
+  );
+}
+
+/* 海水纹渐变 - 用于页面底部装饰 */
+.pattern-wave {
+  background: linear-gradient(
+    0deg,
+    rgba(200, 16, 46, 0.15) 0%,
+    rgba(200, 16, 46, 0) 100%
+  );
+}
+
+/* 如意纹渐变 - 用于角落点缀 */
+.pattern-ruyi {
+  background: radial-gradient(
+    circle at center,
+    rgba(200, 16, 46, 0.3) 0%,
+    rgba(200, 16, 46, 0) 70%
+  );
+}
+
+/* 回纹（使用 CSS 图案）- 用于边框装饰 */
+.pattern-meander {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-ink-black) 0,
+    var(--color-ink-black) 1px,
+    transparent 1px,
+    transparent 8px
+  );
+  opacity: 0.1;
+}
+
+/* 纹样动画 - 可选的渐入效果 */
+@keyframes pattern-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: var(--moyu-pattern-opacity, 0.35);
+  }
+}
+
+.pattern-animated {
+  animation: pattern-fade-in 1s ease-out;
+}

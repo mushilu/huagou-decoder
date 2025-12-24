@@ -10,6 +10,7 @@ import { ChinaMap } from '../components/ChinaMap'
 import { TimelineFilter } from '../components/TimelineFilter'
 import { ProvinceDetailCard } from '../components/ProvinceDetailCard'
 import { generateBuildingStats, filterBuildingsByDynasty } from '../data/buildingStatsData'
+import { CloudPattern, MeanderPattern } from '@/components/moyu-guji/patterns'
 
 // 生成实时统计数据
 const stats = generateBuildingStats()
@@ -91,7 +92,11 @@ export function DataVizPage() {
   )
 
   return (
-    <div className="min-h-screen bg-paper-white">
+    <div className="relative min-h-screen bg-paper-white">
+      {/* Background Decoration */}
+      <CloudPattern position="top" opacity={0.2} />
+      <MeanderPattern position="bottom" thickness={3} opacity={0.1} />
+
       {/* Header */}
       <div className="border-b border-ink-gray/20 bg-paper-cream">
         <div className="container mx-auto px-4 py-8">

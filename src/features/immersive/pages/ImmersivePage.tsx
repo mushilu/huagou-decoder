@@ -4,6 +4,7 @@ import { Clock, MapPin, BookOpen } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { immersiveHistories } from '../data/buildingHistories'
 import type { BuildingHistory } from '../data/buildingHistories'
+import { CloudPattern, WavePattern } from '@/components/moyu-guji/patterns'
 
 const buildings = [
   { id: 'forbidden-city', name: '故宫太和殿', region: '北京' },
@@ -19,7 +20,11 @@ export function ImmersivePage() {
   const currentPeriod = currentHistory?.periods.find((p) => p.id === selectedPeriod)
 
   return (
-    <div className="min-h-screen bg-paper-white">
+    <div className="relative min-h-screen bg-paper-white">
+      {/* Background Decoration */}
+      <CloudPattern position="top" opacity={0.2} />
+      <WavePattern position="bottom" opacity={0.2} />
+
       {/* Header */}
       <div className="relative border-b border-ink-gray/20 bg-gradient-to-r from-paper-cream via-paper-cream to-glaze-blue/5 overflow-hidden">
         {/* 装饰背景 */}

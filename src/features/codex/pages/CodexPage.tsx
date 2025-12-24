@@ -8,6 +8,8 @@ import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/shared'
 import { useBuildingsList, useDynasties, useBuildingTypes } from '@/hooks/useBuildings'
 import { InkLoading } from '@/components/ink/InkLoading'
+import { DynastySeal, BuildingTypeIcon } from '@/components/moyu-guji/icons'
+import { CloudPattern } from '@/components/moyu-guji/patterns'
 import type { Dynasty } from '@/types/building'
 
 export function CodexPage() {
@@ -34,7 +36,10 @@ export function CodexPage() {
   const totalPages = Math.ceil(total / 12)
 
   return (
-    <div className="min-h-screen bg-paper-white">
+    <div className="relative min-h-screen bg-paper-white">
+      {/* Background Decoration */}
+      <CloudPattern position="top" opacity={0.3} />
+
       {/* Header */}
       <div className="border-b border-ink-gray/20 bg-paper-cream">
         <div className="container mx-auto px-4 py-8">
@@ -119,15 +124,15 @@ export function CodexPage() {
                   {selectedDynasty ? `已选择: ${selectedDynasty}` : '全部朝代'}
                 </span>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-4">
                 <button
                   onClick={() => {
                     setSelectedDynasty(null)
                     setCurrentPage(1)
                   }}
-                  className={`rounded-full border-2 px-4 py-2 text-sm font-medium transition-all ${
+                  className={`rounded-lg border-2 px-4 py-2 text-sm font-medium transition-all ${
                     !selectedDynasty
-                      ? 'border-vermilion bg-vermilion text-paper-white shadow-md'
+                      ? 'border-vermilion bg-vermilion/10 text-vermilion'
                       : 'border-ink-gray/20 text-ink-black hover:border-vermilion/50'
                   }`}
                 >
@@ -140,13 +145,23 @@ export function CodexPage() {
                       setSelectedDynasty(dynasty)
                       setCurrentPage(1)
                     }}
-                    className={`rounded-full border-2 px-4 py-2 text-sm transition-all ${
+                    className={`flex items-center gap-2 rounded-lg border-2 px-4 py-2 transition-all ${
                       selectedDynasty === dynasty
-                        ? 'border-vermilion bg-vermilion text-paper-white shadow-md'
-                        : 'border-ink-gray/20 text-ink-black hover:border-vermilion/50'
+                        ? 'border-vermilion bg-vermilion/10'
+                        : 'border-ink-gray/20 hover:border-vermilion/50'
                     }`}
                   >
-                    {dynasty}
+                    <DynastySeal
+                      dynasty={dynasty}
+                      size="standard"
+                      state={selectedDynasty === dynasty ? 'selected' : 'default'}
+                      animated={true}
+                    />
+                    <span className={`text-sm ${
+                      selectedDynasty === dynasty ? 'text-vermilion font-medium' : 'text-ink-black'
+                    }`}>
+                      {dynasty}
+                    </span>
                   </button>
                 ))}
               </div>
@@ -226,6 +241,15 @@ export function CodexPage() {
                   <Link to={`/codex/${building.slug}`}>
                     {viewMode === 'grid' ? (
                       <Card className="group relative cursor-pointer overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-ink-gray/10 hover:border-ink-gray/30">
+                        {/* Building Type Icon */}
+                        <div className="absolute top-3 right-3 z-10">
+                          <BuildingTypeIcon
+                            type={building.buildingType}
+                            size="card"
+                            state="default"
+                          />
+                        </div>
+
                         {/* Image */}
                         <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-ink-black/5 to-ink-gray/10">
                           {building.thumbnail ? (
@@ -279,6 +303,15 @@ export function CodexPage() {
                     ) : (
                       <Card className="group cursor-pointer transition-all hover:shadow-lg border-ink-gray/10 hover:border-ink-gray/30">
                         <div className="flex gap-4 p-4">
+                          {/* Building Type Icon */}
+                          <div className="flex-shrink-0">
+                            <BuildingTypeIcon
+                              type={building.buildingType}
+                              size="list"
+                              state="default"
+                            />
+                          </div>
+
                           <div className="h-20 w-24 flex-shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-ink-black/5 to-ink-gray/10">
                             {building.thumbnail ? (
                               <img

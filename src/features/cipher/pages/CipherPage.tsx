@@ -10,6 +10,7 @@ import {
   spaceKnowledge,
 } from '../data/knowledge'
 import type { CipherCategory, CipherKnowledge } from '../types'
+import { RuyiPattern, CloudPattern } from '@/components/moyu-guji/patterns'
 
 const cipherCategories: CipherCategory[] = [
   {
@@ -83,7 +84,10 @@ export function CipherPage() {
   }
 
   return (
-    <div className="min-h-screen bg-paper-white">
+    <div className="relative min-h-screen bg-paper-white">
+      {/* Background Decoration */}
+      <CloudPattern position="top" opacity={0.25} />
+
       {/* Header */}
       <div className="relative border-b border-ink-gray/20 bg-gradient-to-r from-paper-cream via-paper-cream to-vermilion/5 overflow-hidden">
         {/* 装饰背景 */}
@@ -243,6 +247,10 @@ export function CipherPage() {
           className="mb-16"
         >
           <div className="relative group overflow-hidden rounded-2xl bg-gradient-to-br from-ink-black via-ink-black/95 to-ink-black text-paper-white shadow-2xl cursor-pointer transition-all duration-500 hover:shadow-3xl hover:-translate-y-2">
+            {/* Ruyi Pattern Decorations */}
+            <RuyiPattern position="top-left" size={150} opacity={0.2} />
+            <RuyiPattern position="bottom-right" size={150} opacity={0.2} />
+
             {/* 装饰背景 */}
             <div className="absolute inset-0">
               <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-vermilion/10 to-glaze-blue/10 blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />

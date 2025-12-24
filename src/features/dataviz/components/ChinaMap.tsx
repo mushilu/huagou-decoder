@@ -1,34 +1,36 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as echarts from 'echarts'
 import type { ECharts } from 'echarts'
 
 // 动态导入官方地图数据
 let chinaGeoJson: any = null
+const LOCAL_MAP_URL = '/data/china-geo.json'
 
 // 从CDN加载真实中国地图GeoJSON（高德地图数据）
 const loadChinaMap = async () => {
   if (chinaGeoJson) return chinaGeoJson
 
-  try {
-    const response = await fetch(
-      'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json'
-    )
-    chinaGeoJson = await response.json()
-    return chinaGeoJson
-  } catch (error) {
-    console.warn('Failed to load China map from CDN, using fallback')
-    // 如果CDN失败，使用备用URL
+  const sources = [
+    { url: LOCAL_MAP_URL, label: 'local' },
+    { url: 'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json', label: 'aliyun' },
+    { url: 'https://raw.githubusercontent.com/apache/echarts/master/test/data/china.json', label: 'github' },
+  ]
+
+  for (const source of sources) {
     try {
-      const response = await fetch(
-        'https://raw.githubusercontent.com/apache/echarts/master/test/data/china.json'
-      )
+      const response = await fetch(source.url)
+      if (!response.ok) {
+        throw new Error(`请求失败：${response.status}`)
+      }
       chinaGeoJson = await response.json()
       return chinaGeoJson
-    } catch (fallbackError) {
-      console.error('Failed to load China map:', fallbackError)
-      return null
+    } catch (error) {
+      console.warn(`加载中国地图失败（${source.label}）:`, error)
     }
   }
+
+  console.error('中国地图数据加载失败，已尝试本地及外部源')
+  return null
 }
 
 interface MapData {
@@ -46,6 +48,7 @@ interface ChinaMapProps {
 export function ChinaMap({ data, selectedProvince, onProvinceSelect }: ChinaMapProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const chartRef = useRef<ECharts | null>(null)
+  const [loadError, setLoadError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -55,6 +58,13 @@ export function ChinaMap({ data, selectedProvince, onProvinceSelect }: ChinaMapP
     }
 
     const initMap = async () => {
+      // 数据为空时直接提示，避免空白
+      if (data.length === 0) {
+        setLoadError('当前筛选下没有可展示的地域数据')
+        chartRef.current?.clear()
+        return
+      }
+
       const maxCount = Math.max(...data.map((d) => d.buildingCount), 1)
 
       // 准备数据 - 气泡点
@@ -165,8 +175,15 @@ export function ChinaMap({ data, selectedProvince, onProvinceSelect }: ChinaMapP
 
       // 加载并注册中国地图
       const mapData = await loadChinaMap()
-      if (mapData && !echarts.getMap('china')) {
-        echarts.registerMap('china', mapData)
+      if (!mapData) {
+        setLoadError('地图底图加载失败，请稍后重试')
+        return
+      }
+
+      setLoadError(null)
+
+      if (!echarts.getMap('china')) {
+        echarts.registerMap('china', mapData as any)
       }
 
       chartRef.current?.setOption(option)
@@ -196,18 +213,41 @@ export function ChinaMap({ data, selectedProvince, onProvinceSelect }: ChinaMapP
       }
     }
 
-    initMap()
+    let cleanup: (() => void) | undefined
+    let disposed = false
+
+    initMap().then((fn) => {
+      if (disposed) {
+        fn?.()
+      } else {
+        cleanup = fn
+      }
+    })
+
+    return () => {
+      disposed = true
+      cleanup?.()
+      chartRef.current?.dispose()
+      chartRef.current = null
+    }
   }, [data, selectedProvince, onProvinceSelect])
 
   return (
     <div
       ref={containerRef}
+      className="relative"
       style={{
         width: '100%',
         height: '500px',
         borderRadius: '8px',
         overflow: 'hidden',
       }}
-    />
+    >
+      {loadError ? (
+        <div className="absolute inset-0 flex items-center justify-center bg-paper-white/80 text-sm text-ink-gray">
+          {loadError}
+        </div>
+      ) : null}
+    </div>
   )
 }

@@ -222,6 +222,22 @@
   /* 阻尼回弹 */
   --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   --ease-elastic: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+
+  /* ================================
+     墨韵古建专用变量
+     ================================ */
+
+  /* 印章颜色 */
+  --moyu-seal-vermilion: var(--color-vermilion);        /* 印章朱砂红 */
+  --moyu-seal-vermilion-dark: #a00c24;                   /* 印章朱砂红暗色 */
+  --moyu-seal-base: var(--color-paper-cream);            /* 印章底座米黄 */
+
+  /* 图标颜色 */
+  --moyu-icon-ink: var(--color-ink-black);               /* 图标墨黑 */
+  --moyu-icon-accent: var(--color-vermilion);            /* 图标强调色 */
+
+  /* 纹样配置 */
+  --moyu-pattern-opacity: 0.35;                          /* 纹样默认透明度 */
 }
 
 /* 深色模式变量覆盖 */
@@ -264,4 +280,8 @@
 
   --hover-overlay: rgba(255, 255, 255, 0.05);
   --active-overlay: rgba(255, 255, 255, 0.1);
+
+  /* 墨韵古建深色模式适配 */
+  --moyu-seal-vermilion: #e84d4d;                        /* 深色模式提亮 */
+  --moyu-icon-ink: var(--color-paper-white);             /* 深色模式图标反色 */
 }
