@@ -73,8 +73,17 @@ function InkBackground() {
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {/* 基础水墨渐变 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-ink-black via-ink-black to-ink-black/90" />
+      {/* AI 生成的水墨故宫背景图 */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: 'url(/images/hero/forbidden-city-ink.png)',
+          opacity: 0.6,
+        }}
+      />
+
+      {/* 基础水墨渐变叠加 */}
+      <div className="absolute inset-0 bg-gradient-to-b from-ink-black/70 via-ink-black/50 to-ink-black/80" />
 
       {/* 径向渐变光晕 */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,_var(--tw-gradient-stops))] from-ink-black/50 via-transparent to-transparent opacity-40" />
