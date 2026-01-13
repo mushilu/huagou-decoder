@@ -3,6 +3,7 @@ import type { CipherKnowledge } from '../types'
 export const fengshuiKnowledge: CipherKnowledge[] = [
   {
     id: 'fs-1',
+    imageUrl: '/images/knowledge/fengshui-dragon-vein.png',
     title: '龙脉走向与建筑定位',
     description: '理气派风水重点，通过山水形势判断建筑选址',
     content: `龙脉是风水学中最重要的概念。中国古代建筑师认为，山水走势代表龙的走向。
@@ -109,6 +110,7 @@ export const fengshuiKnowledge: CipherKnowledge[] = [
 export const symbolKnowledge: CipherKnowledge[] = [
   {
     id: 'sym-1',
+    imageUrl: '/images/knowledge/symbol-dragon-motif.png',
     title: '龙纹图腾的五种含义',
     description: '龙是中国古代最崇高的象征，代表皇权、权力和吉祥',
     content: `龙纹在古建筑中无处不在，每一处都精心设计以体现其深刻含义。
@@ -313,6 +315,7 @@ export const colorKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'col-5',
+    imageUrl: '/images/knowledge/color-glazed-tiles.png',
     title: '琉璃色彩的五行配置',
     description: '琉璃瓦用五种颜色代表五行和不同等级',
     content: `琉璃瓦的颜色不仅美观，更蕴含深刻的哲学体系。
@@ -339,6 +342,7 @@ export const colorKnowledge: CipherKnowledge[] = [
 export const spaceKnowledge: CipherKnowledge[] = [
   {
     id: 'spa-1',
+    imageUrl: '/images/knowledge/space-central-axis.png',
     title: '中轴对称的权力秩序',
     description: '中轴线是权力和秩序的具体体现',
     content: `中国古建筑的对称设计源自宇宙观：认为宇宙有一条"中线"，代表秩序和平衡。
