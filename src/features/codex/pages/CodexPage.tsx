@@ -10,6 +10,7 @@ import { useBuildingsList, useDynasties, useBuildingTypes } from '@/hooks/useBui
 import { InkLoading } from '@/components/ink/InkLoading'
 import { DynastySeal, BuildingTypeIcon } from '@/components/moyu-guji/icons'
 import { CloudPattern } from '@/components/moyu-guji/patterns'
+import { getBuildingThumbnail } from '@/utils/dynastyThumbnails'
 import type { Dynasty } from '@/types/building'
 
 export function CodexPage() {
@@ -252,9 +253,9 @@ export function CodexPage() {
 
                         {/* Image */}
                         <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-ink-black/5 to-ink-gray/10">
-                          {building.thumbnail ? (
+                          {(() => { const thumb = getBuildingThumbnail(building.thumbnail, building.dynasty); return thumb ? (
                             <img
-                              src={building.thumbnail}
+                              src={thumb}
                               alt={building.nameZh}
                               className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                             />
@@ -313,9 +314,9 @@ export function CodexPage() {
                           </div>
 
                           <div className="h-20 w-24 flex-shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-ink-black/5 to-ink-gray/10">
-                            {building.thumbnail ? (
+                            {(() => { const thumb = getBuildingThumbnail(building.thumbnail, building.dynasty); return thumb ? (
                               <img
-                                src={building.thumbnail}
+                                src={thumb}
                                 alt={building.nameZh}
                                 className="h-full w-full object-cover"
                               />
