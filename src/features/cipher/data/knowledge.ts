@@ -56,6 +56,7 @@ export const fengshuiKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'fs-4',
+    imageUrl: '/images/knowledge/fengshui-mountain-water.png',
     title: '靠山面水的完美结合',
     description: '中国古建筑的最高风水境界就是"背有靠，面有水"',
     content: `这是中国风水学的黄金法则，体现在全国各地名建筑上。
@@ -131,6 +132,7 @@ export const symbolKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'sym-2',
+    imageUrl: '/images/knowledge/symbol-phoenix-motif.png',
     title: '凤凰纹样与皇后权力',
     description: '凤凰代表皇后，与龙形成阴阳平衡',
     content: `如果龙代表皇帝，凤凰就代表皇后。在古建筑中，龙凤配置体现了权力的制衡。
@@ -241,6 +243,7 @@ export const colorKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'col-2',
+    imageUrl: '/images/knowledge/color-red-symbolism.png',
     title: '红色的喜庆与护佑',
     description: '红色代表喜庆、热烈和驱邪保护',
     content: `红色在中国文化中最受欢迎，象征美好和吉祥。
@@ -366,6 +369,7 @@ export const spaceKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'spa-2',
+    imageUrl: '/images/knowledge/space-courtyard-design.png',
     title: '院落围合的私密性设计',
     description: '四合院通过围合创造私密而自给自足的空间',
     content: `四合院是中国民居的精妙设计，通过围合来实现多个目标。
