@@ -263,7 +263,7 @@ export function CodexPage() {
                             <div className="absolute inset-0 flex items-center justify-center text-ink-gray/30">
                               <span className="font-serif text-center text-lg">{building.nameZh}</span>
                             </div>
-                          })()}
+                          )})()}
                           <div className="absolute inset-0 bg-gradient-to-t from-ink-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
 
                           {/* Stats overlay on hover */}
@@ -324,7 +324,7 @@ export function CodexPage() {
                               <div className="flex h-full items-center justify-center text-xs text-ink-gray/30 font-serif">
                                 {building.nameZh}
                               </div>
-                            })()}
+                            )})()}
                           </div>
                           <div className="flex-1">
                             <h3 className="font-semibold text-ink-black group-hover:text-vermilion transition-colors">
