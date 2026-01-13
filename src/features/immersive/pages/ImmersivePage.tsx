@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { immersiveHistories } from '../data/buildingHistories'
 import type { BuildingHistory } from '../data/buildingHistories'
 import { CloudPattern, WavePattern } from '@/components/moyu-guji/patterns'
+import { getSceneThumbnail } from '../utils/sceneThumbnails'
 
 const buildings = [
   { id: 'forbidden-city', name: '故宫太和殿', region: '北京' },
@@ -84,20 +85,41 @@ export function ImmersivePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ type: "spring", stiffness: 400, damping: 15, delay: idx * 0.08 }}
-                className={`relative rounded-2xl border-2 p-7 text-left transition-all overflow-hidden group ${
+                className={`relative rounded-2xl border-2 text-left transition-all overflow-hidden group h-48 ${
                   selectedBuilding === building.id
-                    ? 'border-glaze-blue bg-glaze-blue/8 shadow-xl'
-                    : 'border-ink-gray/20 hover:border-glaze-blue/50 hover:bg-glaze-blue/4 hover:shadow-lg'
+                    ? 'border-glaze-blue shadow-xl'
+                    : 'border-ink-gray/20 hover:border-glaze-blue/50 hover:shadow-lg'
                 }`}
               >
-                {/* 背景装饰 */}
-                <div className="absolute inset-0 bg-gradient-to-br from-glaze-blue/0 to-glaze-blue/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                {/* 场景缩略图背景 */}
+                {(() => {
+                  const thumb = getSceneThumbnail(building.id)
+                  return thumb ? (
+                    <div
+                      className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                      style={{ backgroundImage: `url(${thumb})` }}
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-glaze-blue/10 to-ink-black/5" />
+                  )
+                })()}
 
-                <div className="relative z-10">
-                  <h3 className="font-serif text-xl font-bold text-ink-black mb-3 group-hover:text-glaze-blue transition-colors">
+                {/* 渐变遮罩 */}
+                <div className={`absolute inset-0 transition-opacity ${
+                  selectedBuilding === building.id
+                    ? 'bg-gradient-to-t from-glaze-blue/90 via-glaze-blue/50 to-transparent'
+                    : 'bg-gradient-to-t from-ink-black/80 via-ink-black/40 to-transparent group-hover:from-glaze-blue/70 group-hover:via-glaze-blue/30'
+                }`} />
+
+                <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
+                  <h3 className={`font-serif text-xl font-bold mb-2 transition-colors ${
+                    selectedBuilding === building.id ? 'text-paper-white' : 'text-paper-white group-hover:text-paper-cream'
+                  }`}>
                     {building.name}
                   </h3>
-                  <div className="flex items-center gap-2 text-sm text-ink-gray group-hover:text-ink-black transition-colors">
+                  <div className={`flex items-center gap-2 text-sm transition-colors ${
+                    selectedBuilding === building.id ? 'text-paper-white/80' : 'text-paper-white/70 group-hover:text-paper-cream/90'
+                  }`}>
                     <MapPin className="h-4 w-4 flex-shrink-0" />
                     <span>{building.region}</span>
                   </div>
@@ -105,7 +127,7 @@ export function ImmersivePage() {
 
                 {selectedBuilding === building.id && (
                   <motion.div
-                    className="absolute top-4 right-4 w-3 h-3 rounded-full bg-glaze-blue"
+                    className="absolute top-4 right-4 w-3 h-3 rounded-full bg-paper-white shadow-lg"
                     layoutId="selected-indicator"
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />
