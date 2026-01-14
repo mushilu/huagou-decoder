@@ -148,11 +148,11 @@ export function InkTrail({
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
 
-  // Spring values for future smooth cursor effects
+  // 预留的弹性动画值
   const springConfig = { damping: 25, stiffness: 150 }
   const _trailX = useSpring(mouseX, springConfig)
   const _trailY = useSpring(mouseY, springConfig)
-  // Suppress unused warning - reserved for cursor trail enhancement
+  // 消除未使用警告
   void _trailX
   void _trailY
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { cn } from '@/lib/utils'
 
-// Separator 分隔线
+// 分隔线
 export function Separator({
   className,
   orientation = 'horizontal',
@@ -21,7 +21,7 @@ export function Separator({
   )
 }
 
-// Tabs 标签页
+// 标签页
 export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
   defaultValue: string
 }
@@ -91,7 +91,7 @@ export function TabsContent({
   )
 }
 
-// Badge 徽章
+// 徽章
 export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'secondary' | 'destructive' | 'gold' | 'outline'
 }

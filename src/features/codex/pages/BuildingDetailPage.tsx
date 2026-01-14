@@ -23,7 +23,7 @@ export function BuildingDetailPage() {
   const { addFavorite, removeFavorite, isFavorite } = useBuildingStore()
   const { buildings: relatedBuildings } = useRelatedBuildings(building?.id || '', 4)
 
-  // Get related cipher knowledge
+  // 获取相关密码知识
   const getRelatedCipherKnowledge = (): CipherKnowledge[] => {
     if (!slug) return []
 
