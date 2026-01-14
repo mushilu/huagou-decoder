@@ -85,10 +85,10 @@ export function CipherPage() {
 
   return (
     <div className="relative min-h-screen bg-paper-white">
-      {/* Background Decoration */}
+      {/* 背景装饰 */}
       <CloudPattern position="top" opacity={0.25} />
 
-      {/* Header */}
+      {/* 顶部标题 */}
       <div className="relative border-b border-ink-gray/20 bg-gradient-to-r from-paper-cream via-paper-cream to-vermilion/5 overflow-hidden">
         {/* 装饰背景 */}
         <div className="absolute inset-0 opacity-10">
@@ -121,7 +121,7 @@ export function CipherPage() {
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* 主要内容 */}
       <div className="container mx-auto px-4 py-16">
         {/* 分类说明 */}
         <motion.div
@@ -238,7 +238,7 @@ export function CipherPage() {
           })}
         </motion.div>
 
-        {/* Featured Knowledge Card */}
+        {/* 精选卡片 */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -247,7 +247,7 @@ export function CipherPage() {
           className="mb-16"
         >
           <div className="relative group overflow-hidden rounded-2xl bg-gradient-to-br from-ink-black via-ink-black/95 to-ink-black text-paper-white shadow-2xl cursor-pointer transition-all duration-500 hover:shadow-3xl hover:-translate-y-2">
-            {/* Ruyi Pattern Decorations */}
+            {/* 如意纹装饰 */}
             <RuyiPattern position="top-left" size={150} opacity={0.2} />
             <RuyiPattern position="bottom-right" size={150} opacity={0.2} />
 
@@ -361,7 +361,7 @@ export function CipherPage() {
         </motion.div>
       </div>
 
-      {/* Knowledge Detail Dialog */}
+      {/* 详情弹窗 */}
       <KnowledgeDetailDialog
         knowledge={selectedKnowledge}
         isOpen={isDialogOpen}

@@ -128,7 +128,7 @@ function InkBackground() {
 export function HomePage() {
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
+      {/* 首屏 */}
       <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden bg-ink-black">
         {/* 优化的水墨背景 */}
         <InkBackground />
@@ -167,7 +167,7 @@ export function HomePage() {
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-paper-white to-transparent" />
       </section>
 
-      {/* Features Section */}
+      {/* 功能展示 */}
       <section className="bg-gradient-to-b from-paper-white to-paper-cream py-24">
         <div className="container mx-auto px-4">
           <motion.div
@@ -185,7 +185,7 @@ export function HomePage() {
             </p>
           </motion.div>
 
-          {/* Feature Cards with 3D Effect */}
+          {/* 功能卡片 */}
           <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-5">
             {features.map((feature, idx) => {
               const Icon = feature.icon
@@ -246,7 +246,7 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* 数据统计 */}
       <section className="bg-gradient-to-b from-ink-black to-ink-black/95 py-24">
         <div className="container mx-auto px-4">
           <motion.div
@@ -298,7 +298,7 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* 行动召唤 */}
       <section className="relative overflow-hidden bg-gradient-to-b from-paper-white via-paper-cream to-paper-white py-24">
         <div className="container mx-auto px-4 text-center">
           <motion.div

@@ -66,7 +66,7 @@ export function BuildingDetailPage() {
 
   return (
     <div className="min-h-screen bg-paper-white">
-      {/* Header Bar */}
+      {/* 顶部导航 */}
       <div className="sticky top-0 z-40 border-b border-ink-gray/20 bg-paper-white/95 backdrop-blur">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
           <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>
@@ -96,9 +96,9 @@ export function BuildingDetailPage() {
         </div>
       </div>
 
-      {/* Hero Section */}
+      {/* 头图区域 */}
       <div className="relative h-96 overflow-hidden">
-        {/* Background Image with Blur */}
+        {/* 背景图 */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -107,13 +107,13 @@ export function BuildingDetailPage() {
           }}
         />
 
-        {/* Dark Overlay */}
+        {/* 暗色遮罩 */}
         <div className="absolute inset-0 bg-ink-black/50" />
 
-        {/* Gradient Overlay */}
+        {/* 渐变遮罩 */}
         <div className="absolute inset-0 bg-gradient-to-b from-ink-black/30 via-transparent to-ink-black/40" />
 
-        {/* Content */}
+        {/* 内容 */}
         <div className="relative h-full flex items-center justify-center">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -127,17 +127,17 @@ export function BuildingDetailPage() {
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* 主要内容 */}
       <div className="container mx-auto px-4 py-12">
         <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
-          {/* Content */}
+          {/* 内容 */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             {/* Title & Info */}
             <div className="mb-8">
               <h1 className="mb-2 font-serif text-4xl font-bold text-ink-black">{building.nameZh}</h1>
               <p className="text-lg text-ink-gray">{building.nameEn}</p>
 
-              {/* Meta Info */}
+              {/* 元信息 */}
               <div className="mt-4 flex flex-wrap gap-4 text-sm">
                 <div className="flex items-center gap-2 text-ink-gray">
                   <Calendar className="h-4 w-4" />
@@ -173,7 +173,7 @@ export function BuildingDetailPage() {
               </CardContent>
             </Card>
 
-            {/* Detailed Content */}
+            {/* 详细介绍 */}
             {building.content && (
               <Card className="mb-8">
                 <CardHeader>
@@ -185,7 +185,7 @@ export function BuildingDetailPage() {
               </Card>
             )}
 
-            {/* Cultural Cipher Knowledge */}
+            {/* 文化密码 */}
             {relatedCipherKnowledge.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -267,7 +267,7 @@ export function BuildingDetailPage() {
                       ))}
                     </div>
 
-                    {/* Explore More Link */}
+                    {/* 了解更多 */}
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -303,7 +303,7 @@ export function BuildingDetailPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="space-y-6"
           >
-            {/* Building Info */}
+            {/* 建筑信息 */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-base">建筑信息</CardTitle>
@@ -359,7 +359,7 @@ export function BuildingDetailPage() {
               </Card>
             )}
 
-            {/* Visiting Info */}
+            {/* 参观信息 */}
             {building.visitingInfo && (
               <Card>
                 <CardHeader>
@@ -452,13 +452,13 @@ export function BuildingDetailPage() {
               </CardContent>
             </Card>
 
-            {/* Location Map */}
+            {/* 地图位置 */}
             <Card className="overflow-hidden border-0 shadow-md">
               <div className="relative">
                 {/* Background with gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-glaze-blue/10 via-vermilion/5 to-ink-gray/10" />
 
-                {/* Content */}
+                {/* 内容 */}
                 <div className="relative p-6">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="rounded-full bg-glaze-blue/20 p-2">
@@ -468,7 +468,7 @@ export function BuildingDetailPage() {
                   </div>
 
                   <div className="space-y-4">
-                    {/* Location Info */}
+                    {/* 位置信息 */}
                     <div className="space-y-2">
                       <p className="text-xs text-ink-gray/60 uppercase tracking-wider">位置信息</p>
                       <div className="flex items-start gap-2">
@@ -515,7 +515,7 @@ export function BuildingDetailPage() {
           </motion.div>
         </div>
 
-        {/* Related Buildings */}
+        {/* 相关建筑 */}
         {relatedBuildings.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}

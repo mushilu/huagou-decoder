@@ -27,7 +27,7 @@ export function InkParticleSystem({
   velocity = [0, 0.1, 0],
   turbulence = 0.02,
   lifetime = 10,
-  // emitRate reserved for future burst emission control
+  // 预留参数
   emitRate: _emitRate = 0.1,
 }: ParticleSystemProps) {
   const pointsRef = useRef<THREE.Points>(null)

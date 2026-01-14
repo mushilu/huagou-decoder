@@ -22,11 +22,11 @@ export function ImmersivePage() {
 
   return (
     <div className="relative min-h-screen bg-paper-white">
-      {/* Background Decoration */}
+      {/* 背景装饰 */}
       <CloudPattern position="top" opacity={0.2} />
       <WavePattern position="bottom" opacity={0.2} />
 
-      {/* Header */}
+      {/* 顶部标题 */}
       <div className="relative border-b border-ink-gray/20 bg-gradient-to-r from-paper-cream via-paper-cream to-glaze-blue/5 overflow-hidden">
         {/* 装饰背景 */}
         <div className="absolute inset-0 opacity-20">
@@ -59,7 +59,7 @@ export function ImmersivePage() {
       </div>
 
       <div className="container mx-auto px-4 py-12">
-        {/* Building Selection */}
+        {/* 建筑选择 */}
         <motion.div
           className="mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -137,7 +137,7 @@ export function ImmersivePage() {
           </div>
         </motion.div>
 
-        {/* Main Content */}
+        {/* 主要内容 */}
         {currentHistory && (
           <motion.div
             key={selectedBuilding}
@@ -145,7 +145,7 @@ export function ImmersivePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            {/* Building Info */}
+            {/* 建筑信息 */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -181,7 +181,7 @@ export function ImmersivePage() {
               </Card>
             </motion.div>
 
-            {/* Timeline Selection */}
+            {/* 时间轴选择 */}
             <motion.div
               className="mb-12"
               initial={{ opacity: 0, y: 20 }}
@@ -245,7 +245,7 @@ export function ImmersivePage() {
               </div>
             </motion.div>
 
-            {/* Period Details */}
+            {/* 时期详情 */}
             {currentPeriod && (
               <motion.div
                 key={currentPeriod.id}
@@ -254,7 +254,7 @@ export function ImmersivePage() {
                 transition={{ duration: 0.4 }}
                 className="space-y-6"
               >
-                {/* Title */}
+                {/* 标题 */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -280,7 +280,7 @@ export function ImmersivePage() {
                   </Card>
                 </motion.div>
 
-                {/* Main Description */}
+                {/* 主要描述 */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -313,7 +313,7 @@ export function ImmersivePage() {
                   </Card>
                 </motion.div>
 
-                {/* Key Points */}
+                {/* 要点 */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -358,7 +358,7 @@ export function ImmersivePage() {
                   </Card>
                 </motion.div>
 
-                {/* Highlights */}
+                {/* 亮点 */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -383,7 +383,7 @@ export function ImmersivePage() {
               </motion.div>
             )}
 
-            {/* Navigation Hint */}
+            {/* 导航提示 */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

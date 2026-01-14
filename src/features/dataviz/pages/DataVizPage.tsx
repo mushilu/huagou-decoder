@@ -93,11 +93,11 @@ export function DataVizPage() {
 
   return (
     <div className="relative min-h-screen bg-paper-white">
-      {/* Background Decoration */}
+      {/* 背景装饰 */}
       <CloudPattern position="top" opacity={0.2} />
       <MeanderPattern position="bottom" thickness={3} opacity={0.1} />
 
-      {/* Header */}
+      {/* 顶部标题 */}
       <div className="border-b border-ink-gray/20 bg-paper-cream">
         <div className="container mx-auto px-4 py-8">
           <motion.div
@@ -136,7 +136,7 @@ export function DataVizPage() {
           availableDynasties={stats.byDynasty.map((d) => d.name)}
         />
 
-        {/* Stats Overview */}
+        {/* 统计概览 */}
         <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { label: '建筑总数', value: filteredStats.total + '', icon: BarChart3, change: '', bgColor: 'bg-vermilion/10', badgeVariant: 'destructive' as const },
@@ -181,7 +181,7 @@ export function DataVizPage() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-2">
-          {/* Dynasty Distribution Chart */}
+          {/* 朝代分布图 */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -198,7 +198,7 @@ export function DataVizPage() {
             </Card>
           </motion.div>
 
-          {/* Building Types Chart */}
+          {/* 建筑类型图 */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -216,7 +216,7 @@ export function DataVizPage() {
           </motion.div>
         </div>
 
-        {/* Technology Timeline */}
+        {/* 技术发展时间轴 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -264,7 +264,7 @@ export function DataVizPage() {
           </Card>
         </motion.div>
 
-        {/* Geographic Distribution Map */}
+        {/* 地域分布地图 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -297,7 +297,7 @@ export function DataVizPage() {
           </Card>
         </motion.div>
 
-        {/* Province Detail Card */}
+        {/* 省份详情卡片 */}
         {selectedProvinceData && (
           <ProvinceDetailCard
             province={selectedProvince}

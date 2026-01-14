@@ -38,10 +38,10 @@ export function CodexPage() {
 
   return (
     <div className="relative min-h-screen bg-paper-white">
-      {/* Background Decoration */}
+      {/* 背景装饰 */}
       <CloudPattern position="top" opacity={0.3} />
 
-      {/* Header */}
+      {/* 顶部标题 */}
       <div className="border-b border-ink-gray/20 bg-paper-cream">
         <div className="container mx-auto px-4 py-8">
           <motion.div
@@ -57,12 +57,12 @@ export function CodexPage() {
         </div>
       </div>
 
-      {/* Filters */}
+      {/* 筛选器 */}
       <div className="sticky top-16 z-30 border-b border-ink-gray/20 bg-paper-white/95 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-6">
-          {/* Search Bar */}
+          {/* 搜索栏 */}
           <div className="flex flex-wrap items-center gap-4 mb-6">
-            {/* Search */}
+            {/* 搜索框 */}
             <div className="relative flex-1 min-w-64">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-gray" />
               <input
@@ -77,7 +77,7 @@ export function CodexPage() {
               />
             </div>
 
-            {/* View Toggle */}
+            {/* 视图切换 */}
             <div className="flex gap-1 rounded-lg border border-ink-gray/30 p-1 bg-paper-cream/50">
               <Button
                 variant={viewMode === 'grid' ? 'default' : 'ghost'}
@@ -97,7 +97,7 @@ export function CodexPage() {
               </Button>
             </div>
 
-            {/* Reset Filters */}
+            {/* 重置筛选 */}
             {(selectedDynasty || selectedType || searchQuery) && (
               <Button
                 variant="outline"
@@ -115,9 +115,9 @@ export function CodexPage() {
             )}
           </div>
 
-          {/* Tabs for Dynasty and Type Filters */}
+          {/* 筛选选项 */}
           <div className="space-y-4">
-            {/* Dynasty Tabs */}
+            {/* 朝代选项 */}
             <div>
               <div className="mb-3 flex items-center gap-2">
                 <Badge variant="gold" className="text-xs">朝代</Badge>
@@ -170,7 +170,7 @@ export function CodexPage() {
 
             <Separator />
 
-            {/* Type Tabs */}
+            {/* 类型选项 */}
             <div>
               <div className="mb-3 flex items-center gap-2">
                 <Badge variant="secondary" className="text-xs">类型</Badge>
@@ -214,7 +214,7 @@ export function CodexPage() {
         </div>
       </div>
 
-      {/* Building Grid/List */}
+      {/* 建筑列表 */}
       <div className="container mx-auto px-4 py-8">
         {isLoading ? (
           <div className="py-20 text-center">
@@ -242,7 +242,7 @@ export function CodexPage() {
                   <Link to={`/codex/${building.slug}`}>
                     {viewMode === 'grid' ? (
                       <Card className="group relative cursor-pointer overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-ink-gray/10 hover:border-ink-gray/30">
-                        {/* Building Type Icon */}
+                        {/* 类型图标 */}
                         <div className="absolute top-3 right-3 z-10">
                           <BuildingTypeIcon
                             type={building.buildingType}
@@ -251,7 +251,7 @@ export function CodexPage() {
                           />
                         </div>
 
-                        {/* Image */}
+                          {/* 图片 */}
                         <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-ink-black/5 to-ink-gray/10">
                           {(() => { const thumb = getBuildingThumbnail(building.thumbnail, building.dynasty); return thumb ? (
                             <img
@@ -274,7 +274,7 @@ export function CodexPage() {
                             </Badge>
                           </div>
 
-                          {/* Tags */}
+                          {/* 标签 */}
                           <div className="absolute left-3 top-3 flex gap-2">
                             <Badge variant="default" className="text-xs">
                               {building.dynasty}
@@ -304,7 +304,7 @@ export function CodexPage() {
                     ) : (
                       <Card className="group cursor-pointer transition-all hover:shadow-lg border-ink-gray/10 hover:border-ink-gray/30">
                         <div className="flex gap-4 p-4">
-                          {/* Building Type Icon */}
+                          {/* 类型图标 */}
                           <div className="flex-shrink-0">
                             <BuildingTypeIcon
                               type={building.buildingType}
