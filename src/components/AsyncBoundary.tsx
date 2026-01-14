@@ -8,10 +8,7 @@ interface AsyncBoundaryProps {
   name?: string
 }
 
-/**
- * 异步边界 - 统一处理Suspense加载状态
- * 用于包装可能需要异步加载的组件
- */
+// 异步边界
 export function AsyncBoundary({ children, fallback, name = '数据' }: AsyncBoundaryProps) {
   return (
     <Suspense
@@ -28,10 +25,7 @@ export function AsyncBoundary({ children, fallback, name = '数据' }: AsyncBoun
   )
 }
 
-/**
- * 页面级Suspense边界
- * 用于包装整个页面组件
- */
+// 页面级Suspense边界
 export function PageAsyncBoundary({ children, name = '页面' }: Omit<AsyncBoundaryProps, 'fallback'>) {
   return (
     <Suspense

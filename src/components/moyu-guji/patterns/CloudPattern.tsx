@@ -8,16 +8,7 @@ interface CloudPatternProps {
   className?: string
 }
 
-/**
- * 祥云纹装饰组件
- *
- * 用于页面顶部或底部的装饰，营造传统水墨氛围
- *
- * @example
- * ```tsx
- * <CloudPattern position="top" opacity={0.4} />
- * ```
- */
+// 祥云纹装饰
 export function CloudPattern({
   position = 'top',
   opacity = 0.4,

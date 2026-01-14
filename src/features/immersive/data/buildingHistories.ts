@@ -1,7 +1,4 @@
-/**
- * 沉浸漫游 - 建筑历史时间线配置
- * 用图文结合的方式讲述建筑的历史演变
- */
+// 建筑历史时间线配置
 
 export interface HistoricalPeriod {
   id: string

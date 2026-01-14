@@ -12,10 +12,7 @@ interface ErrorBoundaryState {
   errorInfo: React.ErrorInfo | null
 }
 
-/**
- * 全局错误边界
- * 捕获子组件的React错误并显示降级UI
- */
+// 全局错误边界
 export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props)

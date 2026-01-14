@@ -10,10 +10,7 @@ interface InkHoverProps {
   disabled?: boolean
 }
 
-/**
- * 墨滴悬停效果组件
- * 鼠标悬停时产生墨滴扩散效果
- */
+// 墨滴悬停效果，鼠标悬停时产生墨滴扩散
 export function InkHover({
   children,
   className,
@@ -94,9 +91,7 @@ interface InkSpotProps {
   animated?: boolean
 }
 
-/**
- * 静态墨点装饰组件
- */
+// 静态墨点装饰
 export function InkSpot({
   className,
   size = 24,
@@ -131,10 +126,7 @@ interface InkTrailProps {
   trailWidth?: number
 }
 
-/**
- * 鼠标轨迹墨痕组件
- * 跟随鼠标移动产生淡淡的墨痕
- */
+// 鼠标轨迹墨痕，跟随鼠标移动产生淡淡的墨痕
 export function InkTrail({
   children,
   className,

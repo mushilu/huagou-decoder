@@ -7,13 +7,9 @@ interface VRModeProps {
   onExitVR?: () => void
 }
 
-// 创建 XR store
 const xrStore = createXRStore()
 
-/**
- * VR 模式包装组件
- * 提供 WebXR VR 支持
- */
+// VR 模式包装组件
 export function VRMode({
   children,
   onEnterVR,
@@ -37,9 +33,7 @@ export function VRMode({
   )
 }
 
-/**
- * VR 进入按钮
- */
+// VR 进入按钮
 export function VREnterButton({
   className,
   children,
@@ -90,9 +84,7 @@ export function VREnterButton({
   )
 }
 
-/**
- * AR 进入按钮
- */
+// AR 进入按钮
 export function AREnterButton({
   className,
   children,
@@ -143,9 +135,7 @@ export function AREnterButton({
   )
 }
 
-/**
- * VR 传送点
- */
+// VR 传送点
 export function TeleportPoint({
   position,
   onTeleport,
@@ -188,9 +178,7 @@ export function TeleportPoint({
   )
 }
 
-/**
- * VR 信息面板
- */
+// VR 信息面板
 export function VRInfoPanel({
   position = [0, 1.5, -1],
   rotation = [0, 0, 0],
@@ -216,9 +204,7 @@ export function VRInfoPanel({
   )
 }
 
-/**
- * 检查 WebXR 支持
- */
+// 检查 WebXR 支持
 export function useWebXRSupport() {
   const [supported, setSupported] = useState<{
     vr: boolean
@@ -255,5 +241,4 @@ export function useWebXRSupport() {
   return supported
 }
 
-// 导出 xrStore 供外部使用
 export { xrStore }

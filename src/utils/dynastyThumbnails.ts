@@ -1,9 +1,6 @@
 import type { Dynasty } from '@/types/building'
 
-/**
- * 朝代默认缩略图映射
- * AI 生成的国潮插画风格建筑图
- */
+// 朝代默认缩略图
 const DYNASTY_THUMBNAILS: Record<Dynasty, string> = {
   '先秦': '/images/buildings/pre-qin-palace.png',
   '秦汉': '/images/buildings/han-weiyang.png',
@@ -15,10 +12,7 @@ const DYNASTY_THUMBNAILS: Record<Dynasty, string> = {
   '清': '/images/buildings/ming-qing-forbidden.png',
 }
 
-/**
- * 获取建筑缩略图
- * 优先使用建筑自身的 thumbnail，否则返回朝代默认图
- */
+// 获取建筑缩略图
 export function getBuildingThumbnail(
   thumbnail: string | undefined,
   dynasty: Dynasty

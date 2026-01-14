@@ -1,7 +1,4 @@
-/**
- * 建筑结构解码数据定义
- * 定义建筑的结构分类、部件信息和SVG示意图
- */
+// 建筑结构解码数据定义
 
 export interface ComponentInfo {
   id: string
@@ -794,16 +791,12 @@ export const buildingStructures: Record<string, BuildingStructure> = {
   'pingyao-ancient-city': pingyaoStructure
 }
 
-/**
- * 根据建筑ID获取结构配置
- */
+// 根据建筑ID获取结构配置
 export function getStructureConfig(buildingId: string): BuildingStructure | undefined {
   return buildingStructures[buildingId]
 }
 
-/**
- * 获取所有可用的结构配置
- */
+// 获取所有可用的结构配置
 export function getAllStructureConfigs(): BuildingStructure[] {
   return Object.values(buildingStructures)
 }

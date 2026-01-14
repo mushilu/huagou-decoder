@@ -8,10 +8,7 @@ interface InkLoadingProps {
   text?: string
 }
 
-/**
- * 毛笔加载动画组件
- * 模拟毛笔书写梁架结构的加载效果
- */
+// 毛笔加载动画，模拟毛笔书写梁架结构
 export function InkLoading({
   size = 'md',
   variant = 'brush',
@@ -52,9 +49,7 @@ export function InkLoading({
   )
 }
 
-/**
- * 毛笔书写梁架结构动画
- */
+// 毛笔书写梁架结构动画
 function BrushLoading({
   width,
   height,
@@ -119,9 +114,7 @@ function BrushLoading({
   )
 }
 
-/**
- * 墨点跳动动画
- */
+// 墨点跳动动画
 function DotsLoading({ size }: { size: number }) {
   const dotSize = size / 6
 
@@ -153,9 +146,7 @@ function DotsLoading({ size }: { size: number }) {
   )
 }
 
-/**
- * 水墨波浪动画
- */
+// 水墨波浪动画
 function WaveLoading({ width, height }: { width: number; height: number }) {
   return (
     <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
@@ -207,9 +198,7 @@ function WaveLoading({ width, height }: { width: number; height: number }) {
   )
 }
 
-/**
- * 单笔画书写动画
- */
+// 单笔画书写动画
 function StrokeLoading({
   width,
   height,
@@ -255,9 +244,7 @@ function StrokeLoading({
   )
 }
 
-/**
- * 全屏加载覆盖层
- */
+// 全屏加载覆盖层
 export function InkLoadingOverlay({
   isLoading,
   text = '加载中...',

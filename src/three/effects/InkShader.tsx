@@ -3,10 +3,7 @@ import { useFrame, extend } from '@react-three/fiber'
 import { shaderMaterial } from '@react-three/drei'
 import * as THREE from 'three'
 
-/**
- * 水墨风格 Shader Material
- * 实现赛璐璐/水墨画风格的渲染效果
- */
+// 水墨风格 Shader Material
 const InkMaterial = shaderMaterial(
   {
     // Uniforms
@@ -124,9 +121,7 @@ interface InkShaderProps {
   animated?: boolean
 }
 
-/**
- * 水墨风格材质组件
- */
+// 水墨风格材质组件
 export function InkShaderMaterial({
   color = '#1a1a2e',
   outlineColor = '#000000',
@@ -157,22 +152,16 @@ export function InkShaderMaterial({
   )
 }
 
-/**
- * 水墨描边后处理效果
- * 保留供后续实现 @react-three/postprocessing 集成
- */
+// 水墨描边后处理效果
 export function InkOutlineEffect(_props: {
   color?: string
   thickness?: number
 }) {
-  // 这里可以实现后处理描边效果
-  // 使用 @react-three/postprocessing
+  // 后续用 @react-three/postprocessing 实现
   return null
 }
 
-/**
- * 简化的水墨材质（基于 MeshToonMaterial）
- */
+// 简化的水墨材质
 export function SimplifiedInkMaterial({
   color = '#1a1a2e',
   gradientSteps = 4,
@@ -206,9 +195,7 @@ export function SimplifiedInkMaterial({
   )
 }
 
-/**
- * 毛笔笔触效果材质
- */
+// 毛笔笔触效果材质
 export function BrushStrokeMaterial({
   color = '#1a1a2e',
   roughness = 0.8,

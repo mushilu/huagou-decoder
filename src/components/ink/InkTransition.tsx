@@ -11,10 +11,7 @@ interface InkTransitionProps {
   children?: React.ReactNode
 }
 
-/**
- * 水墨转场动效组件
- * 模拟水墨晕开扩散效果，用于页面转场
- */
+// 水墨转场动效，模拟水墨晕开扩散
 export function InkTransition({
   isVisible,
   onComplete,
@@ -179,9 +176,7 @@ export function InkTransition({
   )
 }
 
-/**
- * 简化的页面转场 Hook
- */
+// 页面转场 Hook
 export function useInkTransition(initialState = false) {
   const [isTransitioning, setIsTransitioning] = useState(initialState)
 

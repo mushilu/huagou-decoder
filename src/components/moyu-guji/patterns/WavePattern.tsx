@@ -8,16 +8,7 @@ interface WavePatternProps {
   className?: string
 }
 
-/**
- * 海水纹装饰组件
- *
- * 用于页面底部装饰，模拟传统海水江崖纹
- *
- * @example
- * ```tsx
- * <WavePattern position="bottom" opacity={0.3} />
- * ```
- */
+// 海水纹装饰
 export function WavePattern({
   position = 'bottom',
   opacity = 0.3,

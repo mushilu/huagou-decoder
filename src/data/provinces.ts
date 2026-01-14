@@ -1,7 +1,4 @@
-/**
- * 中国各省份坐标数据（用于地图展示）
- * 坐标为地理中心点，用于echarts地图定位和气泡展示
- */
+// 中国各省份坐标数据(用于地图展示)
 
 export interface ProvinceCoord {
   name: string
@@ -63,16 +60,12 @@ export const provincesByProvince: Record<string, string[]> = {
   '河北': ['赵县'],
 }
 
-/**
- * 获取某个地区的所有城市
- */
+// 获取某个地区的所有城市
 export function getCitiesByProvince(province: string): string[] {
   return provincesByProvince[province] || []
 }
 
-/**
- * 获取某个城市的坐标
- */
+// 获取某个城市的坐标
 export function getCityCoordinates(city: string): [number, number] | null {
   const coord = provinceCoordinates.find((p) => p.name === city)
   return coord ? coord.value : null

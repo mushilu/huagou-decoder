@@ -9,16 +9,7 @@ interface MeanderPatternProps {
   className?: string
 }
 
-/**
- * 回纹装饰组件
- *
- * 用于页面边框或分割线的装饰
- *
- * @example
- * ```tsx
- * <MeanderPattern position="top" thickness={2} opacity={0.1} />
- * ```
- */
+// 回纹装饰
 export function MeanderPattern({
   position = 'top',
   thickness = 2,

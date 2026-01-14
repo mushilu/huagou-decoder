@@ -1,7 +1,4 @@
-/**
- * 中国主要省份（包含有建筑的省份）的地理中心坐标
- * 数据来源：各省地理中心官方数据
- */
+// 省份地理中心坐标
 
 export const provinceGeocenters: Record<string, { lat: number; lng: number }> = {
   // 建筑数据中出现的省份

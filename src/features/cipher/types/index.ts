@@ -1,6 +1,4 @@
-/**
- * 文化密码知识体系类型定义
- */
+// 文化密码类型定义
 
 export interface CipherKnowledge {
   id: string

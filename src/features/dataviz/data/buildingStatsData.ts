@@ -1,7 +1,4 @@
-/**
- * 数据可视化统计数据生成
- * 从 complete_buildings_data 动态生成统计数据，而非硬编码常量
- */
+// 统计数据生成
 
 // 导入完整的建筑数据
 import { fullBuildingsData } from '@/../../content_tab/buildings/complete_buildings_data'
@@ -23,9 +20,7 @@ interface FullBuildingData {
   }
 }
 
-/**
- * 朝代统计信息
- */
+// 朝代统计信息
 export interface DynastyStats {
   name: string                    // 朝代名称
   period: string                  // 朝代时期范围
@@ -34,9 +29,7 @@ export interface DynastyStats {
   representative: string[]        // 代表性建筑名称
 }
 
-/**
- * 建筑类型统计
- */
+// 建筑类型统计
 export interface TypeStats {
   name: string                    // 类型名称（皇宫、民居、桥梁等）
   count: number                   // 该类型的建筑数
@@ -45,9 +38,7 @@ export interface TypeStats {
   buildings: string[]             // 该类型的建筑列表
 }
 
-/**
- * 省份统计信息
- */
+// 省份统计信息
 export interface ProvinceStats {
   name: string                    // 省份名称
   coordinates: { lat: number; lng: number }  // 地理坐标
@@ -56,9 +47,7 @@ export interface ProvinceStats {
   dynasties: string[]             // 该省份包含的朝代
 }
 
-/**
- * 时间轴事件
- */
+// 时间轴事件
 export interface TimelineEvent {
   year: number                    // 事件年份
   title: string                   // 事件标题
@@ -66,9 +55,7 @@ export interface TimelineEvent {
   building: string                // 相关建筑
 }
 
-/**
- * 完整的统计数据结构
- */
+// 完整统计数据结构
 export interface BuildingStats {
   total: number                   // 总建筑数
   byDynasty: DynastyStats[]       // 按朝代统计
@@ -78,10 +65,7 @@ export interface BuildingStats {
   topBuildings: string[]          // 精选建筑列表
 }
 
-/**
- * 朝代信息映射（用于统计和展示）
- * 仅包含数据中实际存在的朝代
- */
+// 朝代信息映射
 const dynastyInfo: Record<string, { period: string; color: string }> = {
   '宋': { period: '960 - 1279', color: '#CD5C5C' },
   '元': { period: '1271 - 1368', color: '#6B4423' },
@@ -89,9 +73,7 @@ const dynastyInfo: Record<string, { period: string; color: string }> = {
   '清': { period: '1644 - 1912', color: '#FFD700' },
 }
 
-/**
- * 建筑类型颜色映射
- */
+// 建筑类型颜色映射
 const typeColorMap: Record<string, string> = {
   '皇宫': '#C41E3A',
   '民居': '#D4A574',
@@ -101,9 +83,7 @@ const typeColorMap: Record<string, string> = {
   '宗教': '#00BCD4',
 }
 
-/**
- * 动态生成朝代统计数据
- */
+// 生成朝代统计
 function generateDynastyStats(): DynastyStats[] {
   const dynastyMap = new Map<string, { count: number; buildings: string[] }>()
 
@@ -126,9 +106,7 @@ function generateDynastyStats(): DynastyStats[] {
   }))
 }
 
-/**
- * 动态生成建筑类型统计数据
- */
+// 生成类型统计
 function generateTypeStats(): TypeStats[] {
   const typeMap = new Map<string, { count: number; buildings: string[] }>()
 
@@ -153,9 +131,7 @@ function generateTypeStats(): TypeStats[] {
   }))
 }
 
-/**
- * 动态生成省份统计数据
- */
+// 生成省份统计
 function generateProvinceStats(): ProvinceStats[] {
   const provinceMap = new Map<
     string,
@@ -196,9 +172,7 @@ function generateProvinceStats(): ProvinceStats[] {
     .sort((a, b) => b.count - a.count) // 按建筑数排序
 }
 
-/**
- * 动态生成时间轴事件
- */
+// 生成时间轴事件
 function generateTimeline(): TimelineEvent[] {
   const events: TimelineEvent[] = []
 
@@ -225,9 +199,7 @@ function generateTimeline(): TimelineEvent[] {
   return events.sort((a, b) => a.year - b.year)
 }
 
-/**
- * 生成完整的统计数据对象
- */
+// 生成完整统计数据
 export function generateBuildingStats(): BuildingStats {
   const dynastyStats = generateDynastyStats()
   const typeStats = generateTypeStats()
@@ -246,9 +218,7 @@ export function generateBuildingStats(): BuildingStats {
   }
 }
 
-/**
- * 根据朝代范围过滤建筑统计
- */
+// 按朝代范围过滤统计
 export function filterBuildingsByDynasty(
   startDynasty: string,
   endDynasty: string,
@@ -350,7 +320,5 @@ export function filterBuildingsByDynasty(
   }
 }
 
-/**
- * 导出单例实例供全局使用
- */
+// 导出单例
 export const buildingStats = generateBuildingStats()

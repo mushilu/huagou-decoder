@@ -14,10 +14,7 @@ interface ParticleSystemProps {
   emitRate?: number
 }
 
-/**
- * 水墨飘散粒子系统
- * 模拟墨点/墨雾飘散效果
- */
+// 水墨飘散粒子系统
 export function InkParticleSystem({
   count = 100,
   size = 0.05,
@@ -27,7 +24,6 @@ export function InkParticleSystem({
   velocity = [0, 0.1, 0],
   turbulence = 0.02,
   lifetime = 10,
-  // 预留参数
   emitRate: _emitRate = 0.1,
 }: ParticleSystemProps) {
   const pointsRef = useRef<THREE.Points>(null)
@@ -39,7 +35,6 @@ export function InkParticleSystem({
     opacities: Float32Array
   } | null>(null)
 
-  // 初始化粒子数据
   const { geometry, material } = useMemo(() => {
     const positions = new Float32Array(count * 3)
     const velocities = new Float32Array(count * 3)
@@ -123,9 +118,7 @@ export function InkParticleSystem({
   return <points ref={pointsRef} geometry={geometry} material={material} />
 }
 
-/**
- * 墨滴粒子
- */
+// 墨滴粒子
 export function InkDropParticles({
   origin = [0, 2, 0],
   count = 20,
@@ -221,9 +214,7 @@ export function InkDropParticles({
   return <points ref={pointsRef} geometry={geometry} material={material} />
 }
 
-/**
- * 烟雾/雾气粒子系统
- */
+// 烟雾粒子系统
 export function FogParticles({
   position = [0, 0, 0],
   size = [10, 2, 10],

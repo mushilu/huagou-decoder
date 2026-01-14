@@ -22,16 +22,7 @@ interface BuildingTypeIconProps extends Omit<HTMLMotionProps<'div'>, 'children'>
   animated?: boolean
 }
 
-/**
- * 建筑类型图标组件
- *
- * 使用现代线描风格展示建筑类型
- *
- * @example
- * ```tsx
- * <BuildingTypeIcon type="皇宫" size="card" state="selected" />
- * ```
- */
+// 建筑类型图标
 export function BuildingTypeIcon({
   type,
   size = 'list',

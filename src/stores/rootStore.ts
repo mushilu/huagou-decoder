@@ -2,10 +2,7 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import type { Building } from '@/types/building'
 
-/**
- * 根Store - 统一管理应用全局状态
- * 替代原来分散的appStore和buildingStore
- */
+// 根Store
 interface RootStore {
   // ========== App State ==========
   selectedBuildingSlug: string | null

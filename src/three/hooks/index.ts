@@ -4,9 +4,7 @@ import { useGLTF } from '@react-three/drei'
 import type { Group, Object3D, Camera } from 'three'
 import * as THREE from 'three'
 
-/**
- * 模型加载 Hook
- */
+// 模型加载 Hook
 export function useModel(url: string) {
   const { scene, animations } = useGLTF(url)
   const [isLoaded, setIsLoaded] = useState(false)
@@ -24,9 +22,7 @@ export function useModel(url: string) {
   }
 }
 
-/**
- * 场景状态 Hook
- */
+// 场景状态 Hook
 export function useScene() {
   const { gl, scene, camera, size, viewport, clock } = useThree()
 
@@ -41,9 +37,7 @@ export function useScene() {
   }
 }
 
-/**
- * 性能监控 Hook
- */
+// 性能监控 Hook
 export function usePerformance() {
   const [fps, setFps] = useState(60)
   const [drawCalls, setDrawCalls] = useState(0)
@@ -69,9 +63,7 @@ export function usePerformance() {
   return { fps, drawCalls, triangles }
 }
 
-/**
- * 鼠标拾取 Hook
- */
+// 鼠标拾取 Hook
 export function useRaycast() {
   const { camera, scene, size } = useThree()
   const raycaster = useRef(new THREE.Raycaster())
@@ -93,9 +85,7 @@ export function useRaycast() {
   return { raycast }
 }
 
-/**
- * 对象选择 Hook
- */
+// 对象选择 Hook
 export function useSelection<T extends Object3D>() {
   const [selected, setSelected] = useState<T | null>(null)
   const [hovered, setHovered] = useState<T | null>(null)
@@ -122,9 +112,7 @@ export function useSelection<T extends Object3D>() {
   }
 }
 
-/**
- * 动画控制 Hook
- */
+// 动画控制 Hook
 export function useAnimations(animations: THREE.AnimationClip[], ref: React.RefObject<Group>) {
   const mixer = useRef<THREE.AnimationMixer | null>(null)
   const actions = useRef<Map<string, THREE.AnimationAction>>(new Map())
@@ -190,9 +178,7 @@ export function useAnimations(animations: THREE.AnimationClip[], ref: React.RefO
   }
 }
 
-/**
- * 相机距离 Hook
- */
+// 相机距离 Hook
 export function useCameraDistance(targetPosition: [number, number, number]) {
   const { camera } = useThree()
   const [distance, setDistance] = useState(0)
@@ -208,9 +194,7 @@ export function useCameraDistance(targetPosition: [number, number, number]) {
   return distance
 }
 
-/**
- * 鼠标位置转 3D 坐标 Hook
- */
+// 鼠标位置转 3D 坐标 Hook
 export function useMouseToWorld(planeHeight = 0) {
   const { camera, size } = useThree()
   const raycaster = useRef(new THREE.Raycaster())
@@ -234,9 +218,7 @@ export function useMouseToWorld(planeHeight = 0) {
   return { getWorldPosition }
 }
 
-/**
- * 窗口可见性 Hook
- */
+// 窗口可见性 Hook
 export function useVisibility() {
   const [visible, setVisible] = useState(!document.hidden)
 
@@ -252,9 +234,7 @@ export function useVisibility() {
   return visible
 }
 
-/**
- * 帧率限制 Hook
- */
+// 帧率限制 Hook
 export function useThrottledFrame(callback: (delta: number) => void, fps = 30) {
   const lastTime = useRef(0)
   const interval = 1000 / fps

@@ -19,10 +19,7 @@ interface LODControllerProps {
   onLevelChange?: (level: number) => void
 }
 
-/**
- * LOD 多级细节控制器
- * 根据相机距离自动切换不同精度的模型
- */
+// LOD 多级细节控制器
 export function LODController({
   levels,
   position = [0, 0, 0],
@@ -37,19 +34,16 @@ export function LODController({
   const { camera } = useThree()
   const [currentLevel, setCurrentLevel] = useState(0)
 
-  // 预加载所有 LOD 级别的模型
   const models = levels.map((level) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { scene } = useGLTF(level.url)
     return { scene: scene.clone(), distance: level.distance }
   })
 
-  // 创建 LOD 对象
   const lod = useMemo(() => {
     const lodObject = new THREE.LOD()
 
     models.forEach(({ scene, distance }) => {
-      // 设置阴影
       scene.traverse((child) => {
         if ((child as Mesh).isMesh) {
           const mesh = child as Mesh
@@ -64,12 +58,10 @@ export function LODController({
     return lodObject
   }, [models, castShadow, receiveShadow])
 
-  // 更新 LOD
   useFrame(() => {
     if (lodRef.current) {
       lodRef.current.update(camera)
 
-      // 检测当前级别变化
       const newLevel = lodRef.current.getCurrentLevel()
       if (newLevel !== currentLevel) {
         setCurrentLevel(newLevel)
@@ -92,10 +84,7 @@ export function LODController({
   )
 }
 
-/**
- * 简化的 LOD 组件
- * 只有两个级别：高质量和低质量
- */
+// 简化的 LOD 组件
 export function SimpleLOD({
   highUrl,
   lowUrl,
@@ -124,9 +113,7 @@ export function SimpleLOD({
   )
 }
 
-/**
- * 基于视锥体的可见性控制
- */
+// 视锥体剔除
 export function FrustumCulled({
   children,
   boundingRadius = 1,
@@ -145,11 +132,9 @@ export function FrustumCulled({
   useFrame(() => {
     if (!groupRef.current) return
 
-    // 更新视锥体
     matrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse)
     frustum.setFromProjectionMatrix(matrix)
 
-    // 检查边界球是否在视锥体内
     groupRef.current.getWorldPosition(sphere.center)
     sphere.radius = boundingRadius
 
@@ -166,10 +151,7 @@ export function FrustumCulled({
   )
 }
 
-/**
- * 距离淡出组件
- * 根据距离逐渐降低透明度
- */
+// 距离淡出组件
 export function DistanceFade({
   children,
   fadeStart = 20,
@@ -198,7 +180,6 @@ export function DistanceFade({
     if (Math.abs(newOpacity - opacity) > 0.01) {
       setOpacity(newOpacity)
 
-      // 更新所有子网格的透明度
       groupRef.current.traverse((child) => {
         if ((child as Mesh).isMesh) {
           const mesh = child as Mesh
@@ -219,9 +200,7 @@ export function DistanceFade({
   )
 }
 
-/**
- * LOD 级别指示器 Hook
- */
+// LOD 级别指示器 Hook
 export function useLODLevel(position: [number, number, number], thresholds: number[]) {
   const { camera } = useThree()
   const [level, setLevel] = useState(0)

@@ -1,8 +1,4 @@
-/**
- * 时间范围筛选组件 - 两步式选择
- * 第一步：选择是修改起始点还是结束点
- * 第二步：选择具体的朝代
- */
+// 时间范围筛选
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'

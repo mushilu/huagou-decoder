@@ -2,10 +2,7 @@ import { useCallback, useEffect } from 'react'
 import { useRootStore } from '@/stores/rootStore'
 import type { Building } from '@/types/building'
 
-/**
- * 建筑数据管理Hook
- * 统一处理建筑数据的加载、缓存和错误管理
- */
+// 建筑数据Hook
 export function useBuildings() {
   const {
     buildings,
@@ -61,9 +58,7 @@ export function useBuildings() {
   }
 }
 
-/**
- * 建筑搜索和过滤Hook
- */
+// 过滤Hook
 export function useBuildingFilters() {
   const {
     searchQuery,
@@ -108,9 +103,7 @@ export function useBuildingFilters() {
   }
 }
 
-/**
- * 性能模式管理Hook
- */
+// 性能模式Hook
 export function usePerformanceMode() {
   const { performanceMode, setPerformanceMode, vrEnabled, setVrEnabled } = useRootStore()
 

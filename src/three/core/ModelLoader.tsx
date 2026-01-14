@@ -14,10 +14,7 @@ interface ModelLoaderProps {
   clone?: boolean
 }
 
-/**
- * GLB/GLTF 模型加载器
- * 支持 DRACO 和 Meshopt 压缩
- */
+// GLB/GLTF 模型加载器
 export function ModelLoader({
   url,
   position = [0, 0, 0],
@@ -30,14 +27,11 @@ export function ModelLoader({
 }: ModelLoaderProps) {
   const groupRef = useRef<Group>(null)
   const shadowStateRef = useRef<{ castShadow: boolean; receiveShadow: boolean } | null>(null)
-
-  // 使用 drei 的 useGLTF hook (DRACO 和 Meshopt 自动处理)
   const { scene } = useGLTF(url)
 
   useEffect(() => {
     if (!scene) return
 
-    // 仅在阴影设置实际改变时才重新遍历模型树
     const shadowChanged =
       !shadowStateRef.current ||
       shadowStateRef.current.castShadow !== castShadow ||
@@ -82,9 +76,7 @@ export function ModelLoader({
   )
 }
 
-/**
- * 带加载状态的模型容器
- */
+// 带加载状态的模型容器
 export function ModelWithFallback({
   url,
   fallback,
@@ -97,9 +89,7 @@ export function ModelWithFallback({
   )
 }
 
-/**
- * 模型占位符
- */
+// 模型占位符
 function ModelPlaceholder() {
   return (
     <mesh>
@@ -109,9 +99,7 @@ function ModelPlaceholder() {
   )
 }
 
-/**
- * 模型预加载 Hook
- */
+// 模型预加载 Hook
 export function useModelPreload(urls: string[]) {
   const [loaded, setLoaded] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -125,12 +113,10 @@ export function useModelPreload(urls: string[]) {
 
     let isMounted = true
 
-    // 使用 Promise.all 正确处理异步预加载
     Promise.allSettled(
       urls.map((url, index) => {
         return new Promise<void>((resolve) => {
           useGLTF.preload(url)
-          // 异步更新进度
           if (isMounted) {
             setProgress(((index + 1) / urls.length) * 100)
           }
@@ -152,10 +138,7 @@ export function useModelPreload(urls: string[]) {
   return { loaded, progress }
 }
 
-/**
- * 模型实例化组件
- * 用于高效渲染大量相同模型
- */
+// 模型实例化组件
 export function InstancedModel({
   url,
   instances,
@@ -210,7 +193,6 @@ export function InstancedModel({
     meshRef.current.instanceMatrix.needsUpdate = true
   }, [instances])
 
-  // 从场景中提取第一个网格的几何体和材质
   let geometry: THREE.BufferGeometry | undefined
   let material: Material | undefined
 
@@ -234,5 +216,4 @@ export function InstancedModel({
   )
 }
 
-// 预加载函数
 export const preloadModel = useGLTF.preload

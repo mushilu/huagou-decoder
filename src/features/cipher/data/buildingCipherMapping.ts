@@ -1,7 +1,4 @@
-/**
- * 建筑-文化密码知识映射
- * 将每个建筑与相关的文化密码知识点关联
- */
+// 建筑-文化密码映射
 
 export interface BuildingCipherPoint {
   type: 'fengshui' | 'symbol' | 'color' | 'space'
@@ -369,16 +366,12 @@ export const buildingCipherMappings: BuildingCipherMapping[] = [
   },
 ]
 
-/**
- * 根据建筑ID获取相关的文化密码知识
- */
+// 获取建筑密码知识
 export function getBuildingCipherPoints(buildingId: string): BuildingCipherMapping | undefined {
   return buildingCipherMappings.find((mapping) => mapping.buildingId === buildingId)
 }
 
-/**
- * 根据建筑ID和知识类型获取高置信度的知识点
- */
+// 获取高置信度知识点
 export function getHighConfidenceCipherPoints(
   buildingId: string,
   type?: BuildingCipherPoint['type']

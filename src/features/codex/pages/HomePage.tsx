@@ -73,7 +73,7 @@ function InkBackground() {
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {/* AI 生成的水墨故宫背景图 */}
+      {/* 水墨故宫背景图 */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{

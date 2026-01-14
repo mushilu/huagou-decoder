@@ -1,7 +1,4 @@
-/**
- * 内容集成 - 统一导出所有来自 content_tab 的数据
- * 这个文件作为中央索引，方便各个模块导入完整的内容数据
- */
+// 内容集成 - 统一导出所有来自 content_tab 的数据
 
 // 建筑数据
 export { buildings } from './buildings'
@@ -40,9 +37,7 @@ export {
   getAllImageMetadata
 } from './imageIntegration'
 
-/**
- * 内容统计信息
- */
+// 内容统计信息
 export const contentStats = {
   buildings: 14,
   decoderChallenges: 25,

@@ -1,6 +1,4 @@
-/**
- * Decoder 系统集成 - 将 content_tab 的数据整合到项目中
- */
+// Decoder 系统集成 - 将 content_tab 的数据整合到项目中
 
 import { decoderSystems, decoderChallenges } from '@/../../content_tab/decoders/cipher_systems'
 import { expandedDecoderChallenges } from '@/../../content_tab/documentation/complete_challenges_and_images'

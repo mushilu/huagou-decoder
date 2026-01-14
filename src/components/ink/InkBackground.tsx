@@ -9,10 +9,7 @@ interface InkBackgroundProps {
   children?: React.ReactNode
 }
 
-/**
- * 水墨背景组件
- * 提供多种水墨风格的背景效果
- */
+// 水墨背景组件，提供多种风格效果
 export function InkBackground({
   variant = 'static',
   className,
@@ -32,9 +29,7 @@ export function InkBackground({
   )
 }
 
-/**
- * 静态水墨背景
- */
+// 静态水墨背景
 function StaticInkBackground({ opacity }: { opacity: number }) {
   return (
     <div className="absolute inset-0 pointer-events-none">
@@ -62,9 +57,7 @@ function StaticInkBackground({ opacity }: { opacity: number }) {
   )
 }
 
-/**
- * 动态水墨背景 - 缓慢流动效果
- */
+// 动态水墨背景，缓慢流动效果
 function AnimatedInkBackground({ opacity }: { opacity: number }) {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -109,9 +102,7 @@ function AnimatedInkBackground({ opacity }: { opacity: number }) {
   )
 }
 
-/**
- * 视差水墨背景 - 滚动时产生层次感
- */
+// 视差水墨背景，滚动时产生层次感
 function ParallaxInkBackground({ opacity }: { opacity: number }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
@@ -164,9 +155,7 @@ function ParallaxInkBackground({ opacity }: { opacity: number }) {
   )
 }
 
-/**
- * 粒子水墨背景 - 飘散的墨点
- */
+// 粒子水墨背景，飘散的墨点
 function ParticleInkBackground({ opacity }: { opacity: number }) {
   const particles = useMemo(
     () =>
@@ -229,9 +218,7 @@ function ParticleInkBackground({ opacity }: { opacity: number }) {
   )
 }
 
-/**
- * 山水画背景装饰
- */
+// 山水画背景装饰
 export function MountainSilhouette({
   className,
   color = 'rgba(26, 26, 46, 0.1)',

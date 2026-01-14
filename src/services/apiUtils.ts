@@ -1,7 +1,4 @@
-/**
- * API错误处理工具
- * 统一处理所有API调用的错误
- */
+// API错误处理
 
 export class APIError extends Error {
   code: string
@@ -17,9 +14,7 @@ export class APIError extends Error {
   }
 }
 
-/**
- * 处理API响应
- */
+// 处理API响应
 export async function handleAPIResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const error = await response.json().catch(() => ({}))
@@ -32,9 +27,7 @@ export async function handleAPIResponse<T>(response: Response): Promise<T> {
   return response.json()
 }
 
-/**
- * API调用包装器
- */
+// API调用包装
 export async function apiCall<T>(
   url: string,
   options: RequestInit = {}
@@ -60,9 +53,7 @@ export async function apiCall<T>(
   }
 }
 
-/**
- * 获取用户友好的错误消息
- */
+// 获取错误消息
 export function getErrorMessage(error: unknown): string {
   if (error instanceof APIError) {
     switch (error.code) {
@@ -90,9 +81,7 @@ export function getErrorMessage(error: unknown): string {
   return '发生了一个未知错误'
 }
 
-/**
- * 重试机制
- */
+// 重试机制
 export async function retryAPICall<T>(
   fn: () => Promise<T>,
   maxRetries: number = 3,

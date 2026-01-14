@@ -21,10 +21,7 @@ interface CameraControlsProps {
   onUpdate?: (position: THREE.Vector3, target: THREE.Vector3) => void
 }
 
-/**
- * 相机控制器
- * 封装 Orbit/FirstPerson 控制模式
- */
+// 相机控制器
 export function CameraControls({
   mode = 'orbit',
   target = [0, 0, 0],
@@ -84,9 +81,7 @@ export function CameraControls({
   return null
 }
 
-/**
- * 自定义相机组件
- */
+// 自定义相机组件
 export function SceneCamera({
   position = [0, 2, 5],
   fov = 50,
@@ -111,10 +106,7 @@ export function SceneCamera({
   )
 }
 
-/**
- * 相机动画控制器
- * 用于平滑过渡相机位置
- */
+// 相机动画控制器
 export function CameraAnimator({
   targetPosition,
   targetLookAt,
@@ -186,9 +178,7 @@ export function CameraAnimator({
   return null
 }
 
-/**
- * 相机路径动画
- */
+// 相机路径动画
 export function CameraPath({
   points,
   duration = 5000,
@@ -230,7 +220,6 @@ export function CameraPath({
 
     onProgress?.(progress)
 
-    // 计算当前段
     const totalSegments = points.length - 1
     const segmentProgress = progress * totalSegments
     const segmentIndex = Math.min(Math.floor(segmentProgress), totalSegments - 1)
@@ -239,7 +228,6 @@ export function CameraPath({
     const from = points[segmentIndex]
     const to = points[segmentIndex + 1]
 
-    // 插值
     camera.position.lerpVectors(
       new THREE.Vector3(...from.position),
       new THREE.Vector3(...to.position),
@@ -257,9 +245,7 @@ export function CameraPath({
   return null
 }
 
-/**
- * 相机抖动效果
- */
+// 相机抖动效果
 export function CameraShake({
   intensity = 0.5,
   decay = true,

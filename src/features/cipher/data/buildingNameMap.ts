@@ -1,6 +1,4 @@
-/**
- * 建筑 ID 到中文名称的映射
- */
+// 建筑ID到中文名映射
 export const buildingNameMap: Record<string, string> = {
   'forbidden-city': '故宫太和殿',
   'zhaozhou-bridge': '赵州桥',

@@ -9,10 +9,7 @@ interface PaperCardProps extends Omit<HTMLMotionProps<'div'>, 'ref'> {
   children: React.ReactNode
 }
 
-/**
- * 宣纸卡片组件
- * 模拟宣纸质感和层叠效果
- */
+// 宣纸卡片组件，模拟宣纸质感
 export const PaperCard = forwardRef<HTMLDivElement, PaperCardProps>(
   ({ variant = 'flat', hoverEffect = true, textured = true, className, children, ...props }, ref) => {
     const baseStyles = cn(
@@ -45,9 +42,7 @@ export const PaperCard = forwardRef<HTMLDivElement, PaperCardProps>(
 
 PaperCard.displayName = 'PaperCard'
 
-/**
- * 宣纸卡片头部
- */
+// 卡片头部
 export function PaperCardHeader({
   className,
   children,
@@ -62,9 +57,7 @@ export function PaperCardHeader({
   )
 }
 
-/**
- * 宣纸卡片内容区
- */
+// 卡片内容区
 export function PaperCardContent({
   className,
   children,
@@ -75,9 +68,7 @@ export function PaperCardContent({
   return <div className={cn('px-6 py-4', className)}>{children}</div>
 }
 
-/**
- * 宣纸卡片底部
- */
+// 卡片底部
 export function PaperCardFooter({
   className,
   children,
@@ -92,10 +83,7 @@ export function PaperCardFooter({
   )
 }
 
-/**
- * 卷轴卡片组件
- * 模拟古代卷轴展开效果
- */
+// 卷轴卡片，模拟古代卷轴展开
 export function ScrollCard({
   className,
   title,
@@ -142,10 +130,7 @@ export function ScrollCard({
   )
 }
 
-/**
- * 层叠卡片组
- * 多张卡片堆叠效果
- */
+// 层叠卡片组，多张卡片堆叠效果
 export function LayeredCards({
   className,
   children,
@@ -178,10 +163,7 @@ export function LayeredCards({
   )
 }
 
-/**
- * 折页卡片
- * 模拟经折装效果
- */
+// 折页卡片，模拟经折装效果
 export function FoldedCard({
   className,
   pages,
@@ -215,9 +197,7 @@ export function FoldedCard({
   )
 }
 
-/**
- * 印章装饰
- */
+// 印章装饰
 export function SealStamp({
   text,
   size = 'md',

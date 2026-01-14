@@ -20,16 +20,7 @@ interface DynastySealProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
   animated?: boolean
 }
 
-/**
- * 朝代印章组件
- *
- * 使用印章雕刻风格展示朝代标识
- *
- * @example
- * ```tsx
- * <DynastySeal dynasty="唐" size="standard" state="selected" />
- * ```
- */
+// 朝代印章
 export function DynastySeal({
   dynasty,
   size = 'standard',

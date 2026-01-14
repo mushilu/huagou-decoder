@@ -9,16 +9,7 @@ interface RuyiPatternProps {
   className?: string
 }
 
-/**
- * 如意纹装饰组件
- *
- * 用于卡片或页面角落的装饰点缀
- *
- * @example
- * ```tsx
- * <RuyiPattern position="top-right" size={120} opacity={0.3} />
- * ```
- */
+// 如意纹装饰
 export function RuyiPattern({
   position = 'top-right',
   size = 120,

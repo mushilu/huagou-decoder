@@ -1,17 +1,4 @@
-/**
- * 真实中国地图GeoJSON数据
- * 包含中国主要省份的地理边界
- * 注意：这是简化版本。要获得完整精确的边界，建议使用以下官方来源：
- * - npm install echarts-countries-js (官方地图数据)
- * - 或从阿里云DataV获取：https://datav.aliyun.com/tools/atlas/
- * - 或github: https://github.com/creeperyang/china-geojson
- */
-
-// 如果需要更精确的中国地图，可以使用以下方式：
-// 1. npm install echarts-countries-js
-// 2. 然后在ChinaMap组件中：
-//    import chinaMap from 'echarts-countries-js/china.json'
-//    echarts.registerMap('china', chinaMap)
+// 中国地图GeoJSON数据
 
 export const chinaProvinceGeoJson = {
   type: 'FeatureCollection',

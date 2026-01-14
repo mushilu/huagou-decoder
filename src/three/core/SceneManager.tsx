@@ -21,10 +21,7 @@ interface SceneManagerProps {
   performance?: 'high' | 'medium' | 'low'
 }
 
-/**
- * 场景管理器
- * 封装 React Three Fiber Canvas，提供统一的场景配置
- */
+// 场景管理器
 export function SceneManager({
   children,
   className,
