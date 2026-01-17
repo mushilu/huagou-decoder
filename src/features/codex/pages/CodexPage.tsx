@@ -64,9 +64,9 @@ export function CodexPage() {
 
       {/* 筛选器 */}
       <div className="sticky top-16 z-30 border-b border-ink-gray/20 bg-paper-white/95 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 py-3">
           {/* 搜索栏 */}
-          <div className="flex flex-wrap items-center gap-3 mb-4">
+          <div className="flex flex-wrap items-center gap-3 mb-3">
             {/* 搜索框 */}
             <div className="relative flex-1 min-w-64">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-gray" />
@@ -121,22 +121,22 @@ export function CodexPage() {
           </div>
 
           {/* 筛选选项 */}
-          <div className="space-y-3">
+          <div className="space-y-2">
             {/* 朝代选项 */}
             <div>
-              <div className="mb-2 flex items-center gap-2">
+              <div className="mb-1.5 flex items-center gap-2">
                 <Badge variant="gold" className="text-xs">朝代</Badge>
                 <span className="text-xs text-ink-gray">
                   {selectedDynasty ? `已选择: ${selectedDynasty}` : '全部朝代'}
                 </span>
               </div>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2.5">
                 <button
                   onClick={() => {
                     setSelectedDynasty(null)
                     setCurrentPage(1)
                   }}
-                  className={`rounded-lg border-2 px-4 py-2 text-sm font-medium transition-all ${
+                  className={`rounded-lg border-2 px-3 py-1.5 text-sm font-medium transition-all ${
                     !selectedDynasty
                       ? 'border-vermilion bg-vermilion/10 text-vermilion'
                       : 'border-ink-gray/20 text-ink-black hover:border-vermilion/50'
@@ -151,7 +151,7 @@ export function CodexPage() {
                       setSelectedDynasty(dynasty)
                       setCurrentPage(1)
                     }}
-                    className={`flex items-center gap-2 rounded-lg border-2 px-4 py-2 transition-all ${
+                    className={`flex items-center gap-2 rounded-lg border-2 px-3 py-1.5 transition-all ${
                       selectedDynasty === dynasty
                         ? 'border-vermilion bg-vermilion/10'
                         : 'border-ink-gray/20 hover:border-vermilion/50'
@@ -162,6 +162,7 @@ export function CodexPage() {
                       size="standard"
                       state={selectedDynasty === dynasty ? 'selected' : 'default'}
                       animated={true}
+                      className="w-10 h-10"
                     />
                     <span className={`text-sm ${
                       selectedDynasty === dynasty ? 'text-vermilion font-medium' : 'text-ink-black'
@@ -177,7 +178,7 @@ export function CodexPage() {
 
             {/* 类型选项 */}
             <div>
-              <div className="mb-2 flex items-center gap-2">
+              <div className="mb-1.5 flex items-center gap-2">
                 <Badge variant="secondary" className="text-xs">类型</Badge>
                 <span className="text-xs text-ink-gray">
                   {selectedType ? `已选择: ${selectedType}` : '全部类型'}
@@ -189,7 +190,7 @@ export function CodexPage() {
                     setSelectedType(null)
                     setCurrentPage(1)
                   }}
-                  className={`rounded-full border-2 px-4 py-2 text-sm font-medium transition-all ${
+                  className={`rounded-full border-2 px-3 py-1.5 text-sm font-medium transition-all ${
                     !selectedType
                       ? 'border-glaze-blue bg-glaze-blue text-paper-white shadow-md'
                       : 'border-ink-gray/20 text-ink-black hover:border-glaze-blue/50'
@@ -204,7 +205,7 @@ export function CodexPage() {
                       setSelectedType(type)
                       setCurrentPage(1)
                     }}
-                    className={`rounded-full border-2 px-4 py-2 text-sm transition-all ${
+                    className={`rounded-full border-2 px-3 py-1.5 text-sm transition-all ${
                       selectedType === type
                         ? 'border-glaze-blue bg-glaze-blue text-paper-white shadow-md'
                         : 'border-ink-gray/20 text-ink-black hover:border-glaze-blue/50'
