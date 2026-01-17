@@ -1,42 +1,29 @@
 import { useEffect } from 'react'
 import { initializeSearchIndex } from '@/services/SearchService'
 import type { SearchableItem } from '@/services/SearchService'
+import { buildings } from '@/data/buildings'
 
-// 建筑数据
-const buildingsData: SearchableItem[] = [
-  {
-    id: 'forbidden-city',
-    type: 'building',
-    title: '故宫',
-    description: '中国明清两代的皇家宫殿，世界上现存规模最大的木质结构古建筑群',
-    url: '/codex/forbidden-city',
-    tags: ['宫殿', '明清', '北京'],
-  },
-  {
-    id: 'great-wall',
-    type: 'building',
-    title: '长城',
-    description: '世界上最长的防御工事，中国古代的军事防线',
-    url: '/codex/great-wall',
-    tags: ['防御', '古代', '多地'],
-  },
-  {
-    id: 'terracotta-army',
-    type: 'building',
-    title: '兵马俑',
-    description: '秦始皇陵园的陶俑军阵，世界考古奇迹',
-    url: '/codex/terracotta-army',
-    tags: ['雕塑', '秦代', '陕西'],
-  },
-  {
-    id: 'temple-of-heaven',
-    type: 'building',
-    title: '天坛',
-    description: '明清两代皇帝祭天的场所，中国古代建筑的典范',
-    url: '/codex/temple-of-heaven',
-    tags: ['宗教', '明清', '北京'],
-  },
-]
+const toBuildingSearchItems = (): SearchableItem[] =>
+  buildings
+    .filter((building) => building.status === 'published')
+    .map((building) => {
+      const tags = [
+        building.buildingType,
+        building.dynasty,
+        building.region?.name,
+        building.region?.province,
+        building.nameEn,
+      ].filter((tag): tag is string => Boolean(tag && tag.trim()))
+
+      return {
+        id: building.id,
+        type: 'building',
+        title: building.nameZh,
+        description: building.summary,
+        url: `/codex/${building.slug}`,
+        tags,
+      }
+    })
 
 // 知识数据（从 CipherPage 的知识库中提取）
 const knowledgeData: SearchableItem[] = [
@@ -112,7 +99,11 @@ export function useSearchIndex() {
       return
     }
 
-    const allSearchItems: SearchableItem[] = [...buildingsData, ...knowledgeData, ...provinceData]
+    const allSearchItems: SearchableItem[] = [
+      ...toBuildingSearchItems(),
+      ...knowledgeData,
+      ...provinceData,
+    ]
     initializeSearchIndex(allSearchItems)
     searchIndexInitialized = true
   }, [])
