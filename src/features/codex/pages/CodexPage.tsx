@@ -64,11 +64,11 @@ export function CodexPage() {
 
       {/* 筛选器 */}
       <div className="sticky top-16 z-30 border-b border-ink-gray/20 bg-paper-white/95 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-6">
+        <div className="mx-auto w-full max-w-5xl px-4 py-6">
           {/* 搜索栏 */}
           <div className="flex flex-wrap items-center gap-4 mb-6">
             {/* 搜索框 */}
-            <div className="relative flex-1 min-w-64">
+            <div className="relative flex-1 min-w-64 max-w-3xl">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-gray" />
               <input
                 type="text"
