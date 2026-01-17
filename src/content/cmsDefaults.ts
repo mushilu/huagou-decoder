@@ -323,6 +323,48 @@ function isPlainObject(value: unknown): value is UnknownRecord {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
 }
 
+function mergeArrayWithDefaults(defaults: unknown[], nextValue: unknown): unknown[] {
+  if (!Array.isArray(nextValue)) {
+    return defaults
+  }
+
+  if (defaults.length === 0) {
+    return nextValue
+  }
+
+  const defaultItem = defaults[0]
+  const result: unknown[] = []
+  const length = Math.max(defaults.length, nextValue.length)
+
+  for (let index = 0; index < length; index += 1) {
+    const template = index < defaults.length ? defaults[index] : defaultItem
+    const incoming = nextValue[index]
+
+    if (isPlainObject(template)) {
+      result[index] = mergeCmsContent(template, incoming)
+      continue
+    }
+
+    if (typeof template === 'string') {
+      if (typeof incoming === 'string' && incoming.trim()) {
+        result[index] = incoming
+      } else {
+        result[index] = template
+      }
+      continue
+    }
+
+    if (incoming === undefined || incoming === null) {
+      result[index] = template
+      continue
+    }
+
+    result[index] = incoming
+  }
+
+  return result
+}
+
 export function mergeCmsContent<T extends object>(defaults: T, data: unknown): T {
   if (!isPlainObject(data)) {
     return defaults
@@ -336,7 +378,7 @@ export function mergeCmsContent<T extends object>(defaults: T, data: unknown): T
     const nextValue = (data as UnknownRecord)[key]
 
     if (Array.isArray(defaultValue)) {
-      result[key] = Array.isArray(nextValue) ? nextValue : defaultValue
+      result[key] = mergeArrayWithDefaults(defaultValue, nextValue)
       return
     }
 
