@@ -345,6 +345,15 @@ export function mergeCmsContent<T extends object>(defaults: T, data: unknown): T
       return
     }
 
+    if (typeof defaultValue === 'string') {
+      if (typeof nextValue === 'string' && nextValue.trim()) {
+        result[key] = nextValue
+      } else {
+        result[key] = defaultValue
+      }
+      return
+    }
+
     result[key] = typeof nextValue === typeof defaultValue ? nextValue : defaultValue
   })
 
