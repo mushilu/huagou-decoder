@@ -26,12 +26,12 @@ const toBytes = (value: unknown) => {
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
   const encoded = getParam(ctx.params.key)
   if (!encoded) {
-    return new Response('Not found', { status: 404 })
+    return ctx.next()
   }
 
   const key = decodeKey(encoded)
-  if (!key) {
-    return new Response('Not found', { status: 404 })
+  if (!key || !key.includes('/')) {
+    return ctx.next()
   }
 
   const row = await ctx.env.DB.prepare('SELECT mime_type, data FROM cms_assets WHERE key = ?')
