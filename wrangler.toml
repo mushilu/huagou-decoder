@@ -1,3 +1,17 @@
 name = "huagou-decoder"
 compatibility_date = "2024-12-21"
 pages_build_output_dir = "dist"
+
+[vars]
+ADMIN_PASSWORD = "huagou"
+
+# D1 数据库
+[[d1_databases]]
+binding = "DB"
+database_name = "huagou-content"
+database_id = "placeholder-run-wrangler-d1-create"
+
+# R2 图片存储
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "huagou-images"

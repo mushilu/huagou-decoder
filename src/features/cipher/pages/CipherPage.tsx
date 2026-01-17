@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState, type ComponentType } from 'react'
 import { motion } from 'framer-motion'
 import { Compass, Palette, Layout, Sparkles } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -11,49 +11,22 @@ import {
 } from '../data/knowledge'
 import type { CipherCategory, CipherKnowledge } from '../types'
 import { RuyiPattern, CloudPattern } from '@/components/moyu-guji/patterns'
+import { useCmsPage } from '@/hooks/useCmsPage'
+import { cmsDefaults } from '@/content/cmsDefaults'
 
-const cipherCategories: CipherCategory[] = [
-  {
-    id: 'fengshui',
-    icon: Compass,
-    title: '风水布局',
-    description: '坐北朝南、负阴抱阳，解读建筑选址与朝向的智慧',
-    color: 'text-glaze-blue',
-    bgColor: 'bg-glaze-blue/10',
-    knowledge: fengshuiKnowledge,
-    badgeVariant: 'secondary' as const,
-  },
-  {
-    id: 'symbol',
-    icon: Sparkles,
-    title: '装饰符号',
-    description: '龙凤呈祥、福禄寿喜，每一处雕刻都有深意',
-    color: 'text-glaze-blue',
-    bgColor: 'bg-glaze-blue/10',
-    knowledge: symbolKnowledge,
-    badgeVariant: 'secondary' as const,
-  },
-  {
-    id: 'color',
-    icon: Palette,
-    title: '色彩语言',
-    description: '五行五色，等级森严的建筑色彩密码',
-    color: 'text-glaze-blue',
-    bgColor: 'bg-glaze-blue/10',
-    knowledge: colorKnowledge,
-    badgeVariant: 'secondary' as const,
-  },
-  {
-    id: 'space',
-    icon: Layout,
-    title: '空间哲学',
-    description: '中轴对称、院落递进，空间布局中的礼制秩序',
-    color: 'text-ink-black',
-    bgColor: 'bg-ink-black/10',
-    knowledge: spaceKnowledge,
-    badgeVariant: 'outline' as const,
-  },
-]
+const fallbackKnowledge: Record<string, CipherKnowledge[]> = {
+  fengshui: fengshuiKnowledge,
+  symbol: symbolKnowledge,
+  color: colorKnowledge,
+  space: spaceKnowledge,
+}
+
+const iconMap: Record<string, ComponentType<{ className?: string }>> = {
+  fengshui: Compass,
+  symbol: Sparkles,
+  color: Palette,
+  space: Layout,
+}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -77,11 +50,86 @@ const itemVariants = {
 export function CipherPage() {
   const [selectedKnowledge, setSelectedKnowledge] = useState<CipherKnowledge | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [knowledgeMap, setKnowledgeMap] = useState(fallbackKnowledge)
+  const { content } = useCmsPage('cipher', cmsDefaults.cipher)
 
   const handleKnowledgeClick = (knowledge: CipherKnowledge) => {
     setSelectedKnowledge(knowledge)
     setIsDialogOpen(true)
   }
+
+  useEffect(() => {
+    let active = true
+    fetch('/api/cipher')
+      .then(async (res) => {
+        if (!res.ok) return null
+        return (await res.json()) as unknown
+      })
+      .then((data) => {
+        if (!active) return
+        const items = Array.isArray(data) ? data : (data as { items?: unknown[] })?.items
+        if (!items || !Array.isArray(items) || items.length === 0) return
+        const nextMap: Record<string, CipherKnowledge[]> = {
+          fengshui: [],
+          symbol: [],
+          color: [],
+          space: [],
+        }
+        items.forEach((item) => {
+          if (!item || typeof item !== 'object') return
+          const record = item as Record<string, unknown>
+          const category = typeof record.category === 'string' ? record.category : 'other'
+          const normalized: CipherKnowledge = {
+            id: typeof record.id === 'string' ? record.id : String(record.id ?? ''),
+            title: typeof record.title === 'string' ? record.title : '',
+            description: typeof record.description === 'string'
+              ? record.description
+              : typeof record.summary === 'string'
+                ? record.summary
+                : '',
+            content: typeof record.content === 'string' ? record.content : '',
+            relatedBuildings: Array.isArray(record.relatedBuildings)
+              ? (record.relatedBuildings.filter((value) => typeof value === 'string') as string[])
+              : [],
+            imageUrl: typeof record.imageUrl === 'string' ? record.imageUrl : undefined,
+            tags: Array.isArray(record.tags)
+              ? (record.tags.filter((value) => typeof value === 'string') as string[])
+              : [],
+          }
+          if (!nextMap[category]) {
+            nextMap[category] = []
+          }
+          nextMap[category].push(normalized)
+        })
+        setKnowledgeMap({ ...fallbackKnowledge, ...nextMap })
+      })
+      .catch(() => {
+        // 接口不可用时继续使用本地内容
+      })
+
+    return () => {
+      active = false
+    }
+  }, [])
+
+  const hero = { ...cmsDefaults.cipher.hero, ...content.hero }
+  const baseCategories =
+    content.categories?.length ? content.categories : cmsDefaults.cipher.categories
+  const cipherCategories: CipherCategory[] = baseCategories.map((category) => ({
+    ...category,
+    icon: iconMap[category.id] ?? Sparkles,
+    knowledge: knowledgeMap[category.id] ?? [],
+  }))
+
+  const highlight = { ...cmsDefaults.cipher.highlight, ...content.highlight }
+  const highlightParagraphs =
+    highlight.paragraphs?.length ? highlight.paragraphs : cmsDefaults.cipher.highlight.paragraphs
+  const allKnowledge = Object.values(knowledgeMap).flat()
+  const highlightKnowledge =
+    allKnowledge.find((item) => item.id === highlight.knowledgeId) ?? spaceKnowledge[0]
+
+  const cta = { ...cmsDefaults.cipher.cta, ...content.cta }
+  const ctaStats = cta.stats?.length ? cta.stats : cmsDefaults.cipher.cta.stats
 
   return (
     <div className="relative min-h-screen bg-paper-white">
@@ -104,18 +152,21 @@ export function CipherPage() {
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="h-1 w-12 bg-gradient-to-r from-vermilion to-glaze-blue rounded-full" />
-              <span className="text-sm font-medium text-vermilion uppercase tracking-widest">文化解读</span>
+              <span className="text-sm font-medium text-vermilion uppercase tracking-widest">
+                {hero.eyebrow}
+              </span>
             </div>
 
-            <h1 className="font-serif text-5xl md:text-6xl font-bold text-ink-black mb-4">文化密码</h1>
+            <h1 className="font-serif text-5xl md:text-6xl font-bold text-ink-black mb-4">
+              {hero.title}
+            </h1>
 
             <p className="text-lg text-ink-gray max-w-2xl leading-relaxed">
-              风水布局的山水意蕴、装饰符号的深层寓意、色彩语言的等级制度、空间哲学的权力演绎。
-              这不仅是建筑表面的装饰，更是中国古人智慧的具体体现。
+              {hero.description}
             </p>
 
             <p className="mt-4 text-sm text-ink-gray/70">
-              探索四大知识体系，理解古建筑背后的文化底蕴与建筑哲学
+              {hero.subtext}
             </p>
           </motion.div>
         </div>
@@ -266,7 +317,9 @@ export function CipherPage() {
                   transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
                   className="relative z-10 text-center"
                 >
-                  <span className="font-serif text-4xl md:text-5xl font-bold text-paper-white/80 drop-shadow-lg">紫禁城中轴线</span>
+                  <span className="font-serif text-4xl md:text-5xl font-bold text-paper-white/80 drop-shadow-lg">
+                    {highlight.coverText}
+                  </span>
                 </motion.div>
               </div>
 
@@ -280,7 +333,7 @@ export function CipherPage() {
                     transition={{ delay: 0.2 }}
                   >
                     <span className="rounded-full bg-gradient-to-r from-vermilion to-glaze-blue px-4 py-1.5 text-xs font-bold tracking-widest inline-block mb-6 shadow-lg">
-                      精选知识
+                      {highlight.badge}
                     </span>
                   </motion.div>
 
@@ -291,7 +344,7 @@ export function CipherPage() {
                     transition={{ delay: 0.3 }}
                     className="mt-4 font-serif text-3xl md:text-4xl font-bold mb-6 leading-tight"
                   >
-                    中轴对称的权力秩序
+                    {highlight.title}
                   </motion.h3>
 
                   <motion.div
@@ -301,12 +354,16 @@ export function CipherPage() {
                     transition={{ delay: 0.4 }}
                     className="space-y-4"
                   >
-                    <p className="text-paper-white/90 leading-relaxed text-base font-light">
-                      中国古建筑的对称设计源自宇宙观：认为宇宙有一条"中线"，代表秩序和平衡。紫禁城以中轴线为核心，建筑左右对称分布，体现了中国传统的"中"与"和"的思想。
-                    </p>
-                    <p className="text-paper-white/75 leading-relaxed text-base font-light">
-                      从午门到神武门，全长约960米的中轴线上，依次排列着三大殿和后宫建筑，形成气势恢宏的建筑群。这种布局不仅体现了皇权的至高无上，更蕴含着中国古人"天人合一"的宇宙观。
-                    </p>
+                    {highlightParagraphs.map((paragraph, index) => (
+                      <p
+                        key={`${paragraph}-${index}`}
+                        className={`leading-relaxed text-base font-light ${
+                          index === 0 ? 'text-paper-white/90' : 'text-paper-white/75'
+                        }`}
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
                   </motion.div>
                 </div>
 
@@ -315,10 +372,10 @@ export function CipherPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.05 }}
-                  onClick={() => handleKnowledgeClick(spaceKnowledge[0])}
+                  onClick={() => handleKnowledgeClick(highlightKnowledge)}
                   className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-vermilion to-glaze-blue font-semibold text-ink-black hover:shadow-lg hover:scale-105 transition-all duration-300 group/btn"
                 >
-                  <span>深入了解</span>
+                  <span>{highlight.actionText}</span>
                   <motion.span
                     animate={{ x: [0, 5, 0] }}
                     transition={{ duration: 2, repeat: Infinity }}
@@ -340,23 +397,22 @@ export function CipherPage() {
           className="rounded-xl bg-gradient-to-r from-glaze-blue/10 via-transparent to-vermilion/10 border border-glaze-blue/20 p-8 md:p-12 text-center"
         >
           <h3 className="font-serif text-2xl md:text-3xl font-bold text-ink-black mb-4">
-            探索文化密码的无限世界
+            {cta.title}
           </h3>
           <p className="text-ink-gray max-w-2xl mx-auto mb-8">
-            20个精心设计的知识点，从不同角度诠释中国古建筑的文化内涵。每一个知识点都连接到真实的建筑案例，帮助你理解古人的智慧。
+            {cta.description}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <div className="text-sm text-ink-gray/70">
-              <span className="font-bold text-ink-black">4</span> 大知识体系
-            </div>
-            <div className="w-1 h-1 rounded-full bg-ink-gray/30" />
-            <div className="text-sm text-ink-gray/70">
-              <span className="font-bold text-ink-black">20</span> 个知识点
-            </div>
-            <div className="w-1 h-1 rounded-full bg-ink-gray/30" />
-            <div className="text-sm text-ink-gray/70">
-              <span className="font-bold text-ink-black">10+</span> 相关建筑
-            </div>
+            {ctaStats.map((stat, index) => (
+              <div key={`${stat.value}-${stat.label}`} className="flex items-center gap-4">
+                <div className="text-sm text-ink-gray/70">
+                  <span className="font-bold text-ink-black">{stat.value}</span> {stat.label}
+                </div>
+                {index < ctaStats.length - 1 && (
+                  <div className="w-1 h-1 rounded-full bg-ink-gray/30" />
+                )}
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>

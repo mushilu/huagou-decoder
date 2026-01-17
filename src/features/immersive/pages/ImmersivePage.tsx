@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Clock, MapPin, BookOpen } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -6,16 +6,23 @@ import { immersiveHistories } from '../data/buildingHistories'
 import type { BuildingHistory } from '../data/buildingHistories'
 import { CloudPattern, WavePattern } from '@/components/moyu-guji/patterns'
 import { getSceneThumbnail } from '../utils/sceneThumbnails'
-
-const buildings = [
-  { id: 'forbidden-city', name: '故宫太和殿', region: '北京' },
-  { id: 'zhaozhou-bridge', name: '赵州桥', region: '河北' },
-  { id: 'pingyao-ancient-city', name: '平遥古城', region: '山西' },
-]
+import { useCmsPage } from '@/hooks/useCmsPage'
+import { cmsDefaults } from '@/content/cmsDefaults'
 
 export function ImmersivePage() {
-  const [selectedBuilding, setSelectedBuilding] = useState<string>('forbidden-city')
+  const defaultBuildingId = cmsDefaults.immersive.buildings[0]?.id ?? ''
+  const [selectedBuilding, setSelectedBuilding] = useState<string>(defaultBuildingId)
   const [selectedPeriod, setSelectedPeriod] = useState<string>('original')
+  const { content } = useCmsPage('immersive', cmsDefaults.immersive)
+  const hero = { ...cmsDefaults.immersive.hero, ...content.hero }
+  const buildings = content.buildings?.length ? content.buildings : cmsDefaults.immersive.buildings
+
+  useEffect(() => {
+    if (!buildings.find((item) => item.id === selectedBuilding)) {
+      setSelectedBuilding(buildings[0]?.id ?? '')
+      setSelectedPeriod('original')
+    }
+  }, [buildings, selectedBuilding])
 
   const currentHistory = immersiveHistories[selectedBuilding] as BuildingHistory | undefined
   const currentPeriod = currentHistory?.periods.find((p) => p.id === selectedPeriod)
@@ -42,17 +49,21 @@ export function ImmersivePage() {
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="h-1 w-12 bg-gradient-to-r from-glaze-blue to-vermilion rounded-full" />
-              <span className="text-sm font-medium text-glaze-blue uppercase tracking-widest">时空漫游</span>
+              <span className="text-sm font-medium text-glaze-blue uppercase tracking-widest">
+                {hero.eyebrow}
+              </span>
             </div>
 
-            <h1 className="font-serif text-5xl md:text-6xl font-bold text-ink-black mb-4">沉浸漫游</h1>
+            <h1 className="font-serif text-5xl md:text-6xl font-bold text-ink-black mb-4">
+              {hero.title}
+            </h1>
 
             <p className="text-lg text-ink-gray max-w-2xl leading-relaxed">
-              通过历史时期的演变，深入体验古建筑的建造、兴衰与重生。每座建筑都有属于自己的时代故事。
+              {hero.description}
             </p>
 
             <p className="mt-4 text-sm text-ink-gray/70">
-              探索多个历史时期，理解建筑如何见证历史的演进与文化的沉淀
+              {hero.subtext}
             </p>
           </motion.div>
         </div>

@@ -12,6 +12,8 @@ import { DynastySeal, BuildingTypeIcon } from '@/components/moyu-guji/icons'
 import { CloudPattern } from '@/components/moyu-guji/patterns'
 import { getBuildingThumbnail } from '@/utils/dynastyThumbnails'
 import type { Dynasty } from '@/types/building'
+import { useCmsPage } from '@/hooks/useCmsPage'
+import { cmsDefaults } from '@/content/cmsDefaults'
 
 export function CodexPage() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -19,6 +21,9 @@ export function CodexPage() {
   const [selectedType, setSelectedType] = useState<string | null>(null)
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [currentPage, setCurrentPage] = useState(1)
+  const { content } = useCmsPage('codex', cmsDefaults.codex)
+  const hero = { ...cmsDefaults.codex.hero, ...content.hero }
+  const searchPlaceholder = content.searchPlaceholder || cmsDefaults.codex.searchPlaceholder
 
   const { dynasties } = useDynasties()
   const { types } = useBuildingTypes()
@@ -49,9 +54,9 @@ export function CodexPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="font-serif text-4xl font-bold text-ink-black">建筑图鉴</h1>
+            <h1 className="font-serif text-4xl font-bold text-ink-black">{hero.title}</h1>
             <p className="mt-2 text-ink-gray">
-              浏览中国古代建筑瑰宝，探索民居、宫府、皇宫、桥梁的建筑之美
+              {hero.description}
             </p>
           </motion.div>
         </div>
@@ -67,7 +72,7 @@ export function CodexPage() {
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-gray" />
               <input
                 type="text"
-                placeholder="搜索建筑名称、地点..."
+                placeholder={searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value)

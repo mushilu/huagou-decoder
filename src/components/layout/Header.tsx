@@ -74,6 +74,10 @@ export function Header() {
           <Button variant="ghost" size="icon" aria-label="收藏">
             <Heart className="h-5 w-5" />
           </Button>
+
+          <Link to="/admin" className="text-xs text-stone-400 hover:text-vermilion ml-2">
+            管理
+          </Link>
         </div>
       </div>
     </header>

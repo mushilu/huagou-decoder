@@ -11,6 +11,8 @@ import { TimelineFilter } from '../components/TimelineFilter'
 import { ProvinceDetailCard } from '../components/ProvinceDetailCard'
 import { generateBuildingStats, filterBuildingsByDynasty } from '../data/buildingStatsData'
 import { CloudPattern, MeanderPattern } from '@/components/moyu-guji/patterns'
+import { useCmsPage } from '@/hooks/useCmsPage'
+import { cmsDefaults } from '@/content/cmsDefaults'
 
 // 生成实时统计数据
 const stats = generateBuildingStats()
@@ -20,6 +22,8 @@ export function DataVizPage() {
   const [dynastyRange, setDynastyRange] = useState<[string, string]>(['宋', '清'])
   const [showUpdateNotice, setShowUpdateNotice] = useState(false)
   const [prevTotal, setPrevTotal] = useState(0)
+  const { content } = useCmsPage('dataviz', cmsDefaults.dataviz)
+  const hero = { ...cmsDefaults.dataviz.hero, ...content.hero }
 
   // 根据选中的朝代范围过滤数据
   const filteredStats = useMemo(
@@ -105,9 +109,9 @@ export function DataVizPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="font-serif text-4xl font-bold text-ink-black">数据可视</h1>
+            <h1 className="font-serif text-4xl font-bold text-ink-black">{hero.title}</h1>
             <p className="mt-2 text-ink-black/70">
-              时间轴演化、地域对比、技术脉络的可视化呈现
+              {hero.description}
             </p>
           </motion.div>
         </div>

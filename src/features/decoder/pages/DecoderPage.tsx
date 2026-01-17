@@ -1,8 +1,13 @@
 import { forbiddenCityStructure } from '@/data/structureDefinitions'
 import { StructureViewer } from '@/three/components/StructureViewer'
 import { motion } from 'framer-motion'
+import { useCmsPage } from '@/hooks/useCmsPage'
+import { cmsDefaults } from '@/content/cmsDefaults'
 
 export function DecoderPage() {
+  const { content } = useCmsPage('decoder', cmsDefaults.decoder)
+  const hero = { ...cmsDefaults.decoder.hero, ...content.hero }
+
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* Header */}
@@ -13,9 +18,11 @@ export function DecoderPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="font-serif text-3xl md:text-4xl font-bold text-ink-black">结构解码</h1>
+            <h1 className="font-serif text-3xl md:text-4xl font-bold text-ink-black">
+              {hero.title}
+            </h1>
             <p className="mt-2 text-sm md:text-base text-ink-gray/80">
-              通过详细的建筑结构分析，探索中国古代建筑的工程智慧与工艺精髓
+              {hero.description}
             </p>
           </motion.div>
         </div>

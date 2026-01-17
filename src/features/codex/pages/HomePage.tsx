@@ -5,62 +5,19 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { CardContainer, CardBody, CardItem } from '@/components/ui/3d-card'
+import { useCmsPage } from '@/hooks/useCmsPage'
+import { cmsDefaults, type HomeFeatureIconKey } from '@/content/cmsDefaults'
 
-const features = [
-  {
-    path: '/codex',
-    icon: BookOpen,
-    title: '建筑图鉴',
-    description: '浏览中国古代建筑瑰宝，探索民居、宫府、皇宫、桥梁的建筑之美',
-    color: 'text-vermilion',
-    badge: '参考',
-    badgeVariant: 'gold' as const,
-    category: '知识库',
-  },
-  {
-    path: '/decoder',
-    icon: Layers,
-    title: '结构解码',
-    description: '3D爆炸图解析榫卯结构、斗拱力学，揭示古建筑的工程智慧',
-    color: 'text-glaze-blue',
-    badge: '3D互动',
-    badgeVariant: 'destructive' as const,
-    category: '实验室',
-  },
-  {
-    path: '/cipher',
-    icon: Sparkles,
-    title: '文化密码',
-    description: '解读风水布局、装饰符号、色彩语言背后的文化内涵',
-    color: 'text-gold',
-    badge: '深度',
-    badgeVariant: 'secondary' as const,
-    category: '研究',
-  },
-  {
-    path: '/immersive',
-    icon: Globe,
-    title: '沉浸漫游',
-    description: '3D自由漫游与VR体验，穿越时空感受古建筑的宏伟',
-    color: 'text-vermilion',
-    badge: 'VR开发中',
-    badgeVariant: 'destructive' as const,
-    category: '体验',
-  },
-  {
-    path: '/dataviz',
-    icon: BarChart3,
-    title: '数据可视',
-    description: '时间轴演化、地域对比、技术脉络的可视化呈现',
-    color: 'text-glaze-blue',
-    badge: '数据',
-    badgeVariant: 'outline' as const,
-    category: '分析',
-  },
-]
+const featureIconMap: Record<HomeFeatureIconKey, typeof BookOpen> = {
+  BookOpen,
+  Layers,
+  Sparkles,
+  Globe,
+  BarChart3,
+}
 
 // 水墨粒子背景组件
-function InkBackground() {
+function InkBackground({ imageUrl }: { imageUrl: string }) {
   const particles = Array.from({ length: 20 }).map((_, i) => ({
     id: i,
     initialX: Math.random() * 100,
@@ -77,7 +34,7 @@ function InkBackground() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url(/images/hero/forbidden-city-ink.png)',
+          backgroundImage: `url(${imageUrl})`,
           opacity: 0.6,
         }}
       />
@@ -126,12 +83,26 @@ function InkBackground() {
 }
 
 export function HomePage() {
+  const { content } = useCmsPage('home', cmsDefaults.home)
+  const hero = { ...cmsDefaults.home.hero, ...content.hero }
+  const features = content.features?.length ? content.features : cmsDefaults.home.features
+  const stats = content.stats?.length ? content.stats : cmsDefaults.home.stats
+  const cta = { ...cmsDefaults.home.cta, ...content.cta }
+
+  const renderLines = (text: string) =>
+    text.split('\n').map((line, index, arr) => (
+      <span key={`${line}-${index}`}>
+        {line}
+        {index < arr.length - 1 && <br />}
+      </span>
+    ))
+
   return (
     <div className="min-h-screen">
       {/* 首屏 */}
       <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden bg-ink-black">
         {/* 优化的水墨背景 */}
-        <InkBackground />
+        <InkBackground imageUrl={hero.backgroundImage || cmsDefaults.home.hero.backgroundImage} />
 
         <div className="container relative z-10 mx-auto px-4 text-center">
           <motion.div
@@ -140,23 +111,21 @@ export function HomePage() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="font-serif text-5xl font-bold text-paper-white md:text-7xl">
-              华构解码
+              {hero.title}
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-paper-white/70 md:text-xl">
-              用现代科技解读中国古代建筑的智慧密码
-              <br />
-              探索千年建筑文明的工程奇迹与文化瑰宝
+              {renderLines(hero.subtitle)}
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Button variant="vermilion" size="lg" asChild>
-                <Link to="/codex">
-                  开始探索
+                <Link to={hero.primaryButtonLink}>
+                  {hero.primaryButtonText}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
               <Button variant="outline" size="lg" className="border-paper-white/30 text-paper-white hover:bg-paper-white hover:text-ink-black" asChild>
-                <Link to="/immersive">
-                  沉浸漫游
+                <Link to={hero.secondaryButtonLink}>
+                  {hero.secondaryButtonText}
                 </Link>
               </Button>
             </div>
@@ -188,7 +157,7 @@ export function HomePage() {
           {/* 功能卡片 */}
           <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-5">
             {features.map((feature, idx) => {
-              const Icon = feature.icon
+              const Icon = featureIconMap[feature.icon] ?? BookOpen
               return (
                 <motion.div
                   key={feature.path}
@@ -264,13 +233,8 @@ export function HomePage() {
             </p>
           </motion.div>
 
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {[
-              { value: '1000+', label: '古建筑档案', icon: '🏛️', color: 'from-vermilion/20 to-transparent' },
-              { value: '6', label: '主要朝代', icon: '📜', color: 'from-glaze-blue/20 to-transparent' },
-              { value: '4', label: '建筑类型', icon: '🏗️', color: 'from-gold/20 to-transparent' },
-              { value: '34', label: '省份覆盖', icon: '🗺️', color: 'from-vermilion/20 to-transparent' },
-            ].map((stat, index) => (
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
@@ -309,28 +273,26 @@ export function HomePage() {
           >
             <Badge variant="gold" className="mb-6 inline-block px-4 py-2">
               <Zap className="inline mr-2 h-4 w-4" />
-              开启探索之旅
+              {cta.badge}
             </Badge>
 
             <h2 className="font-serif text-4xl font-bold text-ink-black md:text-5xl">
-              准备好探索了吗？
+              {cta.title}
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-ink-gray">
-              开启一段穿越千年的建筑文化之旅
-              <br />
-              感受中华民族的建筑智慧与文化瑰宝
+              {renderLines(cta.description)}
             </p>
 
             <div className="mt-10 flex flex-wrap justify-center gap-4">
               <Button variant="vermilion" size="lg" asChild className="group">
-                <Link to="/codex">
-                  进入建筑图鉴
+                <Link to={cta.primaryButtonLink}>
+                  {cta.primaryButtonText}
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
-                <Link to="/immersive">
-                  沉浸漫游体验
+                <Link to={cta.secondaryButtonLink}>
+                  {cta.secondaryButtonText}
                 </Link>
               </Button>
             </div>
