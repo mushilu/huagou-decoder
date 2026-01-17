@@ -1,7 +1,7 @@
 import type { PagesFunction } from '@cloudflare/workers-types'
 import { type Env, encodeKey, errorResponse, jsonResponse, normalizePathSegment } from './_shared'
 
-const MAX_UPLOAD_BYTES = 10 * 1024 * 1024
+const MAX_UPLOAD_BYTES = 4 * 1024 * 1024
 
 // POST /api/upload
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
@@ -20,16 +20,25 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   }
 
   if (file.size > MAX_UPLOAD_BYTES) {
-    return errorResponse(413, '文件过大')
+    return errorResponse(413, '文件过大（最大 4MB）')
   }
 
   const ext = file.name.split('.').pop()?.toLowerCase()
   const suffix = ext ? `.${ext}` : ''
   const key = `${folder}/${Date.now()}-${crypto.randomUUID().slice(0, 8)}${suffix}`
 
-  await ctx.env.IMAGES.put(key, file.stream(), {
-    httpMetadata: { contentType: file.type },
-  })
+  const mimeType = file.type || 'application/octet-stream'
+  const bytes = new Uint8Array(await file.arrayBuffer())
+
+  try {
+    await ctx.env.DB.prepare(
+      'INSERT INTO cms_assets (key, mime_type, size, data) VALUES (?, ?, ?, ?)'
+    )
+      .bind(key, mimeType, file.size, bytes)
+      .run()
+  } catch {
+    return errorResponse(500, '上传失败，请稍后重试')
+  }
 
   const encodedKey = encodeKey(key)
 

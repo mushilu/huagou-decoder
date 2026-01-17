@@ -4,7 +4,6 @@ import { hasAccessJwt, verifyAdminSession } from './_auth'
 
 interface Env extends AdminAuthEnv {
   DB: D1Database
-  IMAGES: R2Bucket
 }
 
 // 保护管理后台与写操作

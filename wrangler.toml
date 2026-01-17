@@ -10,8 +10,3 @@ ADMIN_PASSWORD = "huagou"
 binding = "DB"
 database_name = "huagou-content"
 database_id = "8241121d-5a38-418d-9e6f-771515f3c71e"
-
-# R2 图片存储
-[[r2_buckets]]
-binding = "IMAGES"
-bucket_name = "huagou-images"

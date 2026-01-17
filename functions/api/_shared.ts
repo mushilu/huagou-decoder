@@ -2,7 +2,6 @@ import { hasAccessJwt, verifyAdminSession } from '../_auth'
 
 interface Env {
   DB: D1Database
-  IMAGES: R2Bucket
   ADMIN_PASSWORD?: string
   ADMIN_SECRET?: string
 }
