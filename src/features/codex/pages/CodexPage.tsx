@@ -64,11 +64,11 @@ export function CodexPage() {
 
       {/* 筛选器 */}
       <div className="sticky top-16 z-30 border-b border-ink-gray/20 bg-paper-white/95 backdrop-blur-sm">
-        <div className="mx-auto w-full max-w-4xl px-4 py-6">
+        <div className="container mx-auto px-4 py-4">
           {/* 搜索栏 */}
-          <div className="flex flex-wrap items-center gap-4 mb-6">
+          <div className="flex flex-wrap items-center gap-3 mb-4">
             {/* 搜索框 */}
-            <div className="relative flex-1 min-w-64 max-w-2xl">
+            <div className="relative flex-1 min-w-64">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-gray" />
               <input
                 type="text"
@@ -121,16 +121,16 @@ export function CodexPage() {
           </div>
 
           {/* 筛选选项 */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             {/* 朝代选项 */}
             <div>
-              <div className="mb-3 flex items-center gap-2">
+              <div className="mb-2 flex items-center gap-2">
                 <Badge variant="gold" className="text-xs">朝代</Badge>
                 <span className="text-xs text-ink-gray">
                   {selectedDynasty ? `已选择: ${selectedDynasty}` : '全部朝代'}
                 </span>
               </div>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => {
                     setSelectedDynasty(null)
@@ -177,7 +177,7 @@ export function CodexPage() {
 
             {/* 类型选项 */}
             <div>
-              <div className="mb-3 flex items-center gap-2">
+              <div className="mb-2 flex items-center gap-2">
                 <Badge variant="secondary" className="text-xs">类型</Badge>
                 <span className="text-xs text-ink-gray">
                   {selectedType ? `已选择: ${selectedType}` : '全部类型'}
