@@ -19,6 +19,7 @@ export const fengshuiKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'fs-2',
+    imageUrl: '/images/knowledge/fengshui-water-gathering.png',
     title: '水口布局与聚气',
     description: '水在风水中代表财运，水口布局决定运势',
     content: `"水往低处流"不仅是物理规律，在风水中也象征财的流向。精妙的水口设计能够"聚气聚财"。
@@ -37,6 +38,7 @@ export const fengshuiKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'fs-3',
+    imageUrl: '/images/knowledge/fengshui-bright-hall.png',
     title: '明堂开阔与视野',
     description: '建筑前方开阔的区域称为"明堂"，代表机遇和视野',
     content: `明堂是建筑前方的开阔地带。在风水中，明堂越开阔，建筑的格局越高。
@@ -76,6 +78,7 @@ export const fengshuiKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'fs-5',
+    imageUrl: '/images/knowledge/fengshui-axis-symmetry.png',
     title: '中轴线的对称与平衡',
     description: '中轴线代表权力中心，是风水布局的核心',
     content: `中国古建筑群无一例外地遵循中轴线对称的原则。这不仅是美学要求，更是风水和权力等级的体现。
@@ -152,6 +155,7 @@ export const symbolKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'sym-3',
+    imageUrl: '/images/knowledge/symbol-lotus-pattern.png',
     title: '莲花纹饰的清廉象征',
     description: '莲花出淤泥而不染，象征品德高洁',
     content: `莲花在中国文化中具有崇高的道德象征意义，在官员办公场所和寺庙中尤为常见。
@@ -172,6 +176,7 @@ export const symbolKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'sym-4',
+    imageUrl: '/images/knowledge/symbol-bat-blessing.png',
     title: '蝙蝠与福气的谐音妙用',
     description: '"蝠"与"福"同音，是中国人的文化创意巧思',
     content: `这是古代工匠们的天才创意：利用同音字的特点，将蝙蝠作为幸福的象征。
@@ -192,6 +197,7 @@ export const symbolKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'sym-5',
+    imageUrl: '/images/knowledge/symbol-cloud-pattern.png',
     title: '云纹与仙境的联想',
     description: '云纹不仅装饰，更是天地相通的象征',
     content: `云在中国文化中代表仙界，云纹装饰既美观又富有哲学内涵。
@@ -220,6 +226,7 @@ export const symbolKnowledge: CipherKnowledge[] = [
 export const colorKnowledge: CipherKnowledge[] = [
   {
     id: 'col-1',
+    imageUrl: '/images/knowledge/color-yellow-imperial.png',
     title: '黄色的至尊地位',
     description: '黄色是皇帝的专属颜色，代表中央和权力',
     content: `在中国传统里，黄色代表土地的中央，因此成为皇帝的专属颜色。
@@ -270,6 +277,7 @@ export const colorKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'col-3',
+    imageUrl: '/images/knowledge/color-cyan-harmony.png',
     title: '青色的庄重与和谐',
     description: '青色代表春天、生命和自然的和谐',
     content: `青色（包括蓝绿色）在古代代表东方和春天，象征生命力和和谐。
@@ -295,6 +303,7 @@ export const colorKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'col-4',
+    imageUrl: '/images/knowledge/color-white-elegance.png',
     title: '白色的素雅与纯净',
     description: '白色代表纯净、素雅和宁静',
     content: `白色在中国文化中代表纯净和素雅，常与黑色相对应。
@@ -395,6 +404,7 @@ export const spaceKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'spa-3',
+    imageUrl: '/images/knowledge/space-depth-hierarchy.png',
     title: '进深等级的身份标识',
     description: '建筑的进深数量代表主人的身份等级',
     content: `"进"在建筑学中代表前后的深度。进数越多，代表身份越高。
@@ -419,6 +429,7 @@ export const spaceKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'spa-4',
+    imageUrl: '/images/knowledge/space-solid-void.png',
     title: '虚实相生的空间美学',
     description: '空白和实体的对比创造出中国古建筑的独特美感',
     content: `中国美学中，"虚"和"实"同样重要。建筑师精妙地运用空白来强化建筑的气势。
@@ -446,6 +457,7 @@ export const spaceKnowledge: CipherKnowledge[] = [
   },
   {
     id: 'spa-5',
+    imageUrl: '/images/knowledge/space-ritual-sequence.png',
     title: '礼制空间的节奏感',
     description: '建筑的前进过程体现了级别递升的仪式感',
     content: `中国古建筑被称为"石头上的礼制"。建筑空间的安排完全遵循礼仪规范。
