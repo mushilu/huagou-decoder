@@ -216,6 +216,27 @@ export function ContentAdmin() {
   )
 }
 
+function normalizeHomeFeatures(
+  incoming: HomePageContent['features'] | undefined,
+  defaults: HomePageContent['features'],
+) {
+  const safeIncoming = Array.isArray(incoming) ? incoming : []
+  const length = Math.max(defaults.length, safeIncoming.length)
+  const result: HomePageContent['features'] = []
+
+  for (let index = 0; index < length; index += 1) {
+    const template = defaults[index] ?? defaults[0]
+    const item = safeIncoming[index]
+    if (!item || typeof item !== 'object') {
+      result.push(template)
+      continue
+    }
+    result.push({ ...template, ...item })
+  }
+
+  return result
+}
+
 function HomeEditor({
   value,
   onChange,
@@ -224,7 +245,7 @@ function HomeEditor({
   onChange: (next: HomePageContent) => void
 }) {
   const hero = value.hero
-  const features = Array.isArray(value.features) ? value.features : cmsDefaults.home.features
+  const features = normalizeHomeFeatures(value.features, cmsDefaults.home.features)
   const stats = Array.isArray(value.stats) ? value.stats : cmsDefaults.home.stats
   const cta = value.cta
 

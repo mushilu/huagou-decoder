@@ -115,13 +115,15 @@ export function CipherPage() {
   const hero = { ...cmsDefaults.cipher.hero, ...content.hero }
   const baseCategories =
     content.categories?.length ? content.categories : cmsDefaults.cipher.categories
+  const highlightSource =
+    content.highlight && typeof content.highlight === 'object' ? content.highlight : {}
+  const highlight = { ...cmsDefaults.cipher.highlight, ...highlightSource }
   const cipherCategories: CipherCategory[] = baseCategories.map((category) => ({
     ...category,
     icon: iconMap[category.id] ?? Sparkles,
     knowledge: knowledgeMap[category.id] ?? [],
   }))
 
-  const highlight = { ...cmsDefaults.cipher.highlight, ...content.highlight }
   const highlightParagraphs =
     highlight.paragraphs?.length ? highlight.paragraphs : cmsDefaults.cipher.highlight.paragraphs
   const allKnowledge = Object.values(knowledgeMap).flat()

@@ -85,7 +85,7 @@ function InkBackground({ imageUrl }: { imageUrl: string }) {
 export function HomePage() {
   const { content } = useCmsPage('home', cmsDefaults.home)
   const hero = { ...cmsDefaults.home.hero, ...content.hero }
-  const features = content.features?.length ? content.features : cmsDefaults.home.features
+  const features = normalizeHomeFeatures(content.features, cmsDefaults.home.features)
   const stats = content.stats?.length ? content.stats : cmsDefaults.home.stats
   const cta = { ...cmsDefaults.home.cta, ...content.cta }
 
@@ -305,4 +305,25 @@ export function HomePage() {
       </section>
     </div>
   )
+}
+
+function normalizeHomeFeatures(
+  incoming: typeof cmsDefaults.home.features | undefined,
+  defaults: typeof cmsDefaults.home.features,
+) {
+  const safeIncoming = Array.isArray(incoming) ? incoming : []
+  const length = Math.max(defaults.length, safeIncoming.length)
+  const result = [] as typeof defaults
+
+  for (let index = 0; index < length; index += 1) {
+    const template = defaults[index] ?? defaults[0]
+    const item = safeIncoming[index]
+    if (!item || typeof item !== 'object') {
+      result.push(template)
+      continue
+    }
+    result.push({ ...template, ...item })
+  }
+
+  return result
 }
