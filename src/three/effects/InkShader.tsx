@@ -3,7 +3,7 @@ import { useFrame, extend } from '@react-three/fiber'
 import { shaderMaterial } from '@react-three/drei'
 import * as THREE from 'three'
 
-// 水墨风格 Shader Material
+// 水墨Shader
 const InkMaterial = shaderMaterial(
   {
     // Uniforms
@@ -157,7 +157,7 @@ export function InkOutlineEffect(_props: {
   color?: string
   thickness?: number
 }) {
-  // 后续用 @react-three/postprocessing 实现
+  // 用postprocessing
   return null
 }
 

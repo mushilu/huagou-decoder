@@ -14,7 +14,7 @@ interface ModelLoaderProps {
   clone?: boolean
 }
 
-// GLB/GLTF 模型加载器
+// 模型加载器
 export function ModelLoader({
   url,
   position = [0, 0, 0],
@@ -76,7 +76,7 @@ export function ModelLoader({
   )
 }
 
-// 带加载状态的模型容器
+// 带fallback
 export function ModelWithFallback({
   url,
   fallback,
@@ -99,7 +99,7 @@ function ModelPlaceholder() {
   )
 }
 
-// 模型预加载 Hook
+// 预加载hook
 export function useModelPreload(urls: string[]) {
   const [loaded, setLoaded] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -138,7 +138,7 @@ export function useModelPreload(urls: string[]) {
   return { loaded, progress }
 }
 
-// 模型实例化组件
+// 实例化
 export function InstancedModel({
   url,
   instances,

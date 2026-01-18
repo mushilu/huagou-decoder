@@ -25,7 +25,7 @@ const toBuildingSearchItems = (): SearchableItem[] =>
       }
     })
 
-// 知识数据（从 CipherPage 的知识库中提取）
+// 知识数据
 const knowledgeData: SearchableItem[] = [
   {
     id: 'fengshui-basics',
@@ -89,7 +89,7 @@ const provinceData: SearchableItem[] = [
   },
 ]
 
-// 全局初始化标志，防止重复初始化（幂等性）
+// 防止重复初始化
 let searchIndexInitialized = false
 
 export function useSearchIndex() {

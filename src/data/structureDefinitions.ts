@@ -1,4 +1,4 @@
-// 建筑结构解码数据定义
+// 结构数据
 
 export interface ComponentInfo {
   id: string
@@ -34,7 +34,7 @@ export interface BuildingStructure {
   categories: StructureCategory[]
 }
 
-// 故宫太和殿结构配置
+// 太和殿
 export const forbiddenCityStructure: BuildingStructure = {
   buildingId: 'forbidden-city',
   buildingName: '故宫太和殿',
@@ -350,7 +350,7 @@ export const forbiddenCityStructure: BuildingStructure = {
   }
 }
 
-// 赵州桥结构配置
+// 赵州桥
 export const zhaoZhouBridgeStructure: BuildingStructure = {
   buildingId: 'zhaozhou-bridge',
   buildingName: '赵州桥',
@@ -532,7 +532,7 @@ export const zhaoZhouBridgeStructure: BuildingStructure = {
   }
 }
 
-// 平遥古城结构配置
+// 平遥古城
 export const pingyaoStructure: BuildingStructure = {
   buildingId: 'pingyao-ancient-city',
   buildingName: '平遥古城',
@@ -784,19 +784,19 @@ export const pingyaoStructure: BuildingStructure = {
   }
 }
 
-// 导出所有建筑结构配置
+// 导出
 export const buildingStructures: Record<string, BuildingStructure> = {
   'forbidden-city': forbiddenCityStructure,
   'zhaozhou-bridge': zhaoZhouBridgeStructure,
   'pingyao-ancient-city': pingyaoStructure
 }
 
-// 根据建筑ID获取结构配置
+// 按ID取
 export function getStructureConfig(buildingId: string): BuildingStructure | undefined {
   return buildingStructures[buildingId]
 }
 
-// 获取所有可用的结构配置
+// 取全部
 export function getAllStructureConfigs(): BuildingStructure[] {
   return Object.values(buildingStructures)
 }

@@ -1,11 +1,11 @@
 import { buildings } from '@/data/buildings'
 import type { Building, BuildingsResponse, Dynasty } from '@/types/building'
 
-// 模拟 API 延迟
+// 模拟延迟
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export const buildingService = {
-  // 获取建筑列表
+  // 列表
   async getBuildings(
     page: number = 1,
     pageSize: number = 12,
@@ -55,7 +55,7 @@ export const buildingService = {
     }
   },
 
-  // 根据 slug 获取建筑
+  // 按slug
   async getBuildingBySlug(slug: string): Promise<Building | null> {
     await delay(200)
 
@@ -63,7 +63,7 @@ export const buildingService = {
     return building || null
   },
 
-  // 根据 ID 获取建筑
+  // 按ID
   async getBuildingById(id: string): Promise<Building | null> {
     await delay(200)
 
@@ -71,7 +71,7 @@ export const buildingService = {
     return building || null
   },
 
-  // 获取朝代列表
+  // 朝代
   async getDynasties(): Promise<Dynasty[]> {
     await delay(100)
 
@@ -81,7 +81,7 @@ export const buildingService = {
     return dynasties.sort()
   },
 
-  // 获取建筑类型
+  // 类型
   async getBuildingTypes(): Promise<string[]> {
     await delay(100)
 
@@ -89,7 +89,7 @@ export const buildingService = {
     return types.sort()
   },
 
-  // 获取热门建筑
+  // 热门
   async getPopularBuildings(limit: number = 6): Promise<Building[]> {
     await delay(200)
 
@@ -99,7 +99,7 @@ export const buildingService = {
       .slice(0, limit)
   },
 
-  // 获取收藏排行
+  // 收藏
   async getFavoriteBuildings(limit: number = 6): Promise<Building[]> {
     await delay(200)
 
@@ -109,7 +109,7 @@ export const buildingService = {
       .slice(0, limit)
   },
 
-  // 搜索建筑
+  // 搜索
   async searchBuildings(query: string): Promise<Building[]> {
     await delay(250)
 
@@ -124,7 +124,7 @@ export const buildingService = {
     )
   },
 
-  // 按朝代统计
+  // 朝代统计
   async getBuildingCountByDynasty(): Promise<Record<string, number>> {
     await delay(100)
 
@@ -137,7 +137,7 @@ export const buildingService = {
     return counts
   },
 
-  // 按类型统计
+  // 类型统计
   async getBuildingCountByType(): Promise<Record<string, number>> {
     await delay(100)
 
@@ -150,7 +150,7 @@ export const buildingService = {
     return counts
   },
 
-  // 获取相关建筑
+  // 相关
   async getRelatedBuildings(
     buildingId: string,
     limit: number = 4

@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import * as echarts from 'echarts'
 import type { ECharts } from 'echarts'
 
-// 动态导入官方地图数据
+// 地图数据
 let chinaGeoJson: any = null
 const LOCAL_MAP_URL = '/data/china-geo.json'
 
-// 从CDN加载真实中国地图GeoJSON（高德地图数据）
+// 加载地图
 const loadChinaMap = async () => {
   if (chinaGeoJson) return chinaGeoJson
 
@@ -58,7 +58,7 @@ export function ChinaMap({ data, selectedProvince, onProvinceSelect }: ChinaMapP
     }
 
     const initMap = async () => {
-      // 数据为空时直接提示，避免空白
+      // 空数据提示
       if (data.length === 0) {
         setLoadError('当前筛选下没有可展示的地域数据')
         chartRef.current?.clear()
@@ -67,7 +67,7 @@ export function ChinaMap({ data, selectedProvince, onProvinceSelect }: ChinaMapP
 
       const maxCount = Math.max(...data.map((d) => d.buildingCount), 1)
 
-      // 准备数据 - 气泡点
+      // 气泡数据
       const scatterData = data.map((item) => ({
         name: item.name,
         value: [...item.coordinates, item.buildingCount] as [number, number, number],
@@ -76,7 +76,7 @@ export function ChinaMap({ data, selectedProvince, onProvinceSelect }: ChinaMapP
       const option = {
         backgroundColor: 'transparent',
         title: {
-          text: '古建筑地理分布（中国）',
+          text: '全国重点文物保护单位分布',
           left: 'center',
           top: 16,
           textStyle: {
@@ -98,7 +98,7 @@ export function ChinaMap({ data, selectedProvince, onProvinceSelect }: ChinaMapP
               if (item) {
                 return `<div style="color: #1a1a2e; font-size: 12px;">
                   <strong>${item.name}</strong><br/>
-                  建筑数量: <strong>${item.buildingCount}</strong>
+                  单位数量: <strong>${item.buildingCount}</strong>
                 </div>`
               }
             } else if (params.componentType === 'geo') {
@@ -138,8 +138,7 @@ export function ChinaMap({ data, selectedProvince, onProvinceSelect }: ChinaMapP
             coordinateSystem: 'geo',
             data: scatterData,
             symbolSize: function (val: number[]) {
-              // 减小气泡大小：原来是 (val[2] / maxCount) * 50 + 10
-              // 改为：(val[2] / maxCount) * 25 + 4
+              // 气泡大小
               return (val[2] / maxCount) * 25 + 4
             },
             itemStyle: {
@@ -173,7 +172,7 @@ export function ChinaMap({ data, selectedProvince, onProvinceSelect }: ChinaMapP
         ],
       }
 
-      // 加载并注册中国地图
+      // 注册地图
       const mapData = await loadChinaMap()
       if (!mapData) {
         setLoadError('地图底图加载失败，请稍后重试')
@@ -188,7 +187,7 @@ export function ChinaMap({ data, selectedProvince, onProvinceSelect }: ChinaMapP
 
       chartRef.current?.setOption(option)
 
-      // 监听点击事件
+      // 点击
       const handleClick = (params: any) => {
         if (params.componentType === 'series' && params.value) {
           const provinceName = params.name
@@ -200,7 +199,7 @@ export function ChinaMap({ data, selectedProvince, onProvinceSelect }: ChinaMapP
 
       chartRef.current?.on('click', handleClick)
 
-      // 响应式布局
+      // resize
       const handleResize = () => {
         chartRef.current?.resize()
       }

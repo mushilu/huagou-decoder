@@ -238,7 +238,7 @@ export function filterBuildingsByDynasty(
     selectedDynasties.includes(b.dynasty),
   )
 
-  // 预先建立 name -> dynasty 的 Map，避免 O(n) 查找
+  // 建立索引
   const buildingNameToDynastyMap = new Map<string, string>()
   ;(fullBuildingsData as FullBuildingData[]).forEach((b) => {
     buildingNameToDynastyMap.set(b.nameZh, b.dynasty)

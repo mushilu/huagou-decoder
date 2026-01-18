@@ -126,7 +126,7 @@ interface InkTrailProps {
   trailWidth?: number
 }
 
-// 鼠标轨迹墨痕，跟随鼠标移动产生淡淡的墨痕
+// 鼠标墨痕
 export function InkTrail({
   children,
   className,

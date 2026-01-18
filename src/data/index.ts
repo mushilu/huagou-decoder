@@ -1,4 +1,4 @@
-// 内容集成 - 统一导出所有来自 content_tab 的数据
+// 内容集成
 
 // 建筑数据
 export { buildings } from './buildings'

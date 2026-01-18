@@ -309,7 +309,7 @@ export const cmsDefaults: CmsDefaults = {
   dataviz: {
     hero: {
       title: '数据可视',
-      description: '时间轴演化、地域对比、技术脉络的可视化呈现',
+      description: '基于国家文物局公开名录，呈现全国重点文物保护单位的批次、类别与地域分布',
     },
   },
 }

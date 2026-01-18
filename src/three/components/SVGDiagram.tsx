@@ -17,7 +17,7 @@ export function SVGDiagram({
     // 将SVG内容插入DOM
     svgContainerRef.current.innerHTML = svgContent
 
-    // 给所有带data-component的SVG元素添加交互样式
+    // 交互样式
     const elements = svgContainerRef.current.querySelectorAll('[data-component]')
     elements.forEach((element) => {
       // 初始样式

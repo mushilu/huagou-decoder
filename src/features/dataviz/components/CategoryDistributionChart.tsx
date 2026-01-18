@@ -2,18 +2,18 @@ import { useEffect, useRef } from 'react'
 import * as echarts from 'echarts'
 import type { ECharts } from 'echarts'
 
-interface DynastyData {
+interface CategoryData {
   name: string
-  buildings: number
-  percentage: number
+  count: number
   color: string
+  percentage: number
 }
 
-interface DynastyDistributionChartProps {
-  data: DynastyData[]
+interface CategoryDistributionChartProps {
+  data: CategoryData[]
 }
 
-export function DynastyDistributionChart({ data }: DynastyDistributionChartProps) {
+export function CategoryDistributionChart({ data }: CategoryDistributionChartProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const chartRef = useRef<ECharts | null>(null)
 
@@ -33,7 +33,7 @@ export function DynastyDistributionChart({ data }: DynastyDistributionChartProps
           type: 'shadow',
         },
         backgroundColor: 'rgba(255, 255, 255, 0.95)',
-        borderColor: '#c8102e',
+        borderColor: '#4a90e2',
         textStyle: { color: '#1a1a2e' },
         formatter: (params: any) => {
           if (Array.isArray(params) && params.length > 0) {
@@ -41,48 +41,48 @@ export function DynastyDistributionChart({ data }: DynastyDistributionChartProps
             const item = data.find((d) => d.name === p.name)
             return `<div style="color: #1a1a2e">
               <strong>${p.name}</strong><br/>
-              建筑数量: ${p.value}<br/>
-              占比: ${item?.percentage}%
+              数量: ${p.value}<br/>
+              占比: ${item?.percentage ?? 0}%
             </div>`
           }
           return ''
         },
       },
       grid: {
-        left: 60,
-        right: 20,
+        left: 40,
+        right: 30,
         top: 20,
-        bottom: 40,
+        bottom: 60,
         containLabel: true,
       },
       xAxis: {
+        type: 'category',
+        data: data.map((d) => d.name),
+        axisLine: { show: false },
+        axisLabel: { color: '#333', fontSize: 12, interval: 0, rotate: 20 },
+        splitLine: { show: false },
+      },
+      yAxis: {
         type: 'value',
         axisLine: { lineStyle: { color: '#d9d9d9' } },
         axisLabel: { color: '#666', fontSize: 12 },
         splitLine: { lineStyle: { color: '#e8e8e8', type: 'dashed' } },
       },
-      yAxis: {
-        type: 'category',
-        data: data.map((d) => d.name),
-        axisLine: { show: false },
-        axisLabel: { color: '#333', fontSize: 13, fontWeight: 500 },
-        splitLine: { show: false },
-      },
       series: [
         {
-          name: '建筑数量',
+          name: '数量',
           type: 'bar',
           data: data.map((d) => ({
-            value: d.buildings,
+            value: d.count,
             itemStyle: { color: d.color },
           })),
-          barWidth: '60%',
+          barWidth: '50%',
           itemStyle: {
-            borderRadius: [0, 4, 4, 0],
+            borderRadius: [4, 4, 0, 0],
           },
           label: {
             show: true,
-            position: 'right',
+            position: 'top',
             formatter: '{c}',
             color: '#333',
             fontSize: 12,
@@ -90,8 +90,8 @@ export function DynastyDistributionChart({ data }: DynastyDistributionChartProps
           },
           emphasis: {
             itemStyle: {
-              opacity: 0.8,
-              shadowColor: 'rgba(0, 0, 0, 0.3)',
+              opacity: 0.85,
+              shadowColor: 'rgba(0, 0, 0, 0.2)',
               shadowBlur: 10,
             },
           },

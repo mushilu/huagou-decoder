@@ -9,7 +9,7 @@ interface InkBackgroundProps {
   children?: React.ReactNode
 }
 
-// 水墨背景组件，提供多种风格效果
+// 水墨背景
 export function InkBackground({
   variant = 'static',
   className,
@@ -57,7 +57,7 @@ function StaticInkBackground({ opacity }: { opacity: number }) {
   )
 }
 
-// 动态水墨背景，缓慢流动效果
+// 动态墨晕
 function AnimatedInkBackground({ opacity }: { opacity: number }) {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -102,7 +102,7 @@ function AnimatedInkBackground({ opacity }: { opacity: number }) {
   )
 }
 
-// 视差水墨背景，滚动时产生层次感
+// 视差背景
 function ParallaxInkBackground({ opacity }: { opacity: number }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
@@ -155,7 +155,7 @@ function ParallaxInkBackground({ opacity }: { opacity: number }) {
   )
 }
 
-// 粒子水墨背景，飘散的墨点
+// 墨点粒子
 function ParticleInkBackground({ opacity }: { opacity: number }) {
   const particles = useMemo(
     () =>
@@ -218,7 +218,7 @@ function ParticleInkBackground({ opacity }: { opacity: number }) {
   )
 }
 
-// 山水画背景装饰
+// 山水装饰
 export function MountainSilhouette({
   className,
   color = 'rgba(26, 26, 46, 0.1)',

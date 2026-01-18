@@ -2,18 +2,17 @@ import { useEffect, useRef } from 'react'
 import * as echarts from 'echarts'
 import type { ECharts } from 'echarts'
 
-interface TypeData {
-  name: string
-  count: number
+interface BatchData {
+  label: string
+  total: number
   color: string
-  percentage: number
 }
 
-interface BuildingTypeChartProps {
-  data: TypeData[]
+interface BatchDistributionChartProps {
+  data: BatchData[]
 }
 
-export function BuildingTypeChart({ data }: BuildingTypeChartProps) {
+export function BatchDistributionChart({ data }: BatchDistributionChartProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const chartRef = useRef<ECharts | null>(null)
 
@@ -33,16 +32,16 @@ export function BuildingTypeChart({ data }: BuildingTypeChartProps) {
           type: 'shadow',
         },
         backgroundColor: 'rgba(255, 255, 255, 0.95)',
-        borderColor: '#4a90e2',
+        borderColor: '#c8102e',
         textStyle: { color: '#1a1a2e' },
         formatter: (params: any) => {
           if (Array.isArray(params) && params.length > 0) {
-            const p = params[0]
-            const item = data.find((d) => d.name === p.name)
+            const index = params[0].dataIndex
+            const item = data[index]
+            if (!item) return ''
             return `<div style="color: #1a1a2e">
-              <strong>${p.name}</strong><br/>
-              建筑数量: ${p.value}<br/>
-              占比: ${item?.percentage}%
+              <strong>${item.label}</strong><br/>
+              总计: ${item.total}
             </div>`
           }
           return ''
@@ -52,14 +51,14 @@ export function BuildingTypeChart({ data }: BuildingTypeChartProps) {
         left: 40,
         right: 30,
         top: 20,
-        bottom: 50,
+        bottom: 40,
         containLabel: true,
       },
       xAxis: {
         type: 'category',
-        data: data.map((d) => d.name),
+        data: data.map((item) => item.label),
         axisLine: { show: false },
-        axisLabel: { color: '#333', fontSize: 12, interval: 0, rotate: 45 },
+        axisLabel: { color: '#333', fontSize: 12 },
         splitLine: { show: false },
       },
       yAxis: {
@@ -70,16 +69,13 @@ export function BuildingTypeChart({ data }: BuildingTypeChartProps) {
       },
       series: [
         {
-          name: '建筑数量',
+          name: '数量',
           type: 'bar',
-          data: data.map((d) => ({
-            value: d.count,
-            itemStyle: { color: d.color },
+          data: data.map((item) => ({
+            value: item.total,
+            itemStyle: { color: item.color },
           })),
           barWidth: '50%',
-          itemStyle: {
-            borderRadius: [4, 4, 0, 0],
-          },
           label: {
             show: true,
             position: 'top',
@@ -87,13 +83,6 @@ export function BuildingTypeChart({ data }: BuildingTypeChartProps) {
             color: '#333',
             fontSize: 12,
             fontWeight: 500,
-          },
-          emphasis: {
-            itemStyle: {
-              opacity: 0.8,
-              shadowColor: 'rgba(0, 0, 0, 0.3)',
-              shadowBlur: 10,
-            },
           },
         },
       ],

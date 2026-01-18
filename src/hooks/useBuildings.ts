@@ -3,7 +3,7 @@ import { useBuildingStore } from '@/stores/buildingStore'
 import { buildingService } from '@/services/buildingService'
 import type { Building, Dynasty } from '@/types/building'
 
-// 获取建筑列表 Hook
+// 建筑列表
 export function useBuildingsList(
   page: number = 1,
   pageSize: number = 12,
@@ -50,7 +50,7 @@ export function useBuildingsList(
   }
 }
 
-// 获取建筑详情 Hook
+// 建筑详情
 export function useBuildingDetail(slug: string) {
   const { currentBuilding, setCurrentBuilding } = useBuildingStore()
   const [isLoading, setIsLoading] = useState(false)
@@ -89,7 +89,7 @@ export function useBuildingDetail(slug: string) {
   }
 }
 
-// 获取朝代列表 Hook
+// 朝代列表
 export function useDynasties() {
   const [dynasties, setDynasties] = useState<Dynasty[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -105,7 +105,7 @@ export function useDynasties() {
   return { dynasties, isLoading }
 }
 
-// 获取建筑类型列表 Hook
+// 建筑类型
 export function useBuildingTypes() {
   const [types, setTypes] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -121,7 +121,7 @@ export function useBuildingTypes() {
   return { types, isLoading }
 }
 
-// 获取热门建筑 Hook
+// 热门建筑
 export function usePopularBuildings(limit: number = 6) {
   const [buildings, setBuildings] = useState<Building[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -137,7 +137,7 @@ export function usePopularBuildings(limit: number = 6) {
   return { buildings, isLoading }
 }
 
-// 获取收藏排行 Hook
+// 收藏排行
 export function useFavoriteBuildings(limit: number = 6) {
   const [buildings, setBuildings] = useState<Building[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -153,7 +153,7 @@ export function useFavoriteBuildings(limit: number = 6) {
   return { buildings, isLoading }
 }
 
-// 搜索建筑 Hook
+// 搜索
 export function useSearchBuildings(query: string) {
   const [results, setResults] = useState<Building[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -178,7 +178,7 @@ export function useSearchBuildings(query: string) {
   return { results, isLoading }
 }
 
-// 获取统计数据 Hook
+// 统计
 export function useBuildingStats() {
   const [stats, setStats] = useState({
     byDynasty: {} as Record<string, number>,
@@ -200,7 +200,7 @@ export function useBuildingStats() {
   return { stats, isLoading }
 }
 
-// 获取相关建筑 Hook
+// 相关建筑
 export function useRelatedBuildings(buildingId: string, limit: number = 4) {
   const [buildings, setBuildings] = useState<Building[]>([])
   const [isLoading, setIsLoading] = useState(false)

@@ -25,8 +25,8 @@ export function useGLTFModelLoader() {
     setState('loading')
 
     try {
-      // 使用 useGLTF hook（在组件外不能使用，所以这里简化为模拟）
-      // 实际应用中应该使用 useGLTF hook 或 GLTFLoader
+      // 简化模拟
+      // 应用实际loader
       setState('success')
       options.onProgress?.(100)
       return null
@@ -71,7 +71,7 @@ interface GLTFModelLoaderProps {
   onError?: (error: Error) => void
 }
 
-// 在组件中使用 @react-three/drei 的 useGLTF hook
+// useGLTF组件
 export function GLTFModelLoaderComponent({
   url,
   onLoad,

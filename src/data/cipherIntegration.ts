@@ -1,4 +1,4 @@
-// Cipher 知识库集成 - 将 content_tab 的知识库数据整合到项目中
+// Cipher集成
 
 import { cipherKnowledgeLibrary, cipherTerms } from '@/../../content_tab/ciphers/cipher_knowledge_extended'
 import { fengshuiKnowledge, symbolKnowledge, colorKnowledge, spaceKnowledge } from '@/features/cipher/data/knowledge'

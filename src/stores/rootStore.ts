@@ -98,6 +98,6 @@ export const useRootStore = create<RootStore>()(
   )
 )
 
-// 向后兼容的导出（deprecated，应使用useRootStore）
+// 向后兼容
 export const useAppStore = useRootStore
 export const useBuildingStore = useRootStore
