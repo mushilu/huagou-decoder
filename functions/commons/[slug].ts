@@ -58,6 +58,9 @@ const resolveCommonsFromCategory = async (category: string) => {
   return candidate?.title || null
 }
 
+type WikidataClaims = Record<string, Array<{ mainsnak?: { datavalue?: { value?: string } } }>>
+type WikidataEntity = { claims?: WikidataClaims }
+
 const resolveFromWikidata = async (query: string, language: string) => {
   const searchUrl = `https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&search=${encodeURIComponent(query)}&language=${language}&limit=5`
   const searchData = await safeFetchJson(searchUrl)
@@ -66,7 +69,7 @@ const resolveFromWikidata = async (query: string, language: string) => {
   for (const result of results) {
     const entityUrl = `https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&props=claims&ids=${encodeURIComponent(result.id)}`
     const entityData = await safeFetchJson(entityUrl)
-    const entities = (entityData?.entities as Record<string, { claims?: Record<string, Array<{ mainsnak?: { datavalue?: { value?: string } } }> }> }) || {}
+    const entities = (entityData?.entities as Record<string, WikidataEntity>) || {}
     const entity = entities[result.id]
     if (!entity?.claims) continue
 
