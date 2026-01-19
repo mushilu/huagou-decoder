@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils'
 import type { BuildingType } from '@/types/building'
 
 const ICON_MAP: Record<BuildingType, string> = {
+  '古建筑': '/moyu-guji/building-types/mansion.svg',
   '民居': '/moyu-guji/building-types/residence.svg',
   '宫府': '/moyu-guji/building-types/mansion.svg',
   '皇宫': '/moyu-guji/building-types/palace.svg',
