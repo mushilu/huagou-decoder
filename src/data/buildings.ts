@@ -101,9 +101,25 @@ const getLocalImages = (slug: string) => {
   }
 }
 
-const buildCommonsProxyUrl = (slug: string, nameZh: string) => {
-  const query = encodeURIComponent(nameZh)
-  return `/commons/${slug}?q=${query}`
+const buildCommonsProxyUrl = (
+  slug: string,
+  nameZh: string,
+  nameEn: string | undefined,
+  regionName: string | undefined,
+  provinceName: string | undefined
+) => {
+  const params = new URLSearchParams()
+  params.set('q', nameZh)
+  if (nameEn && nameEn !== nameZh) {
+    params.set('e', nameEn)
+  }
+  if (regionName) {
+    params.set('r', regionName)
+  }
+  if (provinceName) {
+    params.set('p', provinceName)
+  }
+  return `/commons/${slug}?${params.toString()}`
 }
 
 // 使用完整数据，添加缺失的必要字段
@@ -111,7 +127,13 @@ const typedBuildings = fullBuildingsData as FullBuildingData[]
 
 export const buildings: Building[] = typedBuildings.map((b, index) => {
   const localImages = getLocalImages(b.slug)
-  const commonsThumbnail = buildCommonsProxyUrl(b.slug, b.nameZh)
+  const commonsThumbnail = buildCommonsProxyUrl(
+    b.slug,
+    b.nameZh,
+    b.nameEn,
+    b.region?.name,
+    b.region?.province
+  )
   const imagesCandidate = Array.isArray(b.images) && b.images.length > 0
     ? b.images
     : (localImages?.images || [commonsThumbnail])

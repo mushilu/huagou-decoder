@@ -7,6 +7,8 @@ interface Env {
 const getParam = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value)
 
 const stripParens = (value: string) => value.replace(/（.*?）/g, '').replace(/\(.*?\)/g, '').trim()
+const stripSuffix = (value: string) =>
+  value.replace(/(遗址|故居|旧址|古城|城墙|城|府|宫|桥|馆|园|坊|寨|堡|楼|院|关|门|街|巷)$/g, '').trim()
 
 const stripHtml = (value: string) => value.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
 
@@ -26,6 +28,14 @@ const fetchJson = async (url: string) => {
   return res.json() as Promise<Record<string, unknown>>
 }
 
+const safeFetchJson = async (url: string) => {
+  try {
+    return await fetchJson(url)
+  } catch {
+    return null
+  }
+}
+
 const scoreMatch = (title: string, snippet: string, query: string, queryAlt: string) => {
   const titleNorm = normalize(title)
   const snippetNorm = normalize(snippet)
@@ -40,29 +50,45 @@ const scoreMatch = (title: string, snippet: string, query: string, queryAlt: str
   return score
 }
 
-const resolveCommonsImage = async (query: string) => {
-  const queryAlt = stripParens(query)
-  const searchUrl = `https://commons.wikimedia.org/w/api.php?action=query&format=json&list=search&srsearch=${encodeURIComponent(query)}&srnamespace=6&srlimit=5`
-  const searchData = await fetchJson(searchUrl)
-  const results = (searchData.query as { search?: Array<{ title: string; snippet: string }> })?.search || []
+const resolveCommonsFromCategory = async (category: string) => {
+  const api = `https://commons.wikimedia.org/w/api.php?action=query&format=json&list=categorymembers&cmtitle=Category:${encodeURIComponent(category)}&cmtype=file&cmlimit=5`
+  const data = await safeFetchJson(api)
+  const members = (data?.query as { categorymembers?: Array<{ title: string }> })?.categorymembers || []
+  const candidate = members.find((item) => isImageFile(item.title))
+  return candidate?.title || null
+}
 
-  let best: { title: string; snippet: string } | null = null
-  let bestScore = 0
+const resolveFromWikidata = async (query: string, language: string) => {
+  const searchUrl = `https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&search=${encodeURIComponent(query)}&language=${language}&limit=5`
+  const searchData = await safeFetchJson(searchUrl)
+  const results = (searchData?.search as Array<{ id: string }> | undefined) || []
 
-  for (const item of results) {
-    if (!isImageFile(item.title)) continue
-    const score = scoreMatch(item.title, item.snippet, query, queryAlt)
-    if (score > bestScore) {
-      best = item
-      bestScore = score
+  for (const result of results) {
+    const entityUrl = `https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&props=claims&ids=${encodeURIComponent(result.id)}`
+    const entityData = await safeFetchJson(entityUrl)
+    const entities = (entityData?.entities as Record<string, { claims?: Record<string, Array<{ mainsnak?: { datavalue?: { value?: string } } }> }> }) || {}
+    const entity = entities[result.id]
+    if (!entity?.claims) continue
+
+    const imageClaim = entity.claims.P18?.[0]?.mainsnak?.datavalue?.value
+    if (imageClaim && typeof imageClaim === 'string') {
+      return `File:${imageClaim}`
+    }
+
+    const categoryClaim = entity.claims.P373?.[0]?.mainsnak?.datavalue?.value
+    if (categoryClaim && typeof categoryClaim === 'string') {
+      const fileTitle = await resolveCommonsFromCategory(categoryClaim)
+      if (fileTitle) return fileTitle
     }
   }
 
-  if (!best || bestScore < 2) return null
+  return null
+}
 
-  const infoUrl = `https://commons.wikimedia.org/w/api.php?action=query&format=json&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=1200&titles=${encodeURIComponent(best.title)}`
-  const infoData = await fetchJson(infoUrl)
-  const pages = (infoData.query as { pages?: Record<string, { title: string; imageinfo?: Array<Record<string, unknown>> }> })?.pages || {}
+const fetchCommonsImageByTitle = async (title: string) => {
+  const infoUrl = `https://commons.wikimedia.org/w/api.php?action=query&format=json&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=1200&titles=${encodeURIComponent(title)}`
+  const infoData = await safeFetchJson(infoUrl)
+  const pages = (infoData?.query as { pages?: Record<string, { title: string; imageinfo?: Array<Record<string, unknown>> }> })?.pages || {}
   const page = Object.values(pages)[0]
   const info = page?.imageinfo?.[0] as {
     url?: string
@@ -79,14 +105,37 @@ const resolveCommonsImage = async (query: string) => {
   const author = stripHtml(ext.Artist?.value || ext.Credit?.value || '')
 
   return {
-    fileTitle: page?.title || best.title,
+    fileTitle: page?.title || title,
     thumbUrl: info.thumburl || info.url || '',
     imageUrl: info.url || info.thumburl || '',
-    sourceUrl: info.descriptionurl || `https://commons.wikimedia.org/wiki/${encodeURIComponent(best.title)}`,
+    sourceUrl: info.descriptionurl || `https://commons.wikimedia.org/wiki/${encodeURIComponent(title)}`,
     license,
     licenseUrl,
     author,
   }
+}
+
+const resolveCommonsImage = async (query: string) => {
+  const queryAlt = stripParens(query)
+  const queryCore = stripSuffix(queryAlt)
+  const searchUrl = `https://commons.wikimedia.org/w/api.php?action=query&format=json&list=search&srsearch=${encodeURIComponent(query)}&srnamespace=6&srlimit=5`
+  const searchData = await safeFetchJson(searchUrl)
+  const results = (searchData?.query as { search?: Array<{ title: string; snippet: string }> })?.search || []
+
+  let best: { title: string; snippet: string } | null = null
+  let bestScore = 0
+
+  for (const item of results) {
+    if (!isImageFile(item.title)) continue
+    const score = scoreMatch(item.title, item.snippet, query, queryCore)
+    if (score > bestScore) {
+      best = item
+      bestScore = score
+    }
+  }
+
+  if (!best || bestScore < 2) return null
+  return fetchCommonsImageByTitle(best.title)
 }
 
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
@@ -97,6 +146,9 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 
   const url = new URL(ctx.request.url)
   const query = url.searchParams.get('q')?.trim()
+  const region = url.searchParams.get('r')?.trim()
+  const province = url.searchParams.get('p')?.trim()
+  const english = url.searchParams.get('e')?.trim()
 
   const cached = await ctx.env.DB.prepare(
     'SELECT thumb_url, image_url, source_url, license, license_url, author FROM commons_image_cache WHERE slug = ?'
@@ -117,7 +169,28 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 
   let resolved = cached
   if (!resolved && query) {
-    const result = await resolveCommonsImage(query)
+    const queries = [
+      query,
+      query && region ? `${query} ${region}` : null,
+      query && province ? `${query} ${province}` : null,
+      query && region && province ? `${query} ${region} ${province}` : null,
+      stripParens(query),
+      stripSuffix(stripParens(query)),
+      english,
+      english && region ? `${english} ${region}` : null,
+    ].filter((value): value is string => Boolean(value))
+
+    let result = null
+    for (const item of queries) {
+      const wikidataFile = await resolveFromWikidata(item, /[a-zA-Z]/.test(item) ? 'en' : 'zh')
+      if (wikidataFile) {
+        result = await fetchCommonsImageByTitle(wikidataFile)
+      } else {
+        result = await resolveCommonsImage(item)
+      }
+      if (result) break
+    }
+
     if (!result) {
       return new Response('Not found', { status: 404 })
     }
