@@ -14,7 +14,7 @@ const stripHtml = (value: string) => value.replace(/<[^>]+>/g, '').replace(/\s+/
 
 const normalize = (value: string) => stripHtml(value).toLowerCase().replace(/\s+/g, '')
 
-const isImageFile = (title: string) => /\.(jpg|jpeg|png|webp)$/i.test(title)
+const isImageFile = (title: string) => /\.(jpg|jpeg|png|webp|tif|tiff)$/i.test(title)
 
 const buildUserAgent = () => 'huagou-decoder/1.0'
 
@@ -34,6 +34,18 @@ const safeFetchJson = async (url: string) => {
   } catch {
     return null
   }
+}
+
+const uniq = (items: Array<string | null | undefined>) => {
+  const seen = new Set<string>()
+  const result: string[] = []
+  for (const item of items) {
+    if (!item) continue
+    if (seen.has(item)) continue
+    seen.add(item)
+    result.push(item)
+  }
+  return result
 }
 
 const scoreMatch = (title: string, snippet: string, query: string, queryAlt: string) => {
@@ -56,6 +68,74 @@ const resolveCommonsFromCategory = async (category: string) => {
   const members = (data?.query as { categorymembers?: Array<{ title: string }> })?.categorymembers || []
   const candidate = members.find((item) => isImageFile(item.title))
   return candidate?.title || null
+}
+
+const isAllowedLicense = (value: string) => {
+  const normalized = value.toLowerCase()
+  if (!normalized) return false
+  if (normalized.includes('cc by')) return true
+  if (normalized.includes('cc0')) return true
+  if (normalized.includes('public domain')) return true
+  if (normalized.includes('pd')) return true
+  return false
+}
+
+const resolveFromWikipedia = async (query: string, language: string) => {
+  const base = `https://${language}.wikipedia.org/w/api.php`
+  const searchUrl = `${base}?action=query&format=json&list=search&srsearch=${encodeURIComponent(query)}&srlimit=5`
+  const searchData = await safeFetchJson(searchUrl)
+  const results = (searchData?.query as { search?: Array<{ title: string; snippet: string }> })?.search || []
+
+  let best: { title: string; snippet: string } | null = null
+  let bestScore = 0
+
+  for (const item of results) {
+    const score = scoreMatch(item.title, item.snippet, query, stripSuffix(stripParens(query)))
+    if (score > bestScore) {
+      best = item
+      bestScore = score
+    }
+  }
+
+  if (!best || bestScore < 2) return null
+
+  const pageUrl = `${base}?action=query&format=json&prop=pageimages&piprop=original&titles=${encodeURIComponent(best.title)}`
+  const pageData = await safeFetchJson(pageUrl)
+  const pages = (pageData?.query as { pages?: Record<string, { pageimage?: string }> })?.pages || {}
+  const page = Object.values(pages)[0]
+  const pageImage = page?.pageimage
+  if (!pageImage) return null
+
+  const fileTitle = pageImage.startsWith('File:') ? pageImage : `File:${pageImage}`
+  const fileUrl = `${base}?action=query&format=json&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=1200&titles=${encodeURIComponent(fileTitle)}`
+  const fileData = await safeFetchJson(fileUrl)
+  const filePages = (fileData?.query as { pages?: Record<string, { title: string; imageinfo?: Array<Record<string, unknown>> }> })?.pages || {}
+  const filePage = Object.values(filePages)[0]
+  const info = filePage?.imageinfo?.[0] as {
+    url?: string
+    thumburl?: string
+    descriptionurl?: string
+    extmetadata?: Record<string, { value?: string }>
+  } | undefined
+
+  if (!info?.thumburl && !info?.url) return null
+
+  const ext = info.extmetadata || {}
+  const license = stripHtml(ext.LicenseShortName?.value || ext.UsageTerms?.value || '')
+  if (!isAllowedLicense(license)) return null
+
+  const licenseUrl = ext.LicenseUrl?.value || ''
+  const author = stripHtml(ext.Artist?.value || ext.Credit?.value || '')
+
+  return {
+    fileTitle: filePage?.title || fileTitle,
+    thumbUrl: info.thumburl || info.url || '',
+    imageUrl: info.url || info.thumburl || '',
+    sourceUrl: info.descriptionurl || `https://${language}.wikipedia.org/wiki/${encodeURIComponent(best.title)}`,
+    license,
+    licenseUrl,
+    author,
+  }
 }
 
 type WikidataClaims = Record<string, Array<{ mainsnak?: { datavalue?: { value?: string } } }>>
@@ -172,16 +252,21 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 
   let resolved = cached
   if (!resolved && query) {
-    const queries = [
+    const baseQuery = stripParens(query)
+    const coreQuery = stripSuffix(baseQuery)
+    const queries = uniq([
       query,
+      baseQuery,
+      coreQuery,
       query && region ? `${query} ${region}` : null,
       query && province ? `${query} ${province}` : null,
+      coreQuery && region ? `${coreQuery} ${region}` : null,
+      coreQuery && province ? `${coreQuery} ${province}` : null,
       query && region && province ? `${query} ${region} ${province}` : null,
-      stripParens(query),
-      stripSuffix(stripParens(query)),
       english,
       english && region ? `${english} ${region}` : null,
-    ].filter((value): value is string => Boolean(value))
+      english && province ? `${english} ${province}` : null,
+    ])
 
     let result = null
     for (const item of queries) {
@@ -192,6 +277,16 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         result = await resolveCommonsImage(item)
       }
       if (result) break
+    }
+
+    if (!result) {
+      for (const item of queries) {
+        const wikiResult = await resolveFromWikipedia(item, /[a-zA-Z]/.test(item) ? 'en' : 'zh')
+        if (wikiResult) {
+          result = wikiResult
+          break
+        }
+      }
     }
 
     if (!result) {
