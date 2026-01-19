@@ -232,6 +232,10 @@ export function CodexPage() {
           </div>
         ) : (
           <>
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-2 text-xs text-ink-gray">
+              <span>共 {total} 项 · 第 {currentPage} / {Math.max(1, totalPages)} 页</span>
+              <span>本页 {buildings.length} 项</span>
+            </div>
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

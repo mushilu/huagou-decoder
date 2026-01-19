@@ -5,6 +5,7 @@ import type { BuildingType } from '@/types/building'
 const ICON_MAP: Record<BuildingType, string> = {
   '古建筑': '/moyu-guji/building-types/mansion.svg',
   '民居': '/moyu-guji/building-types/residence.svg',
+  '官府': '/moyu-guji/building-types/mansion.svg',
   '宫府': '/moyu-guji/building-types/mansion.svg',
   '皇宫': '/moyu-guji/building-types/palace.svg',
   '桥梁': '/moyu-guji/building-types/bridge.svg',

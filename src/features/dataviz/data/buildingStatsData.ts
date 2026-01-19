@@ -1,24 +1,14 @@
 // 统计数据生成
 
 // 导入完整的建筑数据
-import { fullBuildingsData } from '@/../../content_tab/buildings/complete_buildings_data'
+import { buildings } from '@/data/buildings'
 import { provinceGeocenters } from './provinceGeocenterCoordinates'
+import type { Building } from '@/types/building'
 
-interface FullBuildingData {
-  id: string
-  nameZh: string
-  dynasty: string
-  buildingType: string
-  region: {
-    province: string
-    coordinates: { lat: number; lng: number }
-  }
-  constructionDetails?: {
-    startYear: number
-    endYear: number
-    durationYears: number
-  }
-}
+type StatsBuilding = Pick<
+  Building,
+  'id' | 'nameZh' | 'dynasty' | 'buildingType' | 'region' | 'constructionDetails'
+>
 
 // 朝代统计信息
 export interface DynastyStats {
@@ -88,6 +78,7 @@ const dynastyInfo: Record<string, { period: string; color: string }> = {
 const typeColorMap: Record<string, string> = {
   '古建筑': '#8D6E63',
   '皇宫': '#C41E3A',
+  '官府': '#AB47BC',
   '民居': '#D4A574',
   '桥梁': '#4A90E2',
   '园林': '#7CB342',
@@ -103,7 +94,7 @@ const typeColorMap: Record<string, string> = {
 function generateDynastyStats(): DynastyStats[] {
   const dynastyMap = new Map<string, { count: number; buildings: string[] }>()
 
-  ;(fullBuildingsData as FullBuildingData[]).forEach((building) => {
+  ;(buildings as StatsBuilding[]).forEach((building) => {
     const dynasty = building.dynasty
     if (!dynastyMap.has(dynasty)) {
       dynastyMap.set(dynasty, { count: 0, buildings: [] })
@@ -126,7 +117,7 @@ function generateDynastyStats(): DynastyStats[] {
 function generateTypeStats(): TypeStats[] {
   const typeMap = new Map<string, { count: number; buildings: string[] }>()
 
-  ;(fullBuildingsData as FullBuildingData[]).forEach((building) => {
+  ;(buildings as StatsBuilding[]).forEach((building) => {
     const type = building.buildingType
     if (!typeMap.has(type)) {
       typeMap.set(type, { count: 0, buildings: [] })
@@ -136,7 +127,7 @@ function generateTypeStats(): TypeStats[] {
     data.buildings.push(building.nameZh)
   })
 
-  const total = fullBuildingsData.length
+  const total = buildings.length
 
   return Array.from(typeMap.entries()).map(([type, data]) => ({
     name: type,
@@ -159,8 +150,8 @@ function generateProvinceStats(): ProvinceStats[] {
     }
   >()
 
-  ;(fullBuildingsData as FullBuildingData[]).forEach((building) => {
-    const province = building.region.province
+  ;(buildings as StatsBuilding[]).forEach((building) => {
+    const province = building.region.province || building.region.name || '未知'
     if (!provinceMap.has(province)) {
       // 使用真实的省份地理中心坐标而非建筑坐标
       const geocenter = provinceGeocenters[province] || building.region.coordinates
@@ -193,7 +184,7 @@ function generateTimeline(): TimelineEvent[] {
   const events: TimelineEvent[] = []
 
   // 为每个建筑添加时间事件
-  ;(fullBuildingsData as FullBuildingData[]).forEach((building) => {
+  ;(buildings as StatsBuilding[]).forEach((building) => {
     const { constructionDetails } = building
     if (constructionDetails) {
       events.push({
@@ -223,14 +214,14 @@ export function generateBuildingStats(): BuildingStats {
   const timeline = generateTimeline()
 
   return {
-    total: fullBuildingsData.length,
+    total: buildings.length,
     byDynasty: dynastyStats,
     byType: typeStats,
     byProvince: provinceStats,
     timeline: timeline,
-    topBuildings: fullBuildingsData
+    topBuildings: buildings
       .slice(0, 5)
-      .map((b: FullBuildingData) => b.nameZh),
+      .map((b) => b.nameZh),
   }
 }
 
@@ -250,13 +241,13 @@ export function filterBuildingsByDynasty(
   const selectedDynasties = dynastyOrder.slice(startIdx, endIdx + 1)
 
   // 过滤建筑数据
-  const filtered = (fullBuildingsData as FullBuildingData[]).filter((b) =>
+  const filtered = (buildings as StatsBuilding[]).filter((b) =>
     selectedDynasties.includes(b.dynasty),
   )
 
   // 建立索引
   const buildingNameToDynastyMap = new Map<string, string>()
-  ;(fullBuildingsData as FullBuildingData[]).forEach((b) => {
+  ;(buildings as StatsBuilding[]).forEach((b) => {
     buildingNameToDynastyMap.set(b.nameZh, b.dynasty)
   })
 
@@ -295,7 +286,7 @@ export function filterBuildingsByDynasty(
   >()
 
   filtered.forEach((building) => {
-    const province = building.region.province
+    const province = building.region.province || building.region.name || '未知'
     if (!provinceMap.has(province)) {
       // 使用真实的省份地理中心坐标而非建筑坐标
       const geocenter = provinceGeocenters[province] || building.region.coordinates

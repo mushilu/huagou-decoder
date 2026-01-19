@@ -69,6 +69,9 @@ export function BuildingDetailPage() {
     (building.images && building.images[0]) ||
     building.thumbnail ||
     getBuildingThumbnail(undefined, building.dynasty)
+  const heroBackgroundStyle = heroImage
+    ? { backgroundImage: `url(${heroImage})`, filter: 'blur(2px)' }
+    : { backgroundImage: 'linear-gradient(135deg, #f5efe6 0%, #ede4d7 50%, #f7f1e8 100%)' }
 
   return (
     <div className="min-h-screen bg-paper-white">
@@ -105,13 +108,7 @@ export function BuildingDetailPage() {
       {/* 头图区域 */}
       <div className="relative h-96 overflow-hidden">
         {/* 背景图 */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${heroImage})`,
-            filter: 'blur(2px)',
-          }}
-        />
+        <div className="absolute inset-0 bg-cover bg-center" style={heroBackgroundStyle} />
 
         {/* 暗色遮罩 */}
         <div className="absolute inset-0 bg-ink-black/50" />

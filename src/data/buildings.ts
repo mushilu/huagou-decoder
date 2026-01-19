@@ -1,5 +1,6 @@
 import type { Building, Dynasty, BuildingType, Region } from '@/types/building'
-import { fullBuildingsData } from '@/../../content_tab/buildings/complete_buildings_data'
+import { fullBuildingsData } from '../../content_tab/buildings/complete_buildings_data'
+import { buildingImages } from '../../content_tab/buildings/building_images'
 
 const LOCAL_IMAGE_SLUGS = new Set([
   'fenghuang-ancient-town',
@@ -17,6 +18,40 @@ const LOCAL_IMAGE_SLUGS = new Set([
   'wang-family-courtyard',
   'zhao-zhou-bridge',
 ])
+
+const BRIDGE_KEYWORDS = ['桥', '渡', '堤', '闸', '坝', '堰', '渠']
+const PALACE_KEYWORDS = ['皇宫', '宫殿', '行宫', '宫城', '禁城', '故宫', '大内', '皇城', '帝宫']
+const IMPERIAL_GARDEN_HINTS = ['御', '皇', '宫', '苑', '禁', '颐和', '圆明', '避暑', '上林', '离宫']
+const GOVERNMENT_KEYWORDS = [
+  '府',
+  '署',
+  '衙',
+  '公署',
+  '官署',
+  '都督',
+  '总督',
+  '巡抚',
+  '将军府',
+  '王府',
+  '城墙',
+  '城楼',
+  '城堡',
+  '关城',
+  '关隘',
+  '关口',
+  '堡',
+  '寨',
+  '驿',
+  '驿站',
+  '台',
+  '仓',
+  '书院',
+  '贡院',
+  '试院',
+  '学宫',
+  '古城',
+]
+const RESIDENCE_KEYWORDS = ['宅', '院', '居', '里', '村', '坊', '街', '巷', '楼', '庄', '店', '号', '馆', '堂', '园']
 
 type FullBuildingData = {
   id: string
@@ -38,6 +73,26 @@ type FullBuildingData = {
   images?: string[]
 }
 
+const containsKeyword = (text: string, keywords: string[]) =>
+  keywords.some((keyword) => text.includes(keyword))
+
+// 将原始类型统一映射为赛事要求的四类：民居 / 官府 / 皇宫 / 桥梁
+const normalizeBuildingType = (building: FullBuildingData): BuildingType => {
+  const rawType = building.buildingType
+  if (rawType === '皇宫' || rawType === '民居' || rawType === '桥梁' || rawType === '官府') {
+    return rawType
+  }
+  if (rawType === '宫府') return '官府'
+
+  const name = building.nameZh || ''
+  if (containsKeyword(name, BRIDGE_KEYWORDS)) return '桥梁'
+  if (containsKeyword(name, PALACE_KEYWORDS)) return '皇宫'
+  if (name.includes('园') && containsKeyword(name, IMPERIAL_GARDEN_HINTS)) return '皇宫'
+  if (containsKeyword(name, GOVERNMENT_KEYWORDS)) return '官府'
+  if (containsKeyword(name, RESIDENCE_KEYWORDS)) return '民居'
+  return '民居'
+}
+
 const getLocalImages = (slug: string) => {
   if (!LOCAL_IMAGE_SLUGS.has(slug)) return null
   const base = `/images/buildings/${slug}`
@@ -52,8 +107,13 @@ const typedBuildings = fullBuildingsData as FullBuildingData[]
 
 export const buildings: Building[] = typedBuildings.map((b, index) => {
   const localImages = getLocalImages(b.slug)
-  const images = Array.isArray(b.images) && b.images.length > 0 ? b.images : localImages?.images
-  const thumbnail = b.thumbnail || localImages?.thumbnail
+  const externalImages = (buildingImages as Record<string, { thumbnail?: string; images?: readonly string[] } | undefined>)[b.slug]
+  const imagesCandidate = Array.isArray(b.images) && b.images.length > 0
+    ? b.images
+    : (localImages?.images || externalImages?.images)
+  const images = imagesCandidate ? [...imagesCandidate] : undefined
+  const thumbnail = b.thumbnail || localImages?.thumbnail || externalImages?.thumbnail
+  const buildingType = normalizeBuildingType(b)
 
   return {
   id: b.id,
@@ -62,7 +122,7 @@ export const buildings: Building[] = typedBuildings.map((b, index) => {
   nameEn: b.nameEn,
   dynasty: b.dynasty,
   dynastyYear: b.dynastyYear,
-  buildingType: b.buildingType,
+  buildingType,
   region: b.region,
   summary: b.summary,
   content: b.content,
@@ -77,7 +137,7 @@ export const buildings: Building[] = typedBuildings.map((b, index) => {
     fov: 50,
   },
   tags: [
-    { id: '1', name: b.buildingType, category: 'style' },
+    { id: '1', name: buildingType, category: 'style' },
     { id: '2', name: b.dynasty, category: 'period' },
   ],
   status: 'published' as const,

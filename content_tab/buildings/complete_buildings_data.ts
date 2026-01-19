@@ -1921,8 +1921,8 @@ export const fullBuildingsData = [
   {
     id: '71',
     slug: 'building-071',
-    nameZh: '狭搽湖避塘',
-    nameEn: '狭搽湖避塘',
+    nameZh: '犭央犭茶湖避塘',
+    nameEn: '犭央犭茶湖避塘',
     dynasty: '明',
     buildingType: '古建筑',
     region: {
@@ -1931,7 +1931,7 @@ export const fullBuildingsData = [
       province: '浙江',
       coordinates: { lat: 30.2741, lng: 120.1551 },
     },
-    summary: '狭搽湖避塘位于浙江省绍兴市绍兴县，为明时期古建筑类国保单位。',
+    summary: '犭央犭茶湖避塘位于浙江省绍兴市绍兴县，为明时期古建筑类国保单位。',
   },
   {
     id: '72',

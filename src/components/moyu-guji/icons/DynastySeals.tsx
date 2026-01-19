@@ -10,7 +10,7 @@ const SEAL_MAP: Record<Dynasty, string> = {
   '秦汉': '/moyu-guji/seals/seal-qin-han.svg',
   '南北朝': '/moyu-guji/seals/seal-wei-jin.svg',
   '魏晋南北朝': '/moyu-guji/seals/seal-wei-jin.svg',
-  '五代': '/moyu-guji/seals/seal-song.svg',
+  '五代': '/moyu-guji/seals/seal-five-dynasties.svg',
   '隋唐': '/moyu-guji/seals/seal-sui-tang.svg',
   '宋': '/moyu-guji/seals/seal-song.svg',
   '辽': '/moyu-guji/seals/seal-song.svg',

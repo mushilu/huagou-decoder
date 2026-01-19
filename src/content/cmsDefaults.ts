@@ -149,7 +149,7 @@ export const cmsDefaults: CmsDefaults = {
     features: [
       {
         title: '建筑图鉴',
-        description: '浏览中国古代建筑瑰宝，探索民居、宫府、皇宫、桥梁的建筑之美',
+        description: '浏览中国古代建筑瑰宝，探索民居、官府、皇宫、桥梁的建筑之美',
         path: '/codex',
         badge: '参考',
         category: '知识库',
@@ -296,7 +296,7 @@ export const cmsDefaults: CmsDefaults = {
   codex: {
     hero: {
       title: '建筑图鉴',
-      description: '浏览中国古代建筑瑰宝，探索民居、宫府、皇宫、桥梁的建筑之美',
+      description: '浏览中国古代建筑瑰宝，探索民居、官府、皇宫、桥梁的建筑之美',
     },
     searchPlaceholder: '搜索建筑名称、地点...',
   },

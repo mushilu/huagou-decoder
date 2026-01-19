@@ -20,6 +20,7 @@ export type Dynasty =
 export type BuildingType =
   | '古建筑'
   | '民居'
+  | '官府'
   | '宫府'
   | '皇宫'
   | '桥梁'

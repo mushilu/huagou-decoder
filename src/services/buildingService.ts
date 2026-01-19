@@ -86,7 +86,15 @@ export const buildingService = {
     await delay(100)
 
     const types = Array.from(new Set(buildings.map((b) => b.buildingType)))
-    return types.sort()
+    const order = ['民居', '官府', '皇宫', '桥梁']
+    return types.sort((a, b) => {
+      const aIndex = order.indexOf(a)
+      const bIndex = order.indexOf(b)
+      if (aIndex === -1 && bIndex === -1) return a.localeCompare(b, 'zh-Hans-CN')
+      if (aIndex === -1) return 1
+      if (bIndex === -1) return -1
+      return aIndex - bIndex
+    })
   },
 
   // 热门
