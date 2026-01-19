@@ -532,17 +532,21 @@ export function BuildingDetailPage() {
               {relatedBuildings.map((relBuilding) => (
                 <Link key={relBuilding.id} to={`/codex/${relBuilding.slug}`}>
                   <Card className="group cursor-pointer overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg">
-                    <div className="aspect-[3/2] bg-ink-gray/10 flex items-center justify-center overflow-hidden">
+                    <div className="relative aspect-[3/2] bg-ink-gray/10 flex items-center justify-center overflow-hidden">
+                      <span className="absolute inset-0 flex items-center justify-center text-center text-sm text-ink-gray/30">
+                        {relBuilding.nameZh}
+                      </span>
                       {relBuilding.thumbnail ? (
                         <img
                           src={relBuilding.thumbnail}
                           alt={relBuilding.nameZh}
                           referrerPolicy="no-referrer"
-                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                          onError={(event) => {
+                            event.currentTarget.style.display = 'none'
+                          }}
                         />
-                      ) : (
-                        <span className="text-center text-sm text-ink-gray/30">{relBuilding.nameZh}</span>
-                      )}
+                      ) : null}
                     </div>
                     <CardHeader className="pb-2">
                       <CardTitle className="text-sm group-hover:text-vermilion transition-colors">

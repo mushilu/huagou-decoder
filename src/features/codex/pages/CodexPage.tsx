@@ -263,18 +263,23 @@ export function CodexPage() {
 
                           {/* 图片 */}
                         <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-ink-black/5 to-ink-gray/10">
-                          {(() => { const thumb = getBuildingThumbnail(building.thumbnail, building.dynasty); return thumb ? (
-                            <img
-                              src={thumb}
-                              alt={building.nameZh}
-                              referrerPolicy="no-referrer"
-                              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-                            />
-                          ) : (
-                            <div className="absolute inset-0 flex items-center justify-center text-ink-gray/30">
-                              <span className="font-serif text-center text-lg">{building.nameZh}</span>
-                            </div>
-                          )})()}
+                          <div className="absolute inset-0 flex items-center justify-center text-ink-gray/30">
+                            <span className="font-serif text-center text-lg">{building.nameZh}</span>
+                          </div>
+                          {(() => {
+                            const thumb = getBuildingThumbnail(building.thumbnail, building.dynasty)
+                            return thumb ? (
+                              <img
+                                src={thumb}
+                                alt={building.nameZh}
+                                referrerPolicy="no-referrer"
+                                className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                onError={(event) => {
+                                  event.currentTarget.style.display = 'none'
+                                }}
+                              />
+                            ) : null
+                          })()}
                           <div className="absolute inset-0 bg-gradient-to-t from-ink-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
 
                           {/* Stats overlay on hover */}
@@ -324,19 +329,24 @@ export function CodexPage() {
                             />
                           </div>
 
-                          <div className="h-20 w-24 flex-shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-ink-black/5 to-ink-gray/10">
-                            {(() => { const thumb = getBuildingThumbnail(building.thumbnail, building.dynasty); return thumb ? (
-                              <img
-                                src={thumb}
-                                alt={building.nameZh}
-                                referrerPolicy="no-referrer"
-                                className="h-full w-full object-cover"
-                              />
-                            ) : (
-                              <div className="flex h-full items-center justify-center text-xs text-ink-gray/30 font-serif">
-                                {building.nameZh}
-                              </div>
-                            )})()}
+                          <div className="relative h-20 w-24 flex-shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-ink-black/5 to-ink-gray/10">
+                            <div className="absolute inset-0 flex items-center justify-center text-xs text-ink-gray/30 font-serif">
+                              {building.nameZh}
+                            </div>
+                            {(() => {
+                              const thumb = getBuildingThumbnail(building.thumbnail, building.dynasty)
+                              return thumb ? (
+                                <img
+                                  src={thumb}
+                                  alt={building.nameZh}
+                                  referrerPolicy="no-referrer"
+                                  className="absolute inset-0 h-full w-full object-cover"
+                                  onError={(event) => {
+                                    event.currentTarget.style.display = 'none'
+                                  }}
+                                />
+                              ) : null
+                            })()}
                           </div>
                           <div className="flex-1">
                             <h3 className="font-semibold text-ink-black group-hover:text-vermilion transition-colors">

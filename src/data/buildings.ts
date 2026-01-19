@@ -1,6 +1,5 @@
 import type { Building, Dynasty, BuildingType, Region } from '@/types/building'
 import { fullBuildingsData } from '../../content_tab/buildings/complete_buildings_data'
-import { buildingImages } from '../../content_tab/buildings/building_images'
 
 const LOCAL_IMAGE_SLUGS = new Set([
   'fenghuang-ancient-town',
@@ -102,17 +101,22 @@ const getLocalImages = (slug: string) => {
   }
 }
 
+const buildCommonsProxyUrl = (slug: string, nameZh: string) => {
+  const query = encodeURIComponent(nameZh)
+  return `/commons/${slug}?q=${query}`
+}
+
 // 使用完整数据，添加缺失的必要字段
 const typedBuildings = fullBuildingsData as FullBuildingData[]
 
 export const buildings: Building[] = typedBuildings.map((b, index) => {
   const localImages = getLocalImages(b.slug)
-  const externalImages = (buildingImages as Record<string, { thumbnail?: string; images?: readonly string[] } | undefined>)[b.slug]
+  const commonsThumbnail = buildCommonsProxyUrl(b.slug, b.nameZh)
   const imagesCandidate = Array.isArray(b.images) && b.images.length > 0
     ? b.images
-    : (localImages?.images || externalImages?.images)
+    : (localImages?.images || [commonsThumbnail])
   const images = imagesCandidate ? [...imagesCandidate] : undefined
-  const thumbnail = b.thumbnail || localImages?.thumbnail || externalImages?.thumbnail
+  const thumbnail = b.thumbnail || localImages?.thumbnail || commonsThumbnail
   const buildingType = normalizeBuildingType(b)
 
   return {
