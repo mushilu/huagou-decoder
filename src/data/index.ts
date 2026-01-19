@@ -39,7 +39,7 @@ export {
 
 // 内容统计信息
 export const contentStats = {
-  buildings: 14,
+  buildings: 214,
   decoderChallenges: 25,
   cipherArticles: 20,
   images: 56,

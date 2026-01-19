@@ -67,11 +67,18 @@ export interface BuildingStats {
 
 // 朝代信息映射
 const dynastyInfo: Record<string, { period: string; color: string }> = {
+  '商': { period: '前1600 - 前1046', color: '#795548' },
   '先秦': { period: '前2100 - 前221', color: '#8D6E63' },
+  '秦': { period: '前221 - 前206', color: '#6D4C41' },
+  '汉': { period: '前206 - 220', color: '#8D6E63' },
   '秦汉': { period: '前221 - 220', color: '#6D4C41' },
+  '南北朝': { period: '420 - 589', color: '#546E7A' },
   '魏晋南北朝': { period: '220 - 589', color: '#546E7A' },
+  '五代': { period: '907 - 960', color: '#A1887F' },
   '隋唐': { period: '581 - 907', color: '#FF8A65' },
   '宋': { period: '960 - 1279', color: '#CD5C5C' },
+  '辽': { period: '907 - 1125', color: '#8D6E63' },
+  '金': { period: '1115 - 1234', color: '#7B5E57' },
   '元': { period: '1271 - 1368', color: '#6B4423' },
   '明': { period: '1368 - 1644', color: '#C41E3A' },
   '清': { period: '1644 - 1912', color: '#FFD700' },
@@ -79,6 +86,7 @@ const dynastyInfo: Record<string, { period: string; color: string }> = {
 
 // 建筑类型颜色映射
 const typeColorMap: Record<string, string> = {
+  '古建筑': '#8D6E63',
   '皇宫': '#C41E3A',
   '民居': '#D4A574',
   '桥梁': '#4A90E2',

@@ -3,11 +3,18 @@ import { cn } from '@/lib/utils'
 import type { Dynasty } from '@/types/building'
 
 const SEAL_MAP: Record<Dynasty, string> = {
+  '商': '/moyu-guji/seals/seal-pre-qin.svg',
   '先秦': '/moyu-guji/seals/seal-pre-qin.svg',
+  '秦': '/moyu-guji/seals/seal-qin-han.svg',
+  '汉': '/moyu-guji/seals/seal-qin-han.svg',
   '秦汉': '/moyu-guji/seals/seal-qin-han.svg',
+  '南北朝': '/moyu-guji/seals/seal-wei-jin.svg',
   '魏晋南北朝': '/moyu-guji/seals/seal-wei-jin.svg',
+  '五代': '/moyu-guji/seals/seal-song.svg',
   '隋唐': '/moyu-guji/seals/seal-sui-tang.svg',
   '宋': '/moyu-guji/seals/seal-song.svg',
+  '辽': '/moyu-guji/seals/seal-song.svg',
+  '金': '/moyu-guji/seals/seal-song.svg',
   '元': '/moyu-guji/seals/seal-yuan.svg',
   '明': '/moyu-guji/seals/seal-ming.svg',
   '清': '/moyu-guji/seals/seal-qing.svg',

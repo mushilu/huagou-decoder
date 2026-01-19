@@ -99,7 +99,7 @@ export function Sidebar() {
                 朝代筛选
               </h3>
               <div className="flex flex-wrap gap-2">
-                {['秦汉', '隋唐', '宋', '元', '明', '清'].map((dynasty) => (
+                {['商', '秦', '汉', '南北朝', '五代', '辽', '金', '宋', '元', '明', '清'].map((dynasty) => (
                   <button
                     key={dynasty}
                     className="rounded-full border border-ink-gray/30 px-3 py-1 text-xs text-ink-black transition-colors hover:border-vermilion hover:text-vermilion"
