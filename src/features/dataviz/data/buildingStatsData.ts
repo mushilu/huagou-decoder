@@ -67,6 +67,10 @@ export interface BuildingStats {
 
 // 朝代信息映射
 const dynastyInfo: Record<string, { period: string; color: string }> = {
+  '先秦': { period: '前2100 - 前221', color: '#8D6E63' },
+  '秦汉': { period: '前221 - 220', color: '#6D4C41' },
+  '魏晋南北朝': { period: '220 - 589', color: '#546E7A' },
+  '隋唐': { period: '581 - 907', color: '#FF8A65' },
   '宋': { period: '960 - 1279', color: '#CD5C5C' },
   '元': { period: '1271 - 1368', color: '#6B4423' },
   '明': { period: '1368 - 1644', color: '#C41E3A' },
@@ -80,6 +84,10 @@ const typeColorMap: Record<string, string> = {
   '桥梁': '#4A90E2',
   '园林': '#7CB342',
   '宫府': '#AB47BC',
+  '城镇': '#5C6BC0',
+  '防御': '#8D6E63',
+  '陵墓': '#8E6C88',
+  '要塞': '#6D4C41',
   '宗教': '#00BCD4',
 }
 

@@ -8,6 +8,7 @@ import { useBuildingDetail, useRelatedBuildings } from '@/hooks/useBuildings'
 import { useBuildingStore } from '@/stores/buildingStore'
 import { InkLoading } from '@/components/ink/InkLoading'
 import { getBuildingCipherPoints } from '@/features/cipher/data/buildingCipherMapping'
+import { getBuildingThumbnail } from '@/utils/dynastyThumbnails'
 import {
   fengshuiKnowledge,
   symbolKnowledge,
@@ -63,6 +64,11 @@ export function BuildingDetailPage() {
   }
 
   const isFav = isFavorite(building.slug)
+  const heroImage =
+    (building.images && building.images[1]) ||
+    (building.images && building.images[0]) ||
+    building.thumbnail ||
+    getBuildingThumbnail(undefined, building.dynasty)
 
   return (
     <div className="min-h-screen bg-paper-white">
@@ -102,7 +108,7 @@ export function BuildingDetailPage() {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url(/images/buildings/${building.slug}/detail.jpg)`,
+            backgroundImage: `url(${heroImage})`,
             filter: 'blur(2px)',
           }}
         />
