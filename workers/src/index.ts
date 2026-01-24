@@ -9,9 +9,10 @@ const app = new Hono<{ Bindings: Env }>()
 // CORS
 app.use('*', cors({
   origin: (origin) => {
-    if (!origin) return 'https://huagou-decoder.pages.dev'
+    if (!origin) return 'https://huagou.chaosyn.com'
     if (origin.includes('localhost')) return origin
-    if (origin.endsWith('.huagou-decoder.pages.dev') || origin === 'https://huagou-decoder.pages.dev') return origin
+    if (origin.includes('huagou-decoder.pages.dev')) return origin
+    if (origin.includes('huagou.chaosyn.com')) return origin
     return null
   },
   credentials: true,
