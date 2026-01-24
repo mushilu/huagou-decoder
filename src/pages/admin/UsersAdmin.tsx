@@ -3,7 +3,10 @@ import { Search, User, Trash2, MoreHorizontal, Mail, Calendar, Shield, X } from 
 import { cn } from '@/lib/utils'
 
 const RAW_BASE = import.meta.env.VITE_API_URL
-const API_BASE = RAW_BASE ? RAW_BASE.replace(/\/$/, '') : ''
+const isLocal = typeof window !== 'undefined' && (
+  window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+)
+const API_BASE = isLocal && RAW_BASE ? RAW_BASE.replace(/\/$/, '') : ''
 const ADMIN_TOKEN = 'huagou-admin'
 
 interface UserItem {

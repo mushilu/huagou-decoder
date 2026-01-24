@@ -1,5 +1,8 @@
 const RAW_BASE = import.meta.env.VITE_API_URL
-const API_BASE = RAW_BASE ? RAW_BASE.replace(/\/$/, '') : ''
+const isLocal = typeof window !== 'undefined' && (
+  window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+)
+const API_BASE = isLocal && RAW_BASE ? RAW_BASE.replace(/\/$/, '') : ''
 
 async function parseAuthJson(res: Response) {
   const contentType = res.headers.get('content-type') || ''
