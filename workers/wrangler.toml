@@ -8,7 +8,7 @@ ENVIRONMENT = "development"
 [[d1_databases]]
 binding = "DB"
 database_name = "huagou-db"
-database_id = "placeholder-will-be-replaced"
+database_id = "d5012bc9-810b-4675-9dd6-f9b74a6bf15d"
 
 [ai]
 binding = "AI"
