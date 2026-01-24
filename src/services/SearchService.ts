@@ -18,7 +18,7 @@ class SearchIndex {
   private items: SearchableItem[] = []
   private pendingItems: SearchableItem[] = []
   private rebuildTimer: ReturnType<typeof setTimeout> | null = null
-  private readonly REBUILD_DELAY = 300 // 延迟重建索引300ms，批量处理
+  private readonly REBUILD_DELAY = 300 // 延迟重建
 
   constructor(items: SearchableItem[] = []) {
     this.items = items

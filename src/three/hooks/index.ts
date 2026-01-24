@@ -194,7 +194,7 @@ export function useCameraDistance(targetPosition: [number, number, number]) {
   return distance
 }
 
-// 鼠标位置转 3D 坐标 Hook
+// 鼠标转3D坐标
 export function useMouseToWorld(planeHeight = 0) {
   const { camera, size } = useThree()
   const raycaster = useRef(new THREE.Raycaster())

@@ -153,7 +153,7 @@ function generateProvinceStats(): ProvinceStats[] {
   ;(buildings as StatsBuilding[]).forEach((building) => {
     const province = building.region.province || building.region.name || '未知'
     if (!provinceMap.has(province)) {
-      // 使用真实的省份地理中心坐标而非建筑坐标
+      // 用地理中心
       const geocenter = provinceGeocenters[province] || building.region.coordinates
       provinceMap.set(province, {
         count: 0,
@@ -288,7 +288,7 @@ export function filterBuildingsByDynasty(
   filtered.forEach((building) => {
     const province = building.region.province || building.region.name || '未知'
     if (!provinceMap.has(province)) {
-      // 使用真实的省份地理中心坐标而非建筑坐标
+      // 用地理中心
       const geocenter = provinceGeocenters[province] || building.region.coordinates
       provinceMap.set(province, {
         count: 0,

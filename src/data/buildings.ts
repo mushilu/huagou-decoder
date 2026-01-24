@@ -75,7 +75,7 @@ type FullBuildingData = {
 const containsKeyword = (text: string, keywords: string[]) =>
   keywords.some((keyword) => text.includes(keyword))
 
-// 将原始类型统一映射为赛事要求的四类：民居 / 官府 / 皇宫 / 桥梁
+// 类型映射
 const normalizeBuildingType = (building: FullBuildingData): BuildingType => {
   const rawType = building.buildingType
   if (rawType === '皇宫' || rawType === '民居' || rawType === '桥梁' || rawType === '官府') {

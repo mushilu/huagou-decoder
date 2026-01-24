@@ -1,4 +1,4 @@
-// 中国各省份坐标数据(用于地图展示)
+// 省份坐标
 
 export interface ProvinceCoord {
   name: string

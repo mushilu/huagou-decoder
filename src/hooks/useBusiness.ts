@@ -19,9 +19,9 @@ export function useBuildings() {
     isFavorite,
   } = useRootStore()
 
-  // 加载建筑数据（模拟API调用）
+  // 加载数据
   const loadBuildings = useCallback(async () => {
-    if (buildings.length > 0) return // 已加载则跳过
+    if (buildings.length > 0) return // 已加载
 
     setIsLoading(true)
     setError(null)
@@ -36,7 +36,7 @@ export function useBuildings() {
       const mockBuildings: Building[] = []
       setBuildings(mockBuildings)
     } catch (err) {
-      const message = err instanceof Error ? err.message : '加载建筑数据失败'
+      const message = err instanceof Error ? err.message : '加载失败'
       setError(message)
     } finally {
       setIsLoading(false)
@@ -70,20 +70,20 @@ export function useBuildingFilters() {
     buildings,
   } = useRootStore()
 
-  // 应用过滤
+  // 过滤
   const filteredBuildings = useCallback(() => {
     return buildings.filter((building: Building) => {
-      // 按搜索词过滤
+      // 搜索词
       if (searchQuery && !building.nameZh.includes(searchQuery) && !building.summary?.includes(searchQuery)) {
         return false
       }
 
-      // 按朝代过滤
+      // 朝代
       if (selectedDynasty && building.dynasty !== selectedDynasty) {
         return false
       }
 
-      // 按类型过滤
+      // 类型
       if (selectedBuildingType && building.buildingType !== selectedBuildingType) {
         return false
       }
@@ -107,10 +107,10 @@ export function useBuildingFilters() {
 export function usePerformanceMode() {
   const { performanceMode, setPerformanceMode, vrEnabled, setVrEnabled } = useRootStore()
 
-  // 根据VR模式自动调整性能
+  // VR自动调整
   useEffect(() => {
     if (vrEnabled) {
-      // VR模式优先使用高性能配置
+      // VR高性能
       setPerformanceMode('high')
     }
   }, [vrEnabled, setPerformanceMode])

@@ -17,5 +17,5 @@ export const challengesByDifficulty = {
   expert: allDecoderChallenges.filter(c => c.difficulty === 'expert'),
 }
 
-// 导出给 DecoderPage 使用
+// 导出
 export { decoderSystems, allDecoderChallenges as decoderChallenges }

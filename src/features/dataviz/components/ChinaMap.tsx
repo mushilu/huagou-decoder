@@ -29,7 +29,7 @@ const loadChinaMap = async () => {
     }
   }
 
-  console.error('中国地图数据加载失败，已尝试本地及外部源')
+  console.error('地图加载失败')
   return null
 }
 

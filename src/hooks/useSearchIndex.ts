@@ -94,7 +94,7 @@ let searchIndexInitialized = false
 
 export function useSearchIndex() {
   useEffect(() => {
-    // 只在第一次挂载时初始化，后续挂载跳过
+    // 首次挂载初始化
     if (searchIndexInitialized) {
       return
     }
