@@ -34,8 +34,9 @@ export function ChatBubble() {
       addMessage({ role: 'assistant', content: res.reply, source: res.source })
       setConversationId(res.conversation_id)
       recordQuery()
-    } catch {
-      addMessage({ role: 'assistant', content: '抱歉，请求失败，请稍后重试。' })
+    } catch (err) {
+      console.error('Chat error:', err)
+      addMessage({ role: 'assistant', content: `请求失败: ${err instanceof Error ? err.message : '网络错误'}` })
     } finally {
       setLoading(false)
     }
