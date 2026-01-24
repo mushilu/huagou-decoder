@@ -85,16 +85,27 @@ authRoutes.post('/verify-code', async (c) => {
   return c.json({ success: true, token, user })
 })
 
+// 根据环境获取前端URL
+function getFrontendUrl(c: any): string {
+  const origin = c.req.header('Origin') || c.req.header('Referer') || ''
+  if (origin.includes('localhost')) return 'http://localhost:5173'
+  if (origin.includes('huagou-decoder.pages.dev')) return 'https://huagou-decoder.pages.dev'
+  return c.env.FRONTEND_URL || 'https://huagou-decoder.pages.dev'
+}
+
 // GitHub OAuth跳转
 authRoutes.get('/github', (c) => {
   const clientId = c.env.GITHUB_CLIENT_ID
-  const redirect = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user:email`
+  const frontendUrl = getFrontendUrl(c)
+  const callbackUrl = encodeURIComponent(`${c.env.API_URL || 'https://huagou-api.3366301687.workers.dev'}/api/auth/github/callback?redirect=${encodeURIComponent(frontendUrl)}`)
+  const redirect = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user:email&redirect_uri=${callbackUrl}`
   return c.redirect(redirect)
 })
 
 // GitHub OAuth回调
 authRoutes.get('/github/callback', async (c) => {
   const code = c.req.query('code')
+  const redirectUrl = c.req.query('redirect') || 'https://huagou-decoder.pages.dev'
   if (!code) return c.json({ error: 'No code' }, 400)
 
   // 换token
@@ -142,7 +153,7 @@ authRoutes.get('/github/callback', async (c) => {
     .sign(secret)
 
   // 重定向回前端
-  return c.redirect(`http://localhost:5173/auth/callback?token=${token}`)
+  return c.redirect(`${redirectUrl}/auth/callback?token=${token}`)
 })
 
 // 验证token
