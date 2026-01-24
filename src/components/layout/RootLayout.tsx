@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom'
 import { Header } from './Header'
 import { Footer } from './Footer'
 import { Sidebar } from './Sidebar'
+import { ChatBubble } from '@/components/ai/ChatBubble'
 import { useAppStore } from '@/stores/appStore'
 import { useSearchIndex } from '@/hooks/useSearchIndex'
 import { cn } from '@/lib/utils'
@@ -31,6 +32,8 @@ export function RootLayout() {
       </div>
 
       <Footer />
+
+      <ChatBubble />
     </div>
   )
 }

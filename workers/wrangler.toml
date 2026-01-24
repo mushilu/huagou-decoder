@@ -1,0 +1,14 @@
+name = "huagou-api"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+
+[vars]
+ENVIRONMENT = "development"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "huagou-db"
+database_id = "placeholder-will-be-replaced"
+
+[ai]
+binding = "AI"

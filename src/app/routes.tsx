@@ -13,6 +13,7 @@ import { AdminLoginPage } from '@/pages/admin/AdminLogin'
 import { CipherAdmin } from '@/pages/admin/CipherAdmin'
 import { DecoderAdmin } from '@/pages/admin/DecoderAdmin'
 import { ContentAdmin } from '@/pages/admin/ContentAdmin'
+import { AuthCallback } from '@/components/auth/AuthCallback'
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
   {
     path: '/admin/login',
     element: <AdminLoginPage />,
+  },
+  {
+    path: '/auth/callback',
+    element: <AuthCallback />,
   },
 ])
 
