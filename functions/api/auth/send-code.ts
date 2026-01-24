@@ -48,9 +48,56 @@ export async function onRequestPost(context: any) {
       })
     }
 
-    // 发邮件（用Resend）
+    // 发邮件
     let emailSent = false
-    if (env.RESEND_API_KEY) {
+
+    if (env.BREVO_API_KEY && env.BREVO_FROM) {
+      try {
+        const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+          method: 'POST',
+          headers: {
+            'api-key': env.BREVO_API_KEY,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            sender: { name: '华构解码器', email: env.BREVO_FROM },
+            to: [{ email }],
+            subject: '华构解码器 - 登录验证码',
+            htmlContent: `<p>您的验证码是：<strong>${code}</strong></p><p>5分钟内有效。</p>`,
+          }),
+        })
+        if (res.ok) emailSent = true
+      } catch (e) {
+        console.error('Brevo发送失败', e)
+      }
+    } else if (env.BREVO_API_KEY && !env.BREVO_FROM) {
+      console.error('缺少BREVO_FROM')
+    }
+
+    if (!emailSent && env.SENDGRID_API_KEY && env.SENDGRID_FROM) {
+      try {
+        const res = await fetch('https://api.sendgrid.com/v3/mail/send', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${env.SENDGRID_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            personalizations: [{ to: [{ email }] }],
+            from: { email: env.SENDGRID_FROM },
+            subject: '华构解码器 - 登录验证码',
+            content: [{ type: 'text/html', value: `<p>您的验证码是：<strong>${code}</strong></p><p>5分钟内有效。</p>` }],
+          }),
+        })
+        if (res.ok) emailSent = true
+      } catch (e) {
+        console.error('SendGrid发送失败', e)
+      }
+    } else if (env.SENDGRID_API_KEY && !env.SENDGRID_FROM) {
+      console.error('缺少SENDGRID_FROM')
+    }
+
+    if (!emailSent && env.RESEND_API_KEY) {
       const from = env.RESEND_FROM || 'onboarding@resend.dev'
       try {
         const res = await fetch('https://api.resend.com/emails', {
@@ -68,7 +115,7 @@ export async function onRequestPost(context: any) {
         })
         if (res.ok) emailSent = true
       } catch (e) {
-        console.error('邮件发送失败', e)
+        console.error('Resend发送失败', e)
       }
     }
 
