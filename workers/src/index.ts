@@ -8,7 +8,7 @@ const app = new Hono<{ Bindings: Env }>()
 
 // CORS
 app.use('*', cors({
-  origin: ['http://localhost:5173', 'http://localhost:4173'],
+  origin: ['http://localhost:5173', 'http://localhost:4173', 'https://huagou-decoder.pages.dev', /\.huagou-decoder\.pages\.dev$/],
   credentials: true,
 }))
 

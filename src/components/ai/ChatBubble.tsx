@@ -71,7 +71,7 @@ export function ChatBubble() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed bottom-6 right-6 z-40 flex w-[360px] flex-col overflow-hidden rounded-lg border border-gray-200 bg-paper-cream paper-layered"
+            className="fixed bottom-6 right-6 z-40 flex w-[360px] flex-col overflow-hidden rounded-lg border border-gray-200 bg-[#f5f0e8] shadow-xl"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
