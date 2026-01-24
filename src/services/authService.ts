@@ -1,4 +1,5 @@
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8787'
+const RAW_BASE = import.meta.env.VITE_API_URL
+const API_BASE = RAW_BASE ? RAW_BASE.replace(/\/$/, '') : ''
 
 export async function sendCode(email: string) {
   const res = await fetch(`${API_BASE}/api/auth/send-code`, {
@@ -27,4 +28,25 @@ export async function getMe(token: string) {
     headers: { Authorization: `Bearer ${token}` },
   })
   return res.json()
+}
+
+export async function updateProfile(token: string, data: { nickname?: string; avatar?: string }) {
+  const res = await fetch(`${API_BASE}/api/auth/profile`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  })
+  return res.json()
+}
+
+// 统一导出
+export const authService = {
+  sendCode,
+  verifyCode,
+  getGithubAuthUrl,
+  getMe,
+  updateProfile,
 }

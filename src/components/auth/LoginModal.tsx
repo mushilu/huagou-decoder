@@ -20,6 +20,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const [codeSent, setCodeSent] = useState(false)
   const [error, setError] = useState('')
   const [countdown, setCountdown] = useState(0)
+  const [hint, setHint] = useState('')
 
   const { setUser, setToken, guestQueries, lastQueryDate } = useAuthStore()
 
@@ -35,6 +36,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
       const res = await sendCode(email)
       if (res.success) {
         setCodeSent(true)
+        setHint(res.debug ? `备用验证码：${res.debug}` : '')
         setCountdown(60)
         const timer = setInterval(() => {
           setCountdown((c) => {
@@ -97,7 +99,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
           >
-            <div className="overflow-hidden rounded-lg border border-gray-200 bg-paper-cream paper-layered">
+            <div className="overflow-hidden rounded-lg border border-gray-200 shadow-xl" style={{ backgroundColor: '#ffffff' }}>
               {/* Header */}
               <div className="flex items-center gap-3 border-b border-gray-100 px-6 py-5">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-ink-black shadow-ink">
@@ -116,7 +118,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
                   <button
                     className={`flex flex-1 items-center justify-center gap-1.5 rounded py-2 text-[13px] font-medium transition-all ${
                       tab === 'email'
-                        ? 'bg-paper-cream text-ink-black shadow-sm'
+                        ? 'bg-white text-ink-black shadow-sm'
                         : 'text-ink-gray hover:text-ink-black'
                     }`}
                     onClick={() => setTab('email')}
@@ -127,7 +129,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
                   <button
                     className={`flex flex-1 items-center justify-center gap-1.5 rounded py-2 text-[13px] font-medium transition-all ${
                       tab === 'github'
-                        ? 'bg-paper-cream text-ink-black shadow-sm'
+                        ? 'bg-white text-ink-black shadow-sm'
                         : 'text-ink-gray hover:text-ink-black'
                     }`}
                     onClick={() => setTab('github')}
@@ -192,6 +194,11 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
                         {error}
                       </div>
                     )}
+                    {hint && !error && (
+                      <div className="rounded-md border border-ink-gray/20 bg-paper-ivory px-3 py-2 text-xs text-ink-gray">
+                        {hint}
+                      </div>
+                    )}
 
                     <button
                       onClick={handleVerify}
@@ -233,7 +240,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
               </div>
 
               {/* Footer */}
-              <div className="flex items-center justify-between border-t border-gray-100 bg-gray-50/50 px-6 py-4 text-[11px] text-ink-gray">
+              <div className="flex items-center justify-between border-t border-gray-100 bg-gray-50 px-6 py-4 text-[11px] text-ink-gray">
                 <span>登录即表示同意服务条款</span>
                 <button onClick={onClose} className="font-medium text-ink-black hover:text-vermilion">
                   关闭
