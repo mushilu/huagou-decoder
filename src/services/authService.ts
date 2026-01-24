@@ -1,13 +1,21 @@
 const RAW_BASE = import.meta.env.VITE_API_URL
 const API_BASE = RAW_BASE ? RAW_BASE.replace(/\/$/, '') : ''
 
+async function parseAuthJson(res: Response) {
+  const contentType = res.headers.get('content-type') || ''
+  if (!contentType.includes('application/json')) {
+    throw new Error('登录服务异常')
+  }
+  return res.json()
+}
+
 export async function sendCode(email: string) {
   const res = await fetch(`${API_BASE}/api/auth/send-code`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),
   })
-  return res.json()
+  return parseAuthJson(res)
 }
 
 export async function verifyCode(email: string, code: string) {
@@ -16,7 +24,7 @@ export async function verifyCode(email: string, code: string) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, code }),
   })
-  return res.json()
+  return parseAuthJson(res)
 }
 
 export function getGithubAuthUrl() {

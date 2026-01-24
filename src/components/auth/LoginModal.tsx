@@ -50,8 +50,9 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
       } else {
         setError(res.message || '发送失败')
       }
-    } catch {
-      setError('网络错误')
+    } catch (err) {
+      const message = err instanceof Error ? err.message : '网络错误'
+      setError(message)
     } finally {
       setSending(false)
     }
@@ -71,8 +72,9 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
       } else {
         setError(res.message || '验证失败')
       }
-    } catch {
-      setError('网络错误')
+    } catch (err) {
+      const message = err instanceof Error ? err.message : '网络错误'
+      setError(message)
     } finally {
       setVerifying(false)
     }
