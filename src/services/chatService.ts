@@ -1,5 +1,6 @@
-const RAW_BASE = import.meta.env.VITE_API_URL
-const API_BASE = RAW_BASE ? RAW_BASE.replace(/\/$/, '') : ''
+const API_BASE = import.meta.env.DEV
+  ? (import.meta.env.VITE_API_URL || '').replace(/\/$/, '')
+  : ''
 
 interface ChatRequest {
   message: string

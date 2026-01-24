@@ -2,11 +2,9 @@ import { useState, useEffect } from 'react'
 import { Search, User, Trash2, MoreHorizontal, Mail, Calendar, Shield, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const RAW_BASE = import.meta.env.VITE_API_URL
-const isLocal = typeof window !== 'undefined' && (
-  window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-)
-const API_BASE = isLocal && RAW_BASE ? RAW_BASE.replace(/\/$/, '') : ''
+const API_BASE = import.meta.env.DEV
+  ? (import.meta.env.VITE_API_URL || '').replace(/\/$/, '')
+  : ''
 const ADMIN_TOKEN = 'huagou-admin'
 
 interface UserItem {
