@@ -52,37 +52,43 @@ chatRoutes.post('/', async (c) => {
     const { message, conversation_id, context } = await c.req.json<{
       message: string
       conversation_id?: string
-      context?: { building_id?: string }
+      context?: { building_id?: string; buildingId?: string; buildingName?: string }
     }>()
 
     if (!message?.trim()) {
       return c.json({ error: '消息不能为空' }, 400)
     }
 
-  // 先搜本地知识库
-  let reply = searchLocal(message)
-  let source: 'local' | 'llm' = 'local'
+    // 先搜本地知识库
+    let reply = searchLocal(message)
+    let source: 'local' | 'llm' = 'local'
 
-  // 本地没有，调Workers AI
-  if (!reply) {
-    source = 'llm'
-    const systemPrompt = `你是一位中国古建筑专家，正在为用户讲解古建筑知识。
+    // 本地没有，调Workers AI
+    if (!reply) {
+      source = 'llm'
+      const buildingName = context?.buildingName
+      const systemPrompt = buildingName
+        ? `你是一位中国古建筑专家，正在为用户讲解「${buildingName}」这座建筑的知识。
+请用简洁易懂的语言回答，适合教育场景。
+如果问题与${buildingName}相关，请结合这座建筑的特点来回答。
+回答控制在200字以内。`
+        : `你是一位中国古建筑专家，正在为用户讲解古建筑知识。
 请用简洁易懂的语言回答，适合教育场景。
 回答控制在200字以内。`
 
-    try {
-      const aiRes = await c.env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: message },
-        ],
-      })
-      reply = (aiRes as any).response || '抱歉，我暂时无法回答这个问题。'
-    } catch (err) {
-      console.error('AI调用失败:', err)
-      reply = '抱歉，AI服务暂时不可用，请稍后再试。'
+      try {
+        const aiRes = await c.env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: message },
+          ],
+        })
+        reply = (aiRes as any).response || '抱歉，我暂时无法回答这个问题。'
+      } catch (err) {
+        console.error('AI调用失败:', err)
+        reply = '抱歉，AI服务暂时不可用，请稍后再试。'
+      }
     }
-  }
 
   // 保存对话（登录用户）
   let convId = conversation_id

@@ -3,7 +3,7 @@ const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8787'
 interface ChatRequest {
   message: string
   conversationId?: string | null
-  context?: { buildingId?: string }
+  context?: { buildingId?: string; buildingName?: string }
 }
 
 interface ChatResponse {

@@ -9,6 +9,7 @@ import { useBuildingStore } from '@/stores/buildingStore'
 import { InkLoading } from '@/components/ink/InkLoading'
 import { getBuildingCipherPoints } from '@/features/cipher/data/buildingCipherMapping'
 import { getBuildingThumbnail } from '@/utils/dynastyThumbnails'
+import { BuildingChat } from '@/components/ai/BuildingChat'
 import {
   fengshuiKnowledge,
   symbolKnowledge,
@@ -297,6 +298,17 @@ export function BuildingDetailPage() {
                 </Card>
               </motion.div>
             )}
+
+            {/* AI导览问答 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="mb-8"
+            >
+              <BuildingChat building={building} />
+            </motion.div>
           </motion.div>
 
           {/* Sidebar */}
