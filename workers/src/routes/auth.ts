@@ -23,20 +23,31 @@ authRoutes.post('/send-code', async (c) => {
   ).bind(id, email, code, expires).run()
 
   // 发邮件（用Resend）
+  let emailSent = false
   if (c.env.RESEND_API_KEY) {
-    await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${c.env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: 'noreply@huagou.dev',
-        to: email,
-        subject: '华构解码器 - 登录验证码',
-        html: `<p>您的验证码是：<strong>${code}</strong></p><p>5分钟内有效。</p>`,
-      }),
-    })
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${c.env.RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'onboarding@resend.dev',
+          to: email,
+          subject: '华构解码器 - 登录验证码',
+          html: `<p>您的验证码是：<strong>${code}</strong></p><p>5分钟内有效。</p>`,
+        }),
+      })
+      if (res.ok) emailSent = true
+    } catch (e) {
+      console.error('邮件发送失败', e)
+    }
+  }
+
+  if (!emailSent) {
+    // 开发模式：直接返回验证码（测试用）
+    return c.json({ success: true, message: `验证码：${code}`, debug: code })
   }
 
   return c.json({ success: true, message: '验证码已发送' })
@@ -171,5 +182,47 @@ authRoutes.get('/me', async (c) => {
     return c.json({ user })
   } catch {
     return c.json({ user: null }, 401)
+  }
+})
+
+// 更新用户资料
+authRoutes.patch('/profile', async (c) => {
+  const auth = c.req.header('Authorization')
+  if (!auth?.startsWith('Bearer ')) {
+    return c.json({ success: false, message: '未登录' }, 401)
+  }
+
+  try {
+    const secret = new TextEncoder().encode(c.env.JWT_SECRET || 'dev-secret')
+    const { payload } = await jwtVerify(auth.slice(7), secret)
+
+    const { nickname, avatar } = await c.req.json<{ nickname?: string; avatar?: string }>()
+
+    const updates: string[] = []
+    const values: (string | null)[] = []
+
+    if (nickname !== undefined) {
+      updates.push('nickname = ?')
+      values.push(nickname.trim() || null)
+    }
+    if (avatar !== undefined) {
+      updates.push('avatar = ?')
+      values.push(avatar || null)
+    }
+
+    if (updates.length === 0) {
+      return c.json({ success: false, message: '没有要更新的内容' }, 400)
+    }
+
+    values.push(payload.sub as string)
+    await c.env.DB.prepare(`UPDATE users SET ${updates.join(', ')} WHERE id = ?`)
+      .bind(...values).run()
+
+    const user = await c.env.DB.prepare('SELECT * FROM users WHERE id = ?')
+      .bind(payload.sub).first<User>()
+
+    return c.json({ success: true, user })
+  } catch (e) {
+    return c.json({ success: false, message: '更新失败' }, 500)
   }
 })

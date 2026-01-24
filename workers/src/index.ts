@@ -2,6 +2,7 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { authRoutes } from './routes/auth'
 import { chatRoutes } from './routes/chat'
+import { adminRoutes } from './routes/admin'
 import type { Env } from './types'
 
 const app = new Hono<{ Bindings: Env }>()
@@ -24,5 +25,6 @@ app.get('/', (c) => c.json({ status: 'ok', service: 'huagou-api' }))
 // 路由
 app.route('/api/auth', authRoutes)
 app.route('/api/chat', chatRoutes)
+app.route('/api/admin', adminRoutes)
 
 export default app

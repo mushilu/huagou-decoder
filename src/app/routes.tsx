@@ -7,12 +7,15 @@ import { DecoderPage } from '@/features/decoder/pages/DecoderPage'
 import { CipherPage } from '@/features/cipher/pages/CipherPage'
 import { ImmersivePage } from '@/features/immersive/pages/ImmersivePage'
 import { DataVizPage } from '@/features/dataviz/pages/DataVizPage'
+import { GuidePage } from '@/features/guide/pages/GuidePage'
+import { ProfilePage } from '@/features/profile/pages/ProfilePage'
 import { AdminLayout, AdminDashboard } from '@/pages/admin/AdminLayout'
 import { BuildingsAdmin } from '@/pages/admin/BuildingsAdmin'
 import { AdminLoginPage } from '@/pages/admin/AdminLogin'
 import { CipherAdmin } from '@/pages/admin/CipherAdmin'
 import { DecoderAdmin } from '@/pages/admin/DecoderAdmin'
 import { ContentAdmin } from '@/pages/admin/ContentAdmin'
+import { UsersAdmin } from '@/pages/admin/UsersAdmin'
 import { AuthCallback } from '@/components/auth/AuthCallback'
 
 const router = createBrowserRouter([
@@ -29,6 +32,8 @@ const router = createBrowserRouter([
       { path: 'immersive', element: <ImmersivePage /> },
       { path: 'immersive/:slug', element: <ImmersivePage /> },
       { path: 'dataviz', element: <DataVizPage /> },
+      { path: 'guide', element: <GuidePage /> },
+      { path: 'profile', element: <ProfilePage /> },
     ],
   },
   {
@@ -40,6 +45,7 @@ const router = createBrowserRouter([
       { path: 'buildings', element: <BuildingsAdmin /> },
       { path: 'cipher', element: <CipherAdmin /> },
       { path: 'decoder', element: <DecoderAdmin /> },
+      { path: 'users', element: <UsersAdmin /> },
     ],
   },
   {

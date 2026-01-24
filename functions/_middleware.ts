@@ -15,27 +15,33 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
   const isAdminLogin = pathname === '/admin/login'
   const isApiRoute = pathname.startsWith('/api/')
   const isAdminApi = pathname.startsWith('/api/admin/')
+  const isAuthApi = pathname.startsWith('/api/auth/')
 
-  if (!isAdminRoute && !isApiRoute) {
-    return ctx.next()
-  }
-
+  // 公开路由：auth API、管理登录
   if (
     isAdminLogin ||
     pathname === '/api/admin/login' ||
     pathname === '/api/admin/session' ||
-    pathname === '/api/admin/logout'
+    pathname === '/api/admin/logout' ||
+    isAuthApi
   ) {
+    return ctx.next()
+  }
+
+  // 非管理/API 路由直接通过
+  if (!isAdminRoute && !isApiRoute) {
     return ctx.next()
   }
 
   const method = ctx.request.method.toUpperCase()
   const isRead = method === 'GET' || method === 'HEAD' || method === 'OPTIONS'
 
+  // 公开 API 的 GET 请求
   if (isApiRoute && !isAdminApi && isRead) {
     return ctx.next()
   }
 
+  // 验证管理会话
   const session = await verifyAdminSession(ctx.request, ctx.env)
   const hasAccess = hasAccessJwt(ctx.request)
   if (session.valid || hasAccess) {

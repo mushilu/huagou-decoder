@@ -1,6 +1,6 @@
 import { useEffect, useState, type ComponentType } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { LayoutGrid, Landmark, KeyRound, Puzzle, LogOut, Sparkles, ScrollText } from 'lucide-react'
+import { LayoutGrid, Landmark, KeyRound, Puzzle, LogOut, Sparkles, ScrollText, Users } from 'lucide-react'
 import { getAdminSession, logoutAdmin } from '@/api/admin'
 import { SealStamp } from '@/components/ink/PaperCard'
 
@@ -10,6 +10,7 @@ const navItems = [
   { path: '/admin/buildings', label: '建筑管理', description: '建筑档案与图文校准', icon: Landmark },
   { path: '/admin/cipher', label: '密码知识', description: '文化知识与标签分类', icon: KeyRound },
   { path: '/admin/decoder', label: '解码挑战', description: '挑战配置与提示管理', icon: Puzzle },
+  { path: '/admin/users', label: '用户管理', description: '注册用户与权限管理', icon: Users },
 ]
 
 export function AdminLayout() {
